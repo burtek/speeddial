@@ -1,8 +1,8 @@
 /* eslint-env node */
 import sentryVitePlugin from '@sentry/vite-plugin';
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vitest/config';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,5 +17,10 @@ export default defineConfig({
         react(),
         viteTsconfigPaths()
     ],
-    server: { open: true }
+    server: { open: true },
+    test: {
+        environment: 'jsdom',
+        setupFiles: './config/setup-tests.ts',
+        globals: true
+    }
 });
