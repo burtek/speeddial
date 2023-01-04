@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 
 import { SearchBar } from './components/search';
+import { SpeedDial } from './components/speeddial';
 
 export function AppLayout() {
     // eslint-disable-next-line no-warning-comments
@@ -22,7 +23,7 @@ export function AppLayout() {
             }}
         >
             <SearchBar gridArea="search" />
-            <div style={{ gridArea: 'main' }} />
+            <SpeedDial gridArea="main" />
             <div style={{ gridArea: 'spacer' }} />
             <Box sx={{ /* position: 'absolute', bottom: 0, left: 0, right: 0 */ gridArea: 'footer', textAlign: 'center' }}>
                 <Typography>
