@@ -1,6 +1,8 @@
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 
+import { SearchBar } from './components/search';
+
 export function AppLayout() {
     // eslint-disable-next-line no-warning-comments
     // TODO: flex layout, not grid layout
@@ -19,7 +21,7 @@ export function AppLayout() {
                 minHeight: 'calc(100vh - 20px)'
             }}
         >
-            <div style={{ gridArea: 'search' }} />
+            <SearchBar gridArea="search" />
             <div style={{ gridArea: 'main' }} />
             <div style={{ gridArea: 'spacer' }} />
             <Box sx={{ /* position: 'absolute', bottom: 0, left: 0, right: 0 */ gridArea: 'footer', textAlign: 'center' }}>
