@@ -1,0 +1,29 @@
+{
+    "actions": {
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "delete_confirm": "Confirm deletion",
+        "edit": "Edit",
+        "moveToGroup": "Move to...",
+        "save": "Save",
+        "reload_pic_tooltip": "Get picture from website"
+    },
+    "fields": {
+        "name": "Name",
+        "logoUrl": "Image URL",
+        "url": "URL"
+    },
+    "errors": {
+        "unknown": "Something went wrong. Try again later",
+        "logoUrl": {
+            "Malformed url": "The provided URL is incorrect",
+            "Image not found": "Could not find image for the provided URL"
+        }
+    },
+    "search": {
+        "placeholder": "Search in Google..."
+    },
+    "defaultValues": {
+        "groupName": "New group"
+    }
+}

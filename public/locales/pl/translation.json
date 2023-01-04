@@ -1,0 +1,29 @@
+{
+    "actions": {
+        "cancel": "Anuluj",
+        "delete": "Usuń",
+        "delete_confirm": "Potwierdź usunięcie",
+        "edit": "Edytuj",
+        "moveToGroup": "Przenieś do...",
+        "save": "Zapisz",
+        "reload_pic_tooltip": "Pobierz automatycznie obraz ze strony"
+    },
+    "fields": {
+        "name": "Nazwa",
+        "logoUrl": "Adres do obrazka",
+        "url": "Adres"
+    },
+    "errors": {
+        "unknown": "Wystąpił błąd. Spróbuj ponownie później",
+        "logoUrl": {
+            "Malformed url": "Adres URL jest niepoprawny",
+            "Image not found": "Na stronie nie znaleziono obrazka"
+        }
+    },
+    "search": {
+        "placeholder": "Wyszukaj w Google..."
+    },
+    "defaultValues": {
+        "groupName": "Nowa grupa"
+    }
+}
