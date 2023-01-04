@@ -1,0 +1,45 @@
+{
+    "extends": [
+        "@dtrw/eslint-config/eslint-config-react"
+    ],
+    "globals": {
+        "JSX": "readonly"
+    },
+    "parserOptions": {
+        "project": "tsconfig.json"
+    },
+    "settings": {
+        "import/resolver": {
+            "typescript": true,
+            "node": true
+        }
+    },
+    "rules": {
+        "object-curly-newline": [
+            "error",
+            {
+                "multiline": true
+            }
+        ],
+        "import/order": ["error", {
+            "groups": [
+                "builtin",
+                "external",
+                "internal",
+                ["parent", "sibling"],
+                "index"
+            ],
+            "newlines-between": "always",
+            "alphabetize": { "order": "asc" }
+        }]
+    },
+    "overrides": [{
+        "files": ["api/**/*"],
+        "env": {
+            "node": true
+        },
+        "rules": {
+            "no-console": "off"
+        }
+    }]
+}
