@@ -1,0 +1,60 @@
+// Vitest Snapshot v1
+
+exports[`app > should match snapshot 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-mwk0hw"
+  >
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-isl53j-MuiPaper-root"
+    >
+      <form
+        action="https://www.google.com/search"
+        method="get"
+        style="display: flex;"
+      >
+        <input
+          name="q"
+          placeholder="search.placeholder"
+          style="flex: 1; padding: 0.3vw 0.5vw; border-radius: 5px;"
+          type="text"
+        />
+      </form>
+    </div>
+    <div
+      style="grid-area: main;"
+    />
+    <div
+      style="grid-area: spacer;"
+    />
+    <div
+      class="MuiBox-root css-1xm93o3"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      >
+        ©
+         
+        <a
+          href="https://github.com/burtek"
+          referrerpolicy="no-referrer"
+          rel="noopener noreferrer nofollow"
+          target="_blank"
+        >
+          burtek
+        </a>
+         2023 | 
+        <a
+          href="https://github.com/burtek/speeddial"
+          referrerpolicy="no-referrer"
+          rel="noopener noreferrer nofollow"
+          target="_blank"
+        >
+          This project is open-source!
+        </a>
+         | Build undefined
+      </p>
+    </div>
+  </div>
+</div>
+`;
