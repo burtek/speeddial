@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist/es/constants';
 
-import { reducer as speeddial } from './speeddial.slice';
+import { persistedReducer as speeddial } from './speeddial';
 
 // https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
 const ignoredActions = [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER];

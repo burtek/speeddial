@@ -1,8 +1,6 @@
 import type { EntityState, PayloadAction } from '@reduxjs/toolkit';
 import { createEntityAdapter, createSlice, nanoid } from '@reduxjs/toolkit';
 import { t } from 'i18next';
-import persistReducer from 'redux-persist/es/persistReducer';
-import reduxLocalStorage from 'redux-persist/es/storage';
 
 export const linksAdapter = createEntityAdapter<SpeeddialLink>();
 export const groupsAdapter = createEntityAdapter<SpeeddialGroup>();
@@ -16,11 +14,11 @@ function createSpeeddialGroup(id = nanoid()): SpeeddialGroup {
     return { id: `group-${id}`, type: 'group', name: t('defaultValues.groupName'), children: [] };
 }
 
-const initialState = {
+export const initialState = () => ({
     links: linksAdapter.getInitialState(),
     groups: groupsAdapter.addOne(groupsAdapter.getInitialState(), { id: ROOT_SPEEDDIAL_ID, type: 'group', name: ROOT_SPEEDDIAL_ID, children: [] }),
     linkEditId: null as string | null
-};
+});
 
 function addChildren<T extends { children: string[] }>(state: EntityState<T>, id: string, ...children: string[]) {
     // wish this was doable with entity adapter
@@ -42,7 +40,7 @@ function removeChild<T extends { children: string[] }>(state: EntityState<T>, id
     }
 }
 
-const slice = createSlice({
+export const { actions, name: sliceName, reducer } = createSlice({
     name: 'speeddial',
     initialState,
     reducers: {
@@ -97,17 +95,6 @@ const slice = createSlice({
         }
     }
 });
-
-export const reducer = persistReducer(
-    {
-        storage: reduxLocalStorage,
-        key: slice.name,
-        version: 1,
-        blacklist: ['linkEditId']
-    },
-    slice.reducer
-);
-export const { actions, name: sliceName } = slice;
 
 export interface SpeeddialLink {
     id: string;

@@ -1,9 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import type { SpeeddialGroup, SpeeddialLink } from './speeddial.slice';
-import { groupsAdapter, linksAdapter, ROOT_SPEEDDIAL_ID, sliceName } from './speeddial.slice';
+import type { RootState } from '..';
+import type { SpeeddialGroup, SpeeddialLink } from './slice';
+import { groupsAdapter, linksAdapter, ROOT_SPEEDDIAL_ID, sliceName } from './slice';
 
-import type { RootState } from '.';
 
 export const getSpeeddial = (state: RootState) => state[sliceName];
 
