@@ -1,34 +1,31 @@
-import type { DragEndEvent } from '@dnd-kit/core';
+import type { DataRef, DragEndEvent } from '@dnd-kit/core';
 import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { SortableContext } from '@dnd-kit/sortable';
 import { Paper } from '@mui/material';
 import type { FC } from 'react';
 import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '@@data/index';
-import { getRootTiles } from '@@data/speeddial.selectors';
 import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '@@data/speeddial/slice';
-import { AddNewTile } from './add-tile';
-import { TileEditDialog } from './edit-dialog';
-import { GroupTile } from './tile-group';
-import { LinkTile } from './tile-link';
+
+import { GroupEditDialog } from './edit-group-dialog';
+import { LinkEditDialog } from './edit-link-dialog';
+import { GroupContents } from './group-contents';
+import type { TypedSortableData } from './hooks/use-typed-sortable';
 
 export const SpeedDial: FC<{ gridArea?: string }> = ({ gridArea }) => {
-    const rootTiles = useSelector(getRootTiles);
-
     const dispatch = useAppDispatch();
 
     const onDragEnd = useCallback(({ active, over }: DragEndEvent) => {
         if (over && active.id !== over.id) {
-            const from = rootTiles.findIndex(t => t.id === active.id);
-            const to = rootTiles.findIndex(t => t.id === over.id);
+            const from = (active.data as DataRef<TypedSortableData>).current?.index;
+            const to = (over.data as DataRef<TypedSortableData>).current?.index;
+            const groupId = (over.data as DataRef<TypedSortableData>).current?.parentId;
 
-            if (from >= 0 && to >= 0) {
-                dispatch(speeddialActions.reorderTiles({ groupId: ROOT_SPEEDDIAL_ID, from, to }));
+            if (typeof from === 'number' && typeof to === 'number'&& groupId) {
+                dispatch(speeddialActions.reorderTiles({ groupId, from, to }));
             }
         }
-    }, [dispatch, rootTiles]);
+    }, [dispatch]);
 
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
@@ -40,39 +37,11 @@ export const SpeedDial: FC<{ gridArea?: string }> = ({ gridArea }) => {
             collisionDetection={closestCenter}
             onDragEnd={onDragEnd}
         >
-            <SortableContext id={ROOT_SPEEDDIAL_ID} items={rootTiles}>
-                <Paper
-                    elevation={3}
-                    sx={{
-                        gridArea,
-                        'padding': '2vw',
-                        'display': 'flex',
-                        'gap': '1vw',
-                        'alignItems': 'stretch',
-                        '& > *': { flexShrink: 0 },
-                        'flexWrap': 'wrap'
-                    }}
-                >
-                    {rootTiles.map(tile => {
-                        switch (tile.type) {
-                            case 'link':
-                                return (
-                                    <LinkTile
-                                        key={tile.id}
-                                        parentId={ROOT_SPEEDDIAL_ID}
-                                        tile={tile}
-                                    />
-                                );
-                            case 'group':
-                                return <GroupTile key={tile.id} tile={tile} />;
-                            default:
-                                return null;
-                        }
-                    })}
-                    <AddNewTile parentId={ROOT_SPEEDDIAL_ID} />
-                </Paper>
-            </SortableContext>
-            <TileEditDialog />
+            <Paper elevation={3} sx={{ gridArea }}>
+                <GroupContents groupId={ROOT_SPEEDDIAL_ID} />
+            </Paper>
+            <LinkEditDialog />
+            <GroupEditDialog />
         </DndContext>
     );
 };

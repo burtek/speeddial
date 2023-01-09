@@ -1,4 +1,3 @@
-import { useSortable } from '@dnd-kit/sortable';
 import { CSS as DndCss } from '@dnd-kit/utilities';
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import { useCallback, useMemo } from 'react';
@@ -12,14 +11,15 @@ import type { SpeeddialLink } from '@@data/speeddial/slice';
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 
 import { useContextMenu } from './hooks/use-context-menu';
+import { useTypedSortable } from './hooks/use-typed-sortable';
 
-export const LinkTile: FC<Props> = ({ parentId, tile }) => {
+export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
     const { t } = useTranslation();
 
     const dispatch = useAppDispatch();
 
     const onEdit = useCallback(() => {
-        dispatch(speeddialActions.editLink({ id: tile.id }));
+        dispatch(speeddialActions.editTile({ id: tile.id, type: 'link' }));
     }, [dispatch, tile]);
     const onMoveToGroup = useCallback((target: string) => {
         dispatch(speeddialActions.moveLinkToGroup({ source: parentId, target, linkId: tile.id }));
@@ -47,7 +47,7 @@ export const LinkTile: FC<Props> = ({ parentId, tile }) => {
         setNodeRef,
         transform,
         transition
-    } = useSortable({ id: tile.id });
+    } = useTypedSortable({ data: { index, parentId }, id: tile.id });
 
     return (
         <>
@@ -97,6 +97,7 @@ export const LinkTile: FC<Props> = ({ parentId, tile }) => {
 };
 
 interface Props {
+    index: number;
     parentId: string;
     tile: SpeeddialLink;
 }

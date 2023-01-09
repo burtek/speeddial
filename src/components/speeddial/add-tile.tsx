@@ -34,17 +34,18 @@ export const AddNewTile: FC<Props> = ({ parentId }) => {
     const defaultContent = <AddIcon fontSize="large" htmlColor="grey" />;
     const mouseOverContent = (
         <>
-            {parentId === ROOT_SPEEDDIAL_ID && (
+            <IconButton onClick={onAddLink}>
+                <LinkPlus fontSize="large" htmlColor="grey" />
+            </IconButton>
+            {/* eslint-disable-next-line no-warning-comments */}
+            {parentId === ROOT_SPEEDDIAL_ID && ( // TODO: make universal
                 <>
-                    <IconButton onClick={onAddLink}>
-                        <LinkPlus fontSize="large" htmlColor="grey" />
-                    </IconButton>
                     <Divider flexItem variant="middle" />
+                    <IconButton onClick={onAddGroup}>
+                        <FolderPlus fontSize="large" htmlColor="grey" />
+                    </IconButton>
                 </>
             )}
-            <IconButton onClick={onAddGroup}>
-                <FolderPlus fontSize="large" htmlColor="grey" />
-            </IconButton>
         </>
     );
 

@@ -5,21 +5,22 @@ import type { FC, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from '../../data';
-import type { RootState } from '../../data';
-import { getLinkEditId, linksAdapterSelectors } from '../../data/speeddial.selectors';
-import { actions as speeddialActions } from '../../data/speeddial.slice';
+import { useAppDispatch } from '@@data/index';
+import type { RootState } from '@@data/index';
+import { getLinkEditId, linksAdapterSelectors } from '@@data/speeddial/selectors';
+import { actions as speeddialActions } from '@@data/speeddial/slice';
+
 import { useFetchImageForUrl } from './hooks/use-fetch-image';
 import { useDraft } from './hooks/use-link-draft';
 
-export const TileEditDialog: FC = () => {
+export const LinkEditDialog: FC = () => {
     const { t } = useTranslation();
 
     const editId = useSelector(getLinkEditId) ?? 'non-existent';
     const tile = useSelector((state: RootState) => linksAdapterSelectors.selectById(state, editId));
 
     const dispatch = useAppDispatch();
-    const onCloseWithoutSave = useCallback(() => dispatch(speeddialActions.cancelEditLink()), []);
+    const onCloseWithoutSave = useCallback(() => dispatch(speeddialActions.cancelEditTile()), []);
 
     const draft = useDraft(tile);
 

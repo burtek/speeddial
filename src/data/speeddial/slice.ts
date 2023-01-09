@@ -14,10 +14,15 @@ function createSpeeddialGroup(id = nanoid()): SpeeddialGroup {
     return { id: `group-${id}`, type: 'group', name: t('defaultValues.groupName'), children: [] };
 }
 
+export type EditDialog = null | {
+    type: SpeeddialGroup['type'] | SpeeddialLink['type'];
+    id: string;
+};
+
 export const initialState = () => ({
     links: linksAdapter.getInitialState(),
     groups: groupsAdapter.addOne(groupsAdapter.getInitialState(), { id: ROOT_SPEEDDIAL_ID, type: 'group', name: ROOT_SPEEDDIAL_ID, children: [] }),
-    linkEditId: null as string | null
+    editDialog: null as EditDialog
 });
 
 function addChildren<T extends { children: string[] }>(state: EntityState<T>, id: string, ...children: string[]) {
@@ -53,7 +58,7 @@ export const { actions, name: sliceName, reducer } = createSlice({
             const link = createSpeeddialLink();
             linksAdapter.addOne(state.links, link);
             addChildren(state.groups, payload.parentId, link.id);
-            state.linkEditId = link.id;
+            state.editDialog = { type: 'link', id: link.id };
         },
         reorderTiles(state, { payload }: PayloadAction<{ groupId: string; from: number; to: number }>) {
             reorderChildren(state.groups, payload.groupId, payload.from, payload.to);
@@ -68,30 +73,29 @@ export const { actions, name: sliceName, reducer } = createSlice({
             target.children.push(payload.linkId);
         },
 
-        editLink(state, { payload }: PayloadAction<{ id: string }>) {
-            if (state.links.ids.includes(payload.id)) {
-                state.linkEditId = payload.id;
-            }
+        editTile(state, { payload }: PayloadAction<NonNullable<EditDialog>>) {
+            state.editDialog = payload;
         },
-        cancelEditLink(state) {
-            state.linkEditId = null;
+        cancelEditTile(state) {
+            state.editDialog = null;
+        },
+        saveEditGroup(state, { payload: { id, ...changes } }: PayloadAction<SpeeddialGroup>) {
+            state.editDialog = null;
+            groupsAdapter.updateOne(state.groups, { id, changes });
         },
         saveEditLink(state, { payload: { id, ...changes } }: PayloadAction<SpeeddialLink>) {
-            state.linkEditId = null;
+            state.editDialog = null;
             linksAdapter.updateOne(state.links, { id, changes });
         },
+
         deleteLink(state, { payload }: PayloadAction<{ id: string; parentId: string }>) {
             linksAdapter.removeOne(state.links, payload.id);
             removeChild(state.groups, payload.parentId, payload.id);
         },
-
         deleteGroup(state, { payload }: PayloadAction<{ id: string }>) {
             linksAdapter.removeMany(state.links, state.groups.entities[payload.id]?.children ?? []);
             groupsAdapter.removeOne(state.groups, payload.id);
             removeChild(state.groups, ROOT_SPEEDDIAL_ID, payload.id);
-        },
-        renameGroup(state, { payload: { id, ...changes } }: PayloadAction<{ id: string; name: string }>) {
-            groupsAdapter.updateOne(state.groups, { id, changes });
         }
     }
 });
