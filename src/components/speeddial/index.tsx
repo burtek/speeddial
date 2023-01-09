@@ -6,9 +6,9 @@ import type { FC } from 'react';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from '../../data';
-import { getRootTiles } from '../../data/speeddial.selectors';
-import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '../../data/speeddial.slice';
+import { useAppDispatch } from '@@data/index';
+import { getRootTiles } from '@@data/speeddial.selectors';
+import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '@@data/speeddial/slice';
 import { AddNewTile } from './add-tile';
 import { TileEditDialog } from './edit-dialog';
 import { GroupTile } from './tile-group';
@@ -39,11 +39,6 @@ export const SpeedDial: FC<{ gridArea?: string }> = ({ gridArea }) => {
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={onDragEnd}
-            /*
-             * cancelDrop={args => {
-             *     args.
-             * }}
-             */
         >
             <SortableContext id={ROOT_SPEEDDIAL_ID} items={rootTiles}>
                 <Paper

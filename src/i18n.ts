@@ -3,7 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 
-import type tr from '../public/locales/en/translation.json';
+import type tr from '@@locales/en/translation.json';
 
 declare module 'i18next' {
     interface CustomTypeOptions {

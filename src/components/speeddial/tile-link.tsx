@@ -6,10 +6,11 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from '../../data';
-import { groupAdapterSelectors } from '../../data/speeddial.selectors';
-import type { SpeeddialLink } from '../../data/speeddial.slice';
-import { actions as speeddialActions } from '../../data/speeddial.slice';
+import { useAppDispatch } from '@@data/index';
+import { groupAdapterSelectors } from '@@data/speeddial/selectors';
+import type { SpeeddialLink } from '@@data/speeddial/slice';
+import { actions as speeddialActions } from '@@data/speeddial/slice';
+
 import { useContextMenu } from './hooks/use-context-menu';
 
 export const LinkTile: FC<Props> = ({ parentId, tile }) => {

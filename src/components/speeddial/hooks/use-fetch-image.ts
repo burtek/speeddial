@@ -3,7 +3,7 @@ import type { CustomTypeOptions } from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import type { ImageResponseData } from 'api/image';
+import type { ImageResponseData } from '@@api/image';
 
 export const useFetchImageForUrl = (url: string, setUrl: (url: string) => void) => {
     const { t } = useTranslation();

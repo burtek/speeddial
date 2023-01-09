@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import type { FC, PropsWithChildren, ReactElement } from 'react';
 import { Provider as StoreProvider } from 'react-redux';
 
-import { store } from 'src/data';
+import { store } from '@@data/index';
 
 const AllTheProviders: FC<PropsWithChildren> = ({ children }) => (
     <StoreProvider store={store}>

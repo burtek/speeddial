@@ -4,8 +4,8 @@ import { FolderPlus, LinkPlus } from 'mdi-material-ui';
 import type { FC } from 'react';
 import { useState, useCallback } from 'react';
 
-import { useAppDispatch } from '../../data';
-import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '../../data/speeddial.slice';
+import { useAppDispatch } from '@@data/index';
+import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '@@data/speeddial/slice';
 
 export const AddNewTile: FC<Props> = ({ parentId }) => {
     const dispatch = useAppDispatch();
