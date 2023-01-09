@@ -2,10 +2,11 @@ name: Run tests
 
 on:
   pull_request:
-    branches: [ main ]
+    branches:
+      - master
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,4 +17,11 @@ jobs:
           node-version: 18
           cache: yarn
       - run: yarn install --frozen-lockfile
-      - run: yarn test
+      - run: yarn tsc --noEmit
+      # todo: eslint
+      - run: yarn coverage
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: coverage

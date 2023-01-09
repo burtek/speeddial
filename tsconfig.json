@@ -21,6 +21,13 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "paths": {
+      "@@api/*": ["api/*"],
+      "@@components/*": ["src/components/*"],
+      "@@config/*": ["config/*"],
+      "@@data/*": ["src/data/*"],
+      "@@locales/*": ["public/locales/*"],
+    }
   },
   "include": [
     "api",

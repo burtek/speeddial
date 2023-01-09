@@ -22,7 +22,49 @@ exports[`app > should match snapshot 1`] = `
       </form>
     </div>
     <div
-      style="grid-area: main;"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-5gusf3-MuiPaper-root"
+    >
+      <div
+        class="MuiBox-root css-1n5mxao"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1jhobqq-MuiPaper-root-MuiCard-root"
+        >
+          <div
+            class="MuiCardContent-root css-8rsz2t-MuiCardContent-root"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-tzssek-MuiSvgIcon-root"
+              color="grey"
+              data-testid="AddIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="DndDescribedBy-0"
+      style="display: none;"
+    >
+      
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+    </div>
+    <div
+      aria-atomic="true"
+      aria-live="assertive"
+      id="DndLiveRegion-0"
+      role="status"
+      style="position: fixed; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
     />
     <div
       style="grid-area: spacer;"
@@ -52,7 +94,7 @@ exports[`app > should match snapshot 1`] = `
         >
           This project is open-source!
         </a>
-         | Build undefined
+         | Build test
       </p>
     </div>
   </div>
