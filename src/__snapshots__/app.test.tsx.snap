@@ -94,7 +94,7 @@ exports[`app > should match snapshot 1`] = `
         >
           This project is open-source!
         </a>
-         | Build development
+         | Build test
       </p>
     </div>
   </div>
