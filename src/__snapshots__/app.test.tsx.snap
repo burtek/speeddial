@@ -22,26 +22,30 @@ exports[`app > should match snapshot 1`] = `
       </form>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-cov41y-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-5gusf3-MuiPaper-root"
     >
       <div
-        class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1jhobqq-MuiPaper-root-MuiCard-root"
+        class="MuiBox-root css-1n5mxao"
       >
         <div
-          class="MuiCardContent-root css-8rsz2t-MuiCardContent-root"
+          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root css-1jhobqq-MuiPaper-root-MuiCard-root"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-tzssek-MuiSvgIcon-root"
-            color="grey"
-            data-testid="AddIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <div
+            class="MuiCardContent-root css-8rsz2t-MuiCardContent-root"
           >
-            <path
-              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-tzssek-MuiSvgIcon-root"
+              color="grey"
+              data-testid="AddIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+              />
+            </svg>
+          </div>
         </div>
       </div>
     </div>
@@ -90,7 +94,7 @@ exports[`app > should match snapshot 1`] = `
         >
           This project is open-source!
         </a>
-         | Build undefined
+         | Build development
       </p>
     </div>
   </div>
