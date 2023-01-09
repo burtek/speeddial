@@ -8,7 +8,7 @@ export const persistedReducer = persistReducer(
         storage: reduxLocalStorage,
         key: sliceName,
         version: 1,
-        blacklist: ['linkEditId']
+        blacklist: ['editDialog']
     },
     reducer
 );
