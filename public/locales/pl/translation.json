@@ -25,5 +25,19 @@
     },
     "defaultValues": {
         "groupName": "Nowa grupa"
+    },
+    "configDialog": {
+        "title": "Ustawienia",
+        "themeMode": {
+            "label": "Motyw",
+            "option": {
+                "auto": "automatyczny (systemowy)",
+                "light": "jasny",
+                "dark": "ciemny"
+            }
+        }
+    },
+    "footer": {
+        "openSource": "Ten projekt jest open-source!"
     }
 }
