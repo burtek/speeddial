@@ -3,7 +3,7 @@ import { RootState } from ".."
 import { getGroupEditId, getLinkEditId, getSpeeddialGroups, getSpeeddialLinks } from "./selectors"
 import { EditDialog } from "./slice"
 
-const mockState: Pick<RootState, 'speeddial'> = {
+const mockState = {
     speeddial: {
         editDialog: null,
         groups: {
@@ -16,7 +16,7 @@ const mockState: Pick<RootState, 'speeddial'> = {
         },
         _persist: {} as PersistPartial['_persist']
     }
-}
+} as Partial<RootState> as RootState
 
 describe('speeddial selectors', () => {
     describe('getSpeeddialGroups', () => {

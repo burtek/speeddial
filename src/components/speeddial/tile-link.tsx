@@ -1,5 +1,5 @@
 import { CSS as DndCss } from '@dnd-kit/utilities';
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { CardContent, CardMedia, Typography } from '@mui/material';
 import { useCallback, useMemo } from 'react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,8 @@ import { groupAdapterSelectors } from '@@data/speeddial/selectors';
 import type { SpeeddialLink } from '@@data/speeddial/slice';
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 
+import { TILE_CONTENT_HEIGHT } from './components/_constants';
+import { AnchorTile } from './components/tile';
 import { useContextMenu } from './hooks/use-context-menu';
 import { useTypedSortable } from './hooks/use-typed-sortable';
 
@@ -51,32 +53,25 @@ export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
 
     return (
         <>
-            <Card
+            <AnchorTile
                 {...contextMenu.triggerProps}
                 {...attributes}
                 {...listeners}
                 ref={setNodeRef}
-                component="a"
                 href={tile.url}
                 variant="outlined"
-                sx={{
-                    cursor: isDragging ? 'grabbing' : 'pointer',
-                    pointerEvents: isDragging ? 'none' : undefined,
-                    textDecoration: 'none',
-                    transform: DndCss.Transform.toString(transform),
-                    transition,
-                    width: 150,
-                    zIndex: isDragging ? 1 : undefined
-                }}
+                isDragging={isDragging}
+                transform={DndCss.Transform.toString(transform)}
+                transition={transition}
             >
                 {tile.logoUrl ? (
                     <CardMedia
                         component="img"
                         src={tile.logoUrl}
-                        sx={{ height: 90, objectFit: 'scale-down' }}
+                        sx={{ height: TILE_CONTENT_HEIGHT, objectFit: 'scale-down' }}
                     />
                 ) : (
-                    <CardContent sx={{ height: 90, padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CardContent sx={{ height: TILE_CONTENT_HEIGHT, padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Typography fontSize={60} fontWeight={700}>
                             {tile.name
                                 .split(' ')
@@ -90,7 +85,7 @@ export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
                 <CardContent sx={{ 'paddingY': 0, ':last-child': { paddingBottom: 1 } }}>
                     <Typography fontSize={13} textAlign="center">{tile.name}</Typography>
                 </CardContent>
-            </Card>
+            </AnchorTile>
             {contextMenu.menu}
         </>
     );

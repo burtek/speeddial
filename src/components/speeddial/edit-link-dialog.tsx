@@ -1,5 +1,5 @@
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Alert, Button, Dialog, DialogActions, DialogContent, IconButton, InputAdornment, TextField, Tooltip } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogContent, IconButton, InputAdornment, TextField, Tooltip, styled } from '@mui/material';
 import { useCallback } from 'react';
 import type { FC, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,14 @@ import { actions as speeddialActions } from '@@data/speeddial/slice';
 
 import { useFetchImageForUrl } from './hooks/use-fetch-image';
 import { useDraft } from './hooks/use-link-draft';
+
+export const PreviewImage = styled('img')(({ theme }) => ({
+    float: 'right',
+    gridArea: 'pic',
+    objectFit: 'scale-down',
+    width: '100%',
+    margin: theme.spacing(1)
+}));
 
 export const LinkEditDialog: FC = () => {
     const { t } = useTranslation();
@@ -93,7 +101,7 @@ export const LinkEditDialog: FC = () => {
                         }}
                     />
                 </div>
-                <img src={draft.value?.logoUrl} style={{ float: 'right', gridArea: 'pic', objectFit: 'scale-down', width: '100%', margin: 5 }} />
+                <PreviewImage src={draft.value?.logoUrl} />
                 {error !== null && <Alert sx={{ gridArea: 'warn' }} severity="warning">{error}</Alert>}
             </DialogContent>
             <DialogActions>

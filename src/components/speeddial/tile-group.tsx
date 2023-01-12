@@ -1,8 +1,8 @@
 /* eslint-disable no-warning-comments */
 import { CSS as DndCss } from '@dnd-kit/utilities';
-import { Card, CardContent, CardMedia, Modal, Paper, Typography } from '@mui/material';
-import type { FC } from 'react';
+import { CardContent, CardMedia, Modal, Paper, Typography, styled, Input } from '@mui/material';
 import { useState, useCallback } from 'react';
+import type { ChangeEventHandler, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -11,10 +11,40 @@ import { linksAdapterSelectors } from '@@data/speeddial/selectors';
 import type { SpeeddialGroup } from '@@data/speeddial/slice';
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 
+import { TILE_CONTENT_HEIGHT } from './components/_constants';
+import { Tile } from './components/tile';
 // eslint-disable-next-line import/no-cycle
 import { GroupContents } from './group-contents';
 import { useContextMenu } from './hooks/use-context-menu';
 import { useTypedSortable } from './hooks/use-typed-sortable';
+
+const TileContent = styled(CardContent)({
+    'boxSizing': 'border-box',
+    'height': TILE_CONTENT_HEIGHT,
+    'padding': '2px 0',
+    'display': 'grid',
+    'justifyContent': 'center',
+    'alignItems': 'center',
+    'gridTemplateColumns': 'repeat(3, 1fr)',
+    'gridTemplateRows': '40px 40px',
+    '& > img': { height: 40 }
+});
+const ModalContent = styled(Paper)({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    position: 'fixed',
+    width: '60vw',
+    height: '60vh',
+    top: '50vh',
+    left: '50vw',
+    transform: 'translate(-50%, -50%)'
+});
+const GroupNameInput = styled(Input)(({ theme }) => ({
+    'margin': theme.spacing(1),
+    '& input': { textAlign: 'center' }
+}));
 
 export const GroupTile: FC<Props> = ({ index, parentId, tile }) => {
     const { t } = useTranslation();
@@ -26,6 +56,9 @@ export const GroupTile: FC<Props> = ({ index, parentId, tile }) => {
     const onDelete = useCallback(() => {
         dispatch(speeddialActions.deleteGroup({ id: tile.id }));
     }, [dispatch, tile]);
+    const onNameChange = useCallback<ChangeEventHandler<HTMLInputElement>>(event => {
+        dispatch(speeddialActions.renameGroup(tile.id, event.target.value));
+    }, []);
 
     const contextMenu = useContextMenu([
         { key: 'edit', action: onEdit, label: t('actions.edit') },
@@ -36,6 +69,7 @@ export const GroupTile: FC<Props> = ({ index, parentId, tile }) => {
 
     const {
         attributes,
+        isDragging,
         listeners,
         setNodeRef,
         transform,
@@ -52,27 +86,18 @@ export const GroupTile: FC<Props> = ({ index, parentId, tile }) => {
 
     return (
         <>
-            <Card
+            <Tile
                 {...contextMenu.triggerProps}
                 {...attributes}
                 {...listeners}
                 ref={setNodeRef}
-                variant="outlined"
-                sx={{ width: 150, textDecoration: 'none', transform: DndCss.Transform.toString(transform), transition }}
                 onClick={onOpen}
+                variant="outlined"
+                isDragging={isDragging}
+                transform={DndCss.Transform.toString(transform)}
+                transition={transition}
             >
-                <CardContent
-                    sx={{
-                        'height': 86,
-                        'padding': '2px 0',
-                        'display': 'grid',
-                        'justifyContent': 'center',
-                        'alignItems': 'center',
-                        'gridTemplateColumns': '1fr 1fr 1fr',
-                        'gridTemplateRows': '40px 40px',
-                        '& > img': { height: 40 }
-                    }}
-                >
+                <TileContent>
                     {tile.children
                         .flatMap(child => links[child] ?? [])
                         .slice(0, 6)
@@ -85,26 +110,21 @@ export const GroupTile: FC<Props> = ({ index, parentId, tile }) => {
                                 sx={{ objectFit: 'scale-down' }}
                             />
                         ))}
-                </CardContent>
+                </TileContent>
                 <CardContent sx={{ 'paddingY': 0, ':last-child': { paddingBottom: 1 } }}>
                     <Typography fontSize={13} textAlign="center">{tile.name}</Typography>
                 </CardContent>
-            </Card>
+            </Tile>
             <Modal open={isOpen} onClose={handleClose}>
-                <Paper
-                    elevation={3}
-                    sx={{
-                        position: 'fixed',
-                        width: '60vw',
-                        height: '60vh',
-                        top: '50vh',
-                        left: '50vw',
-                        transform: 'translate(-50%, -50%)'
-                    }}
-                >
+                <ModalContent elevation={3}>
                     <GroupContents groupId={tile.id} />
-                    <div contentEditable>{tile.name}</div>
-                </Paper>
+                    <GroupNameInput
+                        value={tile.name}
+                        onChange={onNameChange}
+                        disableUnderline
+                        fullWidth
+                    />
+                </ModalContent>
             </Modal>
             {contextMenu.menu}
         </>
