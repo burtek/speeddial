@@ -38,6 +38,7 @@
         }
     },
     "footer": {
+        "build": "Wersja",
         "openSource": "Ten projekt jest open-source!"
     }
 }
