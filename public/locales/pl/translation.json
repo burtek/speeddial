@@ -38,6 +38,19 @@
         }
     },
     "footer": {
+        "build": "Wersja",
+        "cookies": "O ciasteczkach",
+        "privacy": "Polityka prywatności",
         "openSource": "Ten projekt jest open-source!"
+    },
+    "legal": {
+        "cookies": {
+            "title": "Cookies info",
+            "content": "This site does not use any cookies. Use of cookies might be introduced in future."
+        },
+        "privacy": {
+            "title": "Privacy policy",
+            "content": "This site uses localstorage API to keep site's data. The data kept in localstorage might be transferred to 3rd party provider (Sentry) to be able to debug potential site issues. The data will be transferred anonymized and won't be used in any other purpose apart form issue fixing.\n\nAdditionally this site's owner might collect URLs of websites bookmarked using this site to be able to provide better site previews/logos. The data is never used for any other purpose than issue fixing and site enhancement. It is not and will never be provided or selled to any 3rd party, apart from Sentry (only for issue fixing purpose)"
+        }
     }
 }
