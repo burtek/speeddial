@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 export const SearchBar: FC<{ gridArea?: string }> = ({ gridArea }) => {
     const { t } = useTranslation();
 
+    // MAYBE TODO: MUI
     return (
         <Paper elevation={3} sx={{ gridArea, padding: '2vw' }}>
             <form

@@ -1,54 +1,52 @@
-import { Typography } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Box, styled } from '@mui/material';
 
-import { SearchBar } from './components/search';
-import { SpeedDial } from './components/speeddial';
+import { AppFooter } from '@@components/app-footer';
+import { SearchBar } from '@@components/search';
+import { SettingsButton, SettingsModal } from '@@components/settings';
+import { SpeedDial } from '@@components/speeddial';
+
+const ActionBar = styled(Box)<{ gridArea?: string }>(({ gridArea }) => ({
+    gridArea,
+    display: 'flex',
+    justifyContent: 'end',
+    alignItems: 'start'
+}));
+
+const enum GridTemplateAreas {
+    LEFT_TOP = 'left-top',
+    LEFT_SIDEBAR = 'left-sidebar',
+    SEARCH = 'search',
+    SPEEDDIAL = 'speeddial',
+    SPACER = 'spacer',
+    FOOTER = 'footer',
+    ACTION_BAR = 'action-bar',
+    RIGHT_SIDEBAR = 'right-sidebar'
+}
+
+const Layout = styled(Box)({
+    display: 'grid',
+    gridTemplateAreas: `
+        "${GridTemplateAreas.LEFT_TOP}       ${GridTemplateAreas.SEARCH}      ${GridTemplateAreas.ACTION_BAR}"
+        "${GridTemplateAreas.LEFT_SIDEBAR}   ${GridTemplateAreas.SPEEDDIAL}   ${GridTemplateAreas.RIGHT_SIDEBAR}"
+        "${GridTemplateAreas.LEFT_SIDEBAR}   ${GridTemplateAreas.SPACER}      ${GridTemplateAreas.RIGHT_SIDEBAR}"
+        "${GridTemplateAreas.FOOTER}         ${GridTemplateAreas.FOOTER}      ${GridTemplateAreas.FOOTER}"`,
+    gridTemplateColumns: '1fr 1150px 1fr',
+    gridTemplateRows: 'min-content min-content 1fr min-content',
+    gap: '2vw',
+    minHeight: 'calc(100vh - 20px)'
+});
 
 export function AppLayout() {
-    // eslint-disable-next-line no-warning-comments
-    // TODO: flex layout, not grid layout
     return (
-        <Box
-            sx={{
-                display: 'grid',
-                gridTemplateAreas: `
-                    "left-sidebar   search   right-sidebar"
-                    "left-sidebar   main     right-sidebar"
-                    "spacer         spacer   spacer"
-                    "footer         footer   footer"`,
-                gridTemplateColumns: '1fr 1150px 1fr',
-                gridTemplateRows: 'min-content min-content 1fr min-content',
-                gap: '2vw',
-                minHeight: 'calc(100vh - 20px)'
-            }}
-        >
-            <SearchBar gridArea="search" />
-            <SpeedDial gridArea="main" />
-            <div style={{ gridArea: 'spacer' }} />
-            <Box sx={{ /* position: 'absolute', bottom: 0, left: 0, right: 0 */ gridArea: 'footer', textAlign: 'center' }}>
-                <Typography>
-                    &copy;
-                    {' '}
-                    <a
-                        href="https://github.com/burtek"
-                        target="_blank"
-                        referrerPolicy="no-referrer"
-                        rel="noopener noreferrer nofollow"
-                    >
-                        burtek
-                    </a>
-                    {` ${new Date().getFullYear()} | `}
-                    <a
-                        href="https://github.com/burtek/speeddial"
-                        target="_blank"
-                        referrerPolicy="no-referrer"
-                        rel="noopener noreferrer nofollow"
-                    >
-                        This project is open-source!
-                    </a>
-                    {` | Build ${import.meta.env.VITE_VERCEL_GIT_COMMIT_SHA}`}
-                </Typography>
-            </Box>
-        </Box>
+        <Layout>
+            <ActionBar gridArea={GridTemplateAreas.ACTION_BAR}>
+                <SettingsButton />
+            </ActionBar>
+            <SearchBar gridArea={GridTemplateAreas.SEARCH} />
+            <SpeedDial gridArea={GridTemplateAreas.SPEEDDIAL} />
+            <div style={{ gridArea: GridTemplateAreas.SPACER }} />
+            <AppFooter gridArea={GridTemplateAreas.FOOTER} />
+            <SettingsModal />
+        </Layout>
     );
 }

@@ -1,4 +1,4 @@
-import type { EntityState, PayloadAction } from '@reduxjs/toolkit';
+import type { EntityState, PayloadAction, Update } from '@reduxjs/toolkit';
 import { createEntityAdapter, createSlice, nanoid } from '@reduxjs/toolkit';
 import { t } from 'i18next';
 
@@ -65,12 +65,10 @@ export const { actions, name: sliceName, reducer } = createSlice({
         },
         moveLinkToGroup(state, { payload }: PayloadAction<{ source: string; linkId: string; target: string }>) {
             const target = state.groups.entities[payload.target];
-            if (!target) {
-                // shouldn't happen
-                return;
+            if (target) {
+                removeChild(state.groups, payload.source, payload.linkId);
+                target.children.push(payload.linkId);
             }
-            removeChild(state.groups, payload.source, payload.linkId);
-            target.children.push(payload.linkId);
         },
 
         editTile(state, { payload }: PayloadAction<NonNullable<EditDialog>>) {
@@ -86,6 +84,15 @@ export const { actions, name: sliceName, reducer } = createSlice({
         saveEditLink(state, { payload: { id, ...changes } }: PayloadAction<SpeeddialLink>) {
             state.editDialog = null;
             linksAdapter.updateOne(state.links, { id, changes });
+        },
+
+        renameGroup: {
+            prepare(groupId: string, name: string) {
+                return { payload: { id: groupId, changes: { name } } };
+            },
+            reducer(state, { payload }: PayloadAction<Update<SpeeddialGroup>>) {
+                groupsAdapter.updateOne(state.groups, payload);
+            }
         },
 
         deleteLink(state, { payload }: PayloadAction<{ id: string; parentId: string }>) {

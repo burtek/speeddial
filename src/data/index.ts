@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist/es/constants';
 
+import { persistedReducer as config } from './config';
 import { persistedReducer as speeddial } from './speeddial';
 
 // https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
@@ -15,7 +16,7 @@ const sentryReduxEnhancer = createSentryReduxEnhancer() as StoreEnhancer;
 export const store = configureStore({
     enhancers: defaultEnhancers => [...defaultEnhancers, sentryReduxEnhancer],
     middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: { ignoredActions } }),
-    reducer: { speeddial }
+    reducer: { config, speeddial }
 });
 
 export const persistor = persistStore(store);
