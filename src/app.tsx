@@ -1,8 +1,8 @@
-import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 
-import { SearchBar } from './components/search';
-import { SpeedDial } from './components/speeddial';
+import { AppFooter } from '@@components/app-footer';
+import { SearchBar } from '@@components/search';
+import { SpeedDial } from '@@components/speeddial';
 
 export function AppLayout() {
     // eslint-disable-next-line no-warning-comments
@@ -25,30 +25,7 @@ export function AppLayout() {
             <SearchBar gridArea="search" />
             <SpeedDial gridArea="main" />
             <div style={{ gridArea: 'spacer' }} />
-            <Box sx={{ /* position: 'absolute', bottom: 0, left: 0, right: 0 */ gridArea: 'footer', textAlign: 'center' }}>
-                <Typography>
-                    &copy;
-                    {' '}
-                    <a
-                        href="https://github.com/burtek"
-                        target="_blank"
-                        referrerPolicy="no-referrer"
-                        rel="noopener noreferrer nofollow"
-                    >
-                        burtek
-                    </a>
-                    {` ${new Date().getFullYear()} | `}
-                    <a
-                        href="https://github.com/burtek/speeddial"
-                        target="_blank"
-                        referrerPolicy="no-referrer"
-                        rel="noopener noreferrer nofollow"
-                    >
-                        This project is open-source!
-                    </a>
-                    {` | Build ${import.meta.env.VITE_VERCEL_GIT_COMMIT_SHA}`}
-                </Typography>
-            </Box>
+            <AppFooter gridArea="footer" />
         </Box>
     );
 }
