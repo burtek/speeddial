@@ -12,7 +12,7 @@ export default async function handler(req: Request) {
         const { host, pathname } = new URL(header.dsn);
         const projectId = pathname.substring(1);
 
-        if (!host.endsWith(sentryHost)) {
+        if (host !== sentryHost && !host.endsWith(`.${sentryHost}`)) {
             throw new Error(`invalid host: ${host}`);
         }
 
