@@ -4,8 +4,6 @@ import { join } from "node:path";
 // @ts-ignore
 import { startDevServer } from "@vercel/node";
 
-const IMAGE_URL = "https://local.dev";
-
 describe("api/image2data", () => {
   let pid: number;
   let port: number;

@@ -1,6 +1,7 @@
 import type { ServerResponse } from 'node:http';
 
 import type { VercelRequest } from '@vercel/node';
+import { fileTypeFromBuffer } from 'file-type'
 
 interface RequestData {
     url?: string;
@@ -21,8 +22,12 @@ export const enum Image2DataError {
 export type ImageResponseData = { dataUrl: string } | { error: string };
 
 export async function downloadAndEncode(url: URL) {
-    const imageResp = await fetch(url);
-    const image = Buffer.from(await imageResp.arrayBuffer()).toString('base64');
+    const imageResp = await fetch(url, { headers: { 'accept': 'image/*' } });
+    const imageBuffer = Buffer.from(await imageResp.arrayBuffer());
+    const imageType = await fileTypeFromBuffer(imageBuffer)
+    const image = imageBuffer.toString('base64');
+    
+    console.log(imageType, imageResp.type, imageResp.headers.get('content-type'));
     
     // TODO: get file type - https://via.placeholder.com/150 has no content-type header
     return `data:${imageResp.headers.get('content-type')};base64,${image}`;
