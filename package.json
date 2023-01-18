@@ -13,7 +13,7 @@
     "@reduxjs/toolkit": "^1.9.1",
     "@sentry/react": "^7.30.0",
     "@sentry/tracing": "^7.30.0",
-    "@vercel/node": "^2.8.6",
+    "@vercel/node": "^2.8.13",
     "cheerio": "1.0.0-rc.12",
     "i18next": "^22.4.9",
     "i18next-browser-languagedetector": "^7.0.1",
@@ -41,6 +41,8 @@
     "eslint": "^8.31.0",
     "jest-extended": "^3.2.3",
     "jsdom": "^21.0.0",
+    "nock": "^13.3.0",
+    "path-to-regexp": "^6.2.1",
     "typescript": "^4.9.4",
     "vite": "^4.0.4",
     "vite-plugin-pwa": "^0.14.1",
@@ -53,6 +55,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "lint": "eslint \"src/**\" \"api/**\""
   }
 }

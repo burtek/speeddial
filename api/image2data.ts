@@ -23,6 +23,8 @@ export type ImageResponseData = { dataUrl: string } | { error: string };
 export async function downloadAndEncode(url: URL) {
     const imageResp = await fetch(url);
     const image = Buffer.from(await imageResp.arrayBuffer()).toString('base64');
+    
+    // TODO: get file type - https://via.placeholder.com/150 has no content-type header
     return `data:${imageResp.headers.get('content-type')};base64,${image}`;
 }
 
