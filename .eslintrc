@@ -12,6 +12,9 @@
         "import/resolver": {
             "typescript": true,
             "node": true
+        },
+        "jest": {
+            "version": 27
         }
     },
     "rules": {
