@@ -1,5 +1,3 @@
-import { ThemeProvider } from '@emotion/react';
-import { CssBaseline } from '@mui/material';
 import { ErrorBoundary as SentryErrorBoundary } from '@sentry/react';
 import type { FC, PropsWithChildren } from 'react';
 import { StrictMode } from 'react';
@@ -12,7 +10,7 @@ import './i18n';
 
 import { AppLayout } from './app';
 import { persistor, store } from './data';
-import { useCreateTheme } from './theme';
+import { ThemedApp } from './theme/themed-app';
 
 const MaybeUseSentryErrorBoundary: FC<PropsWithChildren<{ useBoundary: boolean }>> = ({ children, useBoundary }) => {
     if (useBoundary) {
@@ -24,13 +22,6 @@ const MaybeUseSentryErrorBoundary: FC<PropsWithChildren<{ useBoundary: boolean }
 
 const root = createReactDOMRoot(
     document.getElementById('root') as HTMLElement
-);
-
-const ThemedApp: FC<PropsWithChildren> = ({ children }) => (
-    <ThemeProvider theme={useCreateTheme()}>
-        <CssBaseline />
-        {children}
-    </ThemeProvider>
 );
 
 root.render(

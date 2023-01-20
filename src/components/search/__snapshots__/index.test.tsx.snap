@@ -1,0 +1,22 @@
+// Vitest Snapshot v1
+
+exports[`search-bar > should match snapshot 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-1vvw8c7-MuiPaper-root"
+  >
+    <form
+      action="https://www.google.com/search"
+      method="get"
+      style="display: flex;"
+    >
+      <input
+        name="q"
+        placeholder="search.placeholder"
+        style="flex: 1; padding: 0.3vw 0.5vw; border-radius: 5px;"
+        type="text"
+      />
+    </form>
+  </div>
+</div>
+`;

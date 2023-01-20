@@ -4,10 +4,13 @@ import type { FC, PropsWithChildren, ReactElement } from 'react';
 import { Provider as StoreProvider } from 'react-redux';
 
 import { store } from '@@data/index';
+import { ThemedApp } from 'src/theme/themed-app';
 
 const AllTheProviders: FC<PropsWithChildren> = ({ children }) => (
     <StoreProvider store={store}>
-        {children}
+        <ThemedApp>
+            {children}
+        </ThemedApp>
     </StoreProvider>
 );
 
