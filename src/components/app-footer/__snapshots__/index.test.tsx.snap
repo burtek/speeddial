@@ -1,0 +1,36 @@
+// Vitest Snapshot v1
+
+exports[`app-footer > should match snapshot 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-xi606m"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+    >
+      ©
+       
+      <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+        href="https://github.com/burtek"
+        referrerpolicy="no-referrer"
+        rel="noopener noreferrer nofollow"
+        target="_blank"
+      >
+        burtek
+      </a>
+       2021 | 
+      <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+        href="https://github.com/burtek/speeddial"
+        referrerpolicy="no-referrer"
+        rel="noopener noreferrer nofollow"
+        target="_blank"
+      >
+        footer.openSource
+      </a>
+       | footer.build test
+    </p>
+  </div>
+</div>
+`;
