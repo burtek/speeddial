@@ -12,6 +12,7 @@ import { LinkEditDialog } from './edit-link-dialog';
 import { GroupContents } from './group-contents';
 import type { TypedSortableData } from './hooks/use-typed-sortable';
 
+
 export const SpeedDial: FC<{ gridArea?: string }> = ({ gridArea }) => {
     const dispatch = useAppDispatch();
 

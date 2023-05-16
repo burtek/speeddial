@@ -5,6 +5,7 @@ import { SearchBar } from '@@components/search';
 import { SettingsButton, SettingsModal } from '@@components/settings';
 import { SpeedDial } from '@@components/speeddial';
 
+
 const ActionBar = styled(Box)<{ gridArea?: string }>(({ gridArea }) => ({
     gridArea,
     display: 'flex',

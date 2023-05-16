@@ -3,11 +3,13 @@ import { Card, CardContent, Divider, IconButton, styled } from '@mui/material';
 import { FolderPlus, LinkPlus } from 'mdi-material-ui';
 import type { FC } from 'react';
 import { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch } from '@@data/index';
 import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '@@data/speeddial/slice';
 
-import { TILE_WIDTH } from './components/_constants';
+import { TILE_WIDTH } from './_constants';
+
 
 const AddTileWrapper = styled(Card)({
     cursor: 'pointer',
@@ -28,6 +30,8 @@ const AddTileContent = styled(CardContent)({
 });
 
 export const AddNewTile: FC<Props> = ({ parentId }) => {
+    const { t } = useTranslation();
+
     const dispatch = useAppDispatch();
 
     const onAddLink = useCallback(() => {
@@ -45,17 +49,31 @@ export const AddNewTile: FC<Props> = ({ parentId }) => {
         setIsMouseOver(false);
     }, [setIsMouseOver]);
 
-    const defaultContent = <AddIcon fontSize="large" htmlColor="grey" />;
+    const defaultContent = (
+        <AddIcon
+            aria-label={t('tooltips.add_link_or_group')}
+            fontSize="large"
+            htmlColor="grey"
+        />
+    );
     const mouseOverContent = (
         <>
-            <IconButton onClick={onAddLink}>
+            <IconButton
+                aria-label={t('tooltips.add_link')}
+                onClick={onAddLink}
+                title={t('tooltips.add_link')}
+            >
                 <LinkPlus fontSize="large" htmlColor="grey" />
             </IconButton>
             {/* eslint-disable-next-line no-warning-comments */}
             {parentId === ROOT_SPEEDDIAL_ID && ( // TODO: make universal
                 <>
                     <Divider flexItem variant="middle" />
-                    <IconButton onClick={onAddGroup}>
+                    <IconButton
+                        aria-label={t('tooltips.add_group')}
+                        onClick={onAddGroup}
+                        title={t('tooltips.add_group')}
+                    >
                         <FolderPlus fontSize="large" htmlColor="grey" />
                     </IconButton>
                 </>

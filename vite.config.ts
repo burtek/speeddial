@@ -1,26 +1,26 @@
-/* eslint-disable new-cap */
 /* eslint-env node */
-import SentryVitePlugin from '@sentry/vite-plugin';
-import React from '@vitejs/plugin-react';
-import { VitePWA } from 'vite-plugin-pwa';
-import ViteTsconfigPaths from 'vite-tsconfig-paths';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
+import viteReact from '@vitejs/plugin-react';
+import { VitePWA as vitePWA } from 'vite-plugin-pwa';
+import viteTsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
 // https://vitejs.dev/config/
 export default defineConfig({
     build: { target: ['chrome89', 'edge89', 'firefox89', 'opera75'] },
     plugins: [
-        SentryVitePlugin({
+        sentryVitePlugin({
             org: process.env.SENTRY_ORG,
             project: process.env.SENTRY_PROJECT,
             include: './dist',
             authToken: process.env.SENTRY_AUTH_TOKEN
         }),
-        React(),
-        ViteTsconfigPaths(),
-        VitePWA({
+        viteReact(),
+        viteTsconfigPaths(),
+        vitePWA({
             registerType: 'autoUpdate',
             devOptions: { enabled: true },
+            strategies: 'generateSW',
             /* eslint-disable @typescript-eslint/naming-convention */
             manifest: {
                 id: '/',
@@ -56,9 +56,16 @@ export default defineConfig({
             /* eslint-enable @typescript-eslint/naming-convention */
             workbox: {
                 globPatterns: [
-                    '**/*.{js,css,html,ico,png,svg,woff,woff2}',
+                    // '**/*.{js,css,html,ico,png,svg,woff,woff2}',
                     'locales/*/translation.json'
                 ]
+                // runtimeCaching: [{
+                //     urlPattern: ({ url, sameOrigin, request }) => sameOrigin && !url.pathname.startsWith('/api') && request.,
+                //     handler: 'NetworkFirst'
+                // }, {
+                //     urlPattern: ({ url, sameOrigin, request }) => request.,
+                //     handler: 'NetworkFirst'
+                // }]
             }
         })
     ],
@@ -70,6 +77,7 @@ export default defineConfig({
         coverage: {
             provider: 'istanbul',
             reporter: ['text', 'json', 'html']
-        }
+        },
+        snapshotFormat: { printBasicPrototype: true }
     }
 });

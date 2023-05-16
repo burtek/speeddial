@@ -1,17 +1,18 @@
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Alert, Button, Dialog, DialogActions, DialogContent, IconButton, InputAdornment, TextField, Tooltip, styled } from '@mui/material';
-import { useCallback } from 'react';
 import type { FC, MouseEventHandler } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from '@@data/index';
 import type { RootState } from '@@data/index';
+import { useAppDispatch } from '@@data/index';
 import { getLinkEditId, linksAdapterSelectors } from '@@data/speeddial/selectors';
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 
+import { useDraft } from './hooks/use-draft';
 import { useFetchImageForUrl } from './hooks/use-fetch-image';
-import { useDraft } from './hooks/use-link-draft';
+
 
 export const PreviewImage = styled('img')(({ theme }) => ({
     float: 'right',
@@ -28,7 +29,7 @@ export const LinkEditDialog: FC = () => {
     const tile = useSelector((state: RootState) => linksAdapterSelectors.selectById(state, editId));
 
     const dispatch = useAppDispatch();
-    const onCloseWithoutSave = useCallback(() => dispatch(speeddialActions.cancelEditTile()), []);
+    const onCloseWithoutSave = useCallback(() => dispatch(speeddialActions.cancelEditTile()), [dispatch]);
 
     const draft = useDraft(tile);
 
@@ -36,7 +37,7 @@ export const LinkEditDialog: FC = () => {
         event.preventDefault();
     }, []);
 
-    const [fetchImage, isFetching, error] = useFetchImageForUrl(
+    const { fetchImage, isFetching, error } = useFetchImageForUrl(
         draft.value?.url ?? '',
         url => {
             draft.set('logoUrl', url);
@@ -61,7 +62,7 @@ export const LinkEditDialog: FC = () => {
             >
                 <div style={{ gridArea: 'fields' }}>
                     <TextField
-                        label={t('fields.name')}
+                        label={t('forms.fields.name')}
                         {...draft.inputProps('name')}
                         fullWidth
                         margin="dense"
@@ -70,7 +71,7 @@ export const LinkEditDialog: FC = () => {
                         required
                     />
                     <TextField
-                        label={t('fields.url')}
+                        label={t('forms.fields.url')}
                         {...draft.inputProps('url')}
                         fullWidth
                         margin="dense"
@@ -78,7 +79,7 @@ export const LinkEditDialog: FC = () => {
                         required
                     />
                     <TextField
-                        label={t('fields.logoUrl')}
+                        label={t('forms.fields.logoUrl')}
                         {...draft.inputProps('logoUrl')}
                         fullWidth
                         margin="dense"
@@ -86,7 +87,7 @@ export const LinkEditDialog: FC = () => {
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
-                                    <Tooltip title={t('actions.reload_pic_tooltip')}>
+                                    <Tooltip title={t('tooltips.reload_pic')}>
                                         <IconButton
                                             onClick={fetchImage}
                                             onMouseDown={preventDefault}
@@ -102,7 +103,7 @@ export const LinkEditDialog: FC = () => {
                     />
                 </div>
                 <PreviewImage src={draft.value?.logoUrl} />
-                {error !== null && <Alert sx={{ gridArea: 'warn' }} severity="warning">{error}</Alert>}
+                {error !== null && <Alert sx={{ gridArea: 'warn' }} severity="warning">{`${error}. ${t('errors.adminInformed')}`}</Alert>}
             </DialogContent>
             <DialogActions>
                 <Button color="secondary" onClick={onCloseWithoutSave}>{t('actions.cancel')}</Button>

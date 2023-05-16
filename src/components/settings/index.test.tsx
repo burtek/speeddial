@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import { render, fireEvent, waitFor } from 'config/test-utils';
+import { render, waitFor } from '@@config/test-utils';
 
 import { SettingsButton } from './button';
 import { SettingsModal } from './modal';
@@ -17,55 +17,56 @@ function App() {
 
 describe('settings', () => {
     it('should match snapshot', () => {
-        const { queryAllByRole } = render(<App />);
+        const { queryByRole } = render(<App />);
 
-        expect(queryAllByRole('presentation')).toHaveLength(0);
+        expect(queryByRole('presentation')).toBeNull();
 
         expect(document.body).toMatchSnapshot();
     });
 
     describe('dialog management', () => {
-        it('should react to click', async () => {
-            const { queryByRole, queryAllByRole } = render(<App />);
+        it('should show and hide dialog', async () => {
+            const user = userEvent.setup();
 
-            fireEvent.click(queryByRole('button') as HTMLButtonElement);
+            const { queryByLabelText, queryAllByRole } = render(<App />);
 
-            await waitFor(() => {
-                expect(queryAllByRole('presentation').length > 0).toBeTrue();
-            });
-
-            expect(document.body).toMatchSnapshot();
-        });
-
-        it('should hide dialog', async () => {
-            const { queryByRole, queryAllByRole } = render(<App />);
-
-            fireEvent.click(queryByRole('button') as HTMLButtonElement);
-
-            fireEvent.click(document.body.querySelector('.MuiBackdrop-root') as HTMLDivElement);
+            await user.click(queryByLabelText('tooltips.settings') as HTMLButtonElement);
 
             await waitFor(() => {
-                expect(queryAllByRole('presentation')).toHaveLength(0);
+                expect(queryAllByRole('presentation')).not.toBeEmpty();
             });
 
-            expect(document.body).toMatchSnapshot();
+            expect(document.body).toMatchSnapshot('opened');
+
+            await user.click(document.body.querySelector('.MuiBackdrop-root') as HTMLDivElement);
+
+            await waitFor(() => {
+                expect(queryAllByRole('presentation')).toBeEmpty();
+                expect(document.body.querySelector('.MuiTouchRipple-childLeaving')).not.toBeInTheDocument();
+            });
+
+            expect(document.body).toMatchSnapshot('closed');
         });
     });
 
     describe('settings', () => {
         describe('theme mode', () => {
-            it('should change theme mode to light', async () => {
+            it.each(['dark', 'light', 'auto'])('should change theme mode to %s', async mode => {
                 const user = userEvent.setup();
 
-                const { queryByRole, queryAllByRole } = render(<App />);
+                const { queryByLabelText, queryAllByRole, queryByText } = render(<App />);
 
-                await user.click(queryByRole('button') as HTMLButtonElement);
+                await user.click(queryByLabelText('tooltips.settings') as HTMLButtonElement);
 
                 await waitFor(() => {
                     expect(queryAllByRole('presentation').length > 0).toBeTrue();
                 });
 
                 await user.click(document.body.querySelector('#theme-mode-select') as HTMLDivElement);
+
+                await user.click(queryByText(`configDialog.themeMode.option.${mode}`) as HTMLLIElement);
+
+                expect(document.body.querySelector('#theme-mode-select')).toHaveTextContent(`configDialog.themeMode.option.${mode}`);
 
                 expect(document.body).toMatchSnapshot();
             });

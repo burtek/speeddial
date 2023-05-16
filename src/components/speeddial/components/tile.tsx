@@ -1,5 +1,5 @@
 import type { Theme } from '@mui/material';
-import { Card, styled } from '@mui/material';
+import { Card as MuiCard, styled } from '@mui/material';
 import type { CardProps } from '@mui/material/Card';
 import type { CSSObject } from '@mui/material/styles';
 import type { MUIStyledCommonProps } from '@mui/system';
@@ -7,8 +7,14 @@ import type { FC } from 'react';
 
 import { TILE_WIDTH } from './_constants';
 
-const AnchorCard: FC<Omit<CardProps<'a', { component: 'a' }>, 'component'>> = props => <Card {...props} component="a" />;
 
+const Card: FC<TileProps & Omit<CardProps, 'component'>> = ({ isDragging, transform, transition, ...props }) => <MuiCard {...props} />;
+const AnchorCard: FC<TileProps & Omit<CardProps<'a', { component: 'a' }>, 'component'>> = ({
+    isDragging,
+    transform,
+    transition,
+    ...props
+}) => <MuiCard {...props} component="a" />;
 interface TileProps {
     isDragging: boolean;
     transform?: string;

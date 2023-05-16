@@ -9,9 +9,9 @@ interface ImportMetaEnv {
     readonly SENTRY_PROJECT: string;
     readonly VITE_VERCEL_GIT_COMMIT_SHA: string;
     readonly VITE_SENTRY_DSN: string;
+    readonly VITE_VERCEL_ENV: 'production' | 'development' | 'preview' | 'test';
 }
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 interface ImportMeta {
     readonly env: ImportMetaEnv;
 }

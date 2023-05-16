@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+
 const DEFAULT_MENU_TRANSITION_DURATION = 232;
 
 export function useContextMenu(options: ContextMenuOption[], id: string, transitionDuration = DEFAULT_MENU_TRANSITION_DURATION) {
@@ -16,6 +17,7 @@ export function useContextMenu(options: ContextMenuOption[], id: string, transit
         if (!popupState.isOpen) {
             window.setTimeout(setConfirmationState, transitionDuration, null);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- we only want effect to run on isOpen change
     }, [popupState.isOpen]);
 
     const onCancel = useCallback(() => {
@@ -89,14 +91,14 @@ export function useContextMenu(options: ContextMenuOption[], id: string, transit
     };
 }
 
-type ContextMenuOption = ContextMenuOptionWithAction | ContextMenuOptionWithArgAction;
-interface ContextMenuOptionWithAction {
+export type ContextMenuOption = ContextMenuOptionWithAction | ContextMenuOptionWithArgAction;
+export interface ContextMenuOptionWithAction {
     key: string;
     label: string;
     action: () => void;
     requireConfirm?: false | string;
 }
-interface ContextMenuOptionWithArgAction {
+export interface ContextMenuOptionWithArgAction {
     key: string;
     label: string;
     action: (value: string) => void;
@@ -111,5 +113,12 @@ interface MenuOption {
         children: ReactNode;
         onClick: () => void;
     };
+    /**
+     * `null` - show in root menu
+     *
+     * `true` - show in any submenu
+     *
+     * `string` - show if submenu id equals this string
+     */
     show: null | true | string;
 }

@@ -1,44 +1,58 @@
 {
-    "actions": {
-        "cancel": "Cancel",
-        "delete": "Delete",
-        "delete_confirm": "Confirm deletion",
-        "edit": "Edit",
-        "moveToGroup": "Move to...",
-        "save": "Save",
-        "reload_pic_tooltip": "Get picture from website"
+  "actions": {
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "delete_confirm": "Confirm deletion",
+    "edit": "Edit",
+    "moveToGroup": "Move to...",
+    "save": "Save"
+  },
+  "tooltips": {
+    "add_link_or_group": "Add new link or group",
+    "add_link": "Add new link",
+    "add_group": "Add new group",
+    "reload_pic": "Get picture from website",
+    "settings": "Settings"
+  },
+  "forms": {
+    "defaultValues": {
+      "groupName": "New group"
     },
     "fields": {
-        "name": "Name",
-        "logoUrl": "Image URL",
-        "url": "URL"
-    },
-    "errors": {
-        "unknown": "Something went wrong. Try again later",
-        "logoUrl": {
-            "Malformed url": "The provided URL is incorrect",
-            "Image not found": "Could not find image for the provided URL"
-        }
-    },
-    "search": {
-        "placeholder": "Search in Google..."
-    },
-    "defaultValues": {
-        "groupName": "New group"
-    },
-    "configDialog": {
-        "title": "Settings",
-        "themeMode": {
-            "label": "Theme mode",
-            "option": {
-                "auto": "auto (system)",
-                "light": "light",
-                "dark": "dark"
-            }
-        }
-    },
-    "footer": {
-        "build": "Build",
-        "openSource": "This project is open-source!"
+      "name": "Name",
+      "logoUrl": "Image URL",
+      "url": "URL"
     }
+  },
+  "errors": {
+    "adminInformed": "Administrator has been informed of this and will fix this soon if able to",
+    "unknown": "Something went wrong. Try again later",
+    "http": {
+      "400": "Bad Request",
+      "404": "Resource Not Found",
+      "500": "Internal Server Error"
+    },
+    "logoUrl": {
+      "Malformed url": "The provided URL is incorrect",
+      "Image not found": "Could not find image for the provided URL"
+    }
+  },
+  "search": {
+    "placeholder": "Search in Google..."
+  },
+  "configDialog": {
+    "title": "Settings",
+    "themeMode": {
+      "label": "Theme mode",
+      "option": {
+        "auto": "auto (system)",
+        "light": "light",
+        "dark": "dark"
+      }
+    }
+  },
+  "footer": {
+    "build": "Build",
+    "openSource": "This project is open-source!"
+  }
 }

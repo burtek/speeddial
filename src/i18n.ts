@@ -5,6 +5,7 @@ import { initReactI18next } from 'react-i18next';
 
 import type tr from '@@locales/en/translation.json';
 
+
 declare module 'i18next' {
     interface CustomTypeOptions {
         resources: {

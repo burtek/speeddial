@@ -1,7 +1,7 @@
 import { CSS as DndCss } from '@dnd-kit/utilities';
-import { CardContent, CardMedia, Typography } from '@mui/material';
-import { useCallback, useMemo } from 'react';
+import { CardContent, CardMedia, Typography, styled } from '@mui/material';
 import type { FC } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -14,6 +14,15 @@ import { TILE_CONTENT_HEIGHT } from './components/_constants';
 import { AnchorTile } from './components/tile';
 import { useContextMenu } from './hooks/use-context-menu';
 import { useTypedSortable } from './hooks/use-typed-sortable';
+
+
+const StyledCardContent = styled(CardContent)({
+    height: TILE_CONTENT_HEIGHT,
+    padding: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+});
 
 export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
     const { t } = useTranslation();
@@ -64,24 +73,26 @@ export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
                 transform={DndCss.Transform.toString(transform)}
                 transition={transition}
             >
-                {tile.logoUrl ? (
-                    <CardMedia
-                        component="img"
-                        src={tile.logoUrl}
-                        sx={{ height: TILE_CONTENT_HEIGHT, objectFit: 'scale-down' }}
-                    />
-                ) : (
-                    <CardContent sx={{ height: TILE_CONTENT_HEIGHT, padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Typography fontSize={60} fontWeight={700}>
-                            {tile.name
-                                .split(' ')
-                                .filter(Boolean)
-                                .splice(0, 2)
-                                .map(word => word[0])
-                                .join('')}
-                        </Typography>
-                    </CardContent>
-                )}
+                {tile.logoUrl
+                    ? (
+                        <CardMedia
+                            component="img"
+                            src={tile.logoUrl}
+                            sx={{ height: TILE_CONTENT_HEIGHT, objectFit: 'scale-down' }}
+                        />
+                    )
+                    : (
+                        <StyledCardContent>
+                            <Typography fontSize={60} fontWeight={700}>
+                                {tile.name
+                                    .split(' ')
+                                    .filter(Boolean)
+                                    .splice(0, 2)
+                                    .map(word => word[0])
+                                    .join('')}
+                            </Typography>
+                        </StyledCardContent>
+                    )}
                 <CardContent sx={{ 'paddingY': 0, ':last-child': { paddingBottom: 1 } }}>
                     <Typography fontSize={13} textAlign="center">{tile.name}</Typography>
                 </CardContent>

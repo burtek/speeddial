@@ -1,17 +1,42 @@
 // Vitest Snapshot v1
 
 exports[`app-footer > should match snapshot 1`] = `
+.emotion-0 {
+  text-align: center;
+}
+
+.emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-2 {
+  margin: 0;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-2:hover {
+  text-decoration-color: inherit;
+}
+
 <div>
   <div
-    class="MuiBox-root css-xi606m"
+    class="MuiBox-root emotion-0"
   >
     <p
-      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 emotion-1"
     >
       ©
        
       <a
-        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-2"
         href="https://github.com/burtek"
         referrerpolicy="no-referrer"
         rel="noopener noreferrer nofollow"
@@ -21,7 +46,7 @@ exports[`app-footer > should match snapshot 1`] = `
       </a>
        2021 | 
       <a
-        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-2"
         href="https://github.com/burtek/speeddial"
         referrerpolicy="no-referrer"
         rel="noopener noreferrer nofollow"

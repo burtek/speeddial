@@ -1,22 +1,26 @@
-import { useCallback, useEffect, useState } from 'react';
 import type { ChangeEvent } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint -- needed in .tsx
-export const useDraft = <T extends unknown>(object: T | undefined) => {
+// eslint-disable-next-line @typescript-eslint/no-type-alias
+type StringKeys<T> = {
+    [K in keyof T]: T[K] extends string | undefined ? K : never
+}[keyof T];
+
+export const useDraft = <T>(object: T | undefined) => {
     const [draft, setDraft] = useState<T | undefined>(object);
 
     useEffect(() => {
         setDraft(object);
     }, [object]);
 
-    const set = useCallback(<K extends keyof T>(key: K, value: string) => {
+    const set = useCallback(<K extends StringKeys<T>>(key: K, value: string) => {
         setDraft(d => d && { ...d, [key]: value });
     }, []);
 
     return {
-        inputProps: (key: keyof T) => ({
+        inputProps: <K extends StringKeys<T>>(key: K) => ({
             id: key,
-            value: draft?.[key] ?? '',
+            value: draft?.[key],
             onChange: (event: ChangeEvent<HTMLInputElement>) => {
                 set(key, event.target.value);
             },

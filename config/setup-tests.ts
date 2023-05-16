@@ -1,12 +1,12 @@
-/* eslint-env jest */
-
 import '@testing-library/jest-dom';
+import { createSerializer } from '@emotion/jest';
 import i18n from 'i18next';
-// @ts-expect-error -- no type declaration
-import * as matchers from 'jest-extended';
+import 'jest-extended';
+import 'jest-extended/all';
 import { initReactI18next } from 'react-i18next';
 
-expect.extend(matchers);
+
+expect.addSnapshotSerializer(createSerializer());
 
 await i18n
     .use(initReactI18next)

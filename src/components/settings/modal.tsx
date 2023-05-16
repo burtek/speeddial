@@ -10,6 +10,7 @@ import { actions as configActions } from '@@data/config';
 import { getIsDialogOpen, getThemeMode } from '@@data/config/selectors';
 import { useAppDispatch } from '@@data/index';
 
+
 export const SettingsModal: FC = () => {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();

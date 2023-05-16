@@ -3,11 +3,14 @@ import { render } from '@testing-library/react';
 import type { FC, PropsWithChildren, ReactElement } from 'react';
 import { Provider as StoreProvider } from 'react-redux';
 
-import { store } from '@@data/index';
+import { createStore } from '@@data/index';
 import { ThemedApp } from 'src/theme/themed-app';
 
+
+const { store: testStore } = createStore(false);
+
 const AllTheProviders: FC<PropsWithChildren> = ({ children }) => (
-    <StoreProvider store={store}>
+    <StoreProvider store={testStore}>
         <ThemedApp>
             {children}
         </ThemedApp>
@@ -19,10 +22,7 @@ const customRender = (
     options?: Omit<RenderOptions, 'wrapper'>
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
+/* eslint-disable import/export */
 // re-export everything
-// eslint-disable-next-line import/export
 export * from '@testing-library/react';
-
-// override render method
-// eslint-disable-next-line import/export
 export { customRender as render };

@@ -2,6 +2,7 @@ import type { EntityState, PayloadAction, Update } from '@reduxjs/toolkit';
 import { createEntityAdapter, createSlice, nanoid } from '@reduxjs/toolkit';
 import { t } from 'i18next';
 
+
 export const linksAdapter = createEntityAdapter<SpeeddialLink>();
 export const groupsAdapter = createEntityAdapter<SpeeddialGroup>();
 
@@ -11,7 +12,7 @@ function createSpeeddialLink(id = nanoid()): SpeeddialLink {
     return { id: `link-${id}`, type: 'link', name: '', url: '', logoUrl: '' };
 }
 function createSpeeddialGroup(id = nanoid()): SpeeddialGroup {
-    return { id: `group-${id}`, type: 'group', name: t('defaultValues.groupName'), children: [] };
+    return { id: `group-${id}`, type: 'group', name: t('forms.defaultValues.groupName'), children: [] };
 }
 
 export type EditDialog = null | {

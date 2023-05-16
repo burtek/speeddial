@@ -5,6 +5,7 @@ import { load } from 'cheerio';
 
 import { downloadAndEncode } from './image2data';
 
+
 interface RequestData {
     url?: string;
 }

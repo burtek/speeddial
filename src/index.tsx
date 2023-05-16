@@ -9,14 +9,17 @@ import './sentry';
 import './i18n';
 
 import { AppLayout } from './app';
-import { persistor, store } from './data';
+import { createStore } from './data';
 import { ThemedApp } from './theme/themed-app';
+
+
+export const { store, persistor } = createStore();
 
 const MaybeUseSentryErrorBoundary: FC<PropsWithChildren<{ useBoundary: boolean }>> = ({ children, useBoundary }) => {
     if (useBoundary) {
         return <SentryErrorBoundary fallback={<p>An error has occurred</p>}>{children}</SentryErrorBoundary>;
     }
-    // eslint-disable-next-line react/jsx-no-useless-fragment -- fixes return type
+    // eslint-disable-next-line react/jsx-no-useless-fragment -- fixes return type - should not be necessary with ts 5.1
     return <>{children}</>;
 };
 
