@@ -3,6 +3,7 @@ import type { ServerResponse } from 'node:http';
 import type { VercelRequest } from '@vercel/node';
 import { load } from 'cheerio';
 
+import { HttpStatusCodes } from './_shared/http-codes';
 import { downloadAndEncode } from './image2data';
 
 
@@ -30,7 +31,7 @@ export default async function handler(
     res: TypedVercelResponse<ImageResponseData>
 ) {
     if (req.method !== 'GET') {
-        res.status(405).end();
+        res.status(HttpStatusCodes.METHOD_NOT_ALLOWED).end();
         return;
     }
 
@@ -38,7 +39,7 @@ export default async function handler(
     try {
         url = new URL(req.query.url ?? '');
     } catch {
-        res.status(400).json({ error: ImageFetchError.BAD_URL });
+        res.status(HttpStatusCodes.BAD_REQUEST).json({ error: ImageFetchError.BAD_URL });
         return;
     }
 
@@ -55,12 +56,12 @@ export default async function handler(
         const found = urls.find(Boolean);
 
         if (!found) {
-            res.status(404).json({ error: ImageFetchError.NO_IMAGE });
+            res.status(HttpStatusCodes.NOT_FOUND).json({ error: ImageFetchError.NO_IMAGE });
             return;
         }
 
-        res.status(200).json({ dataUrl: await downloadAndEncode(new URL(found, req.query.url)) });
+        res.status(HttpStatusCodes.OK).json({ dataUrl: await downloadAndEncode(new URL(found, req.query.url)) });
     } catch (error: unknown) {
-        res.status(500).json({ error: (error as Error | undefined)?.message ?? error as string });
+        res.status(HttpStatusCodes.INTERNAL_SERVER_ISSUE).json({ error: (error as Error | undefined)?.message ?? error as string });
     }
 }

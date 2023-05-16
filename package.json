@@ -27,7 +27,7 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@dtrw/eslint-config": "2.0.0-alpha.6",
+    "@dtrw/eslint-config": "^2.0.0",
     "@emotion/jest": "^11.11.0",
     "@sentry/vite-plugin": "^0.7.2",
     "@testing-library/jest-dom": "^5.16.5",

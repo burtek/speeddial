@@ -2,8 +2,8 @@ import type { SeverityLevel } from '@sentry/react';
 import { captureException as sentryCaptureError } from '@sentry/react';
 import type { CustomTypeOptions } from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
+import { HttpStatusCodes } from '@@api/_shared/http-codes';
 import type { ImageResponseData } from '@@api/image';
 
 
@@ -27,14 +27,17 @@ function capture(
     );
 }
 
-const HTTP_RESPONSE_OK = 200;
+type ApiError<T extends keyof FetchError> =
+// eslint-disable-next-line @typescript-eslint/no-type-alias
+    keyof CustomTypeOptions['resources']['translation']['errors'][T];
+
+export type FetchError = {
+    [T in 'http' | 'logoUrl']?: ApiError<T>;
+};
 
 export const useFetchImageForUrl = (url: string, setImageUrl: (url: string) => void) => {
-    // eslint-disable-next-line no-warning-comments
-    // TODO: do we want to have i18n in this hook?
-    const { t } = useTranslation();
     const [isFetching, setIsFetching] = useState(false);
-    const [error, setError] = useState<null | string>(null);
+    const [error, setError] = useState<null | FetchError>(null);
 
     useEffect(() => {
         setIsFetching(false);
@@ -49,36 +52,23 @@ export const useFetchImageForUrl = (url: string, setImageUrl: (url: string) => v
             const response = await fetch(`/api/image?url=${url}`);
             const data = await response.json() as ImageResponseData;
 
-            if (response.status === HTTP_RESPONSE_OK && 'dataUrl' in data) {
+            if (response.status === HttpStatusCodes.OK as number && 'dataUrl' in data) {
                 setImageUrl(data.dataUrl);
+                setError(null);
             } else if ('error' in data) {
                 capture(url, response.status, data.error, 'warning');
-
-                // eslint-disable-next-line @typescript-eslint/no-type-alias
-                type Key = keyof CustomTypeOptions['resources']['translation']['errors']['logoUrl'];
-
-                setError(t([
-                    `errors.logoUrl.${data.error as Key}`,
-                    'errors.unknown'
-                ]));
+                setError({ logoUrl: data.error as ApiError<'logoUrl'> });
             } else {
                 capture(url, response.status, `${response.statusText} ${JSON.stringify(data)}`, 'error');
-
-                // eslint-disable-next-line @typescript-eslint/no-type-alias
-                type Key = keyof CustomTypeOptions['resources']['translation']['errors']['http'];
-
-                setError(t([
-                    `errors.http.${response.status.toString() as Key}`,
-                    'errors.unknown'
-                ]));
+                setError({ http: response.status.toString() as ApiError<'http'> });
             }
         } catch (err: unknown) {
             capture(url, null, '', 'fatal', err as Error);
-            setError(t('errors.unknown'));
+            setError({});
         } finally {
             setIsFetching(false);
         }
-    }, [setImageUrl, t, url]);
+    }, [setImageUrl, url]);
 
     return {
         fetchImage: useCallback(() => {

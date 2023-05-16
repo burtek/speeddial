@@ -31,7 +31,7 @@ describe('speeddial selectors', () => {
         });
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-extra-parens -- https://github.com/typescript-eslint/typescript-eslint/issues/7030
+    // eslint-disable-next-line @typescript-eslint/no-extra-parens -- BUG: https://github.com/typescript-eslint/typescript-eslint/issues/7030
     it.each<[title: string, editDialog: EditDialog, selector: (state: Pick<RootState, 'speeddial'>) => unknown, expected: null | string]>([
         ['getLinkEditId > should return null if state is null', null, getLinkEditId, null],
         ['getLinkEditId > should return null if state is group', { id: 'id', type: 'group' }, getLinkEditId, null],

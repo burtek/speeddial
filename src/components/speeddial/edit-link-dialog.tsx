@@ -22,6 +22,29 @@ export const PreviewImage = styled('img')(({ theme }) => ({
     margin: theme.spacing(1)
 }));
 
+const useErrorText = (error: ReturnType<typeof useFetchImageForUrl>['error']) => {
+    const { t } = useTranslation();
+
+    if (!error) {
+        return null;
+    }
+
+    if (error.http) {
+        return t([
+            `errors.http.${error.http}`,
+            'errors.unknown'
+        ]);
+    }
+    if (error.logoUrl) {
+        return t([
+            `errors.logoUrl.${error.logoUrl}`,
+            'errors.unknown'
+        ]);
+    }
+
+    return t('errors.unknown');
+};
+
 export const LinkEditDialog: FC = () => {
     const { t } = useTranslation();
 
@@ -43,6 +66,8 @@ export const LinkEditDialog: FC = () => {
             draft.set('logoUrl', url);
         }
     );
+
+    const errorText = useErrorText(error);
 
     const onSave = useCallback(() => {
         if (draft.value) {
@@ -103,7 +128,7 @@ export const LinkEditDialog: FC = () => {
                     />
                 </div>
                 <PreviewImage src={draft.value?.logoUrl} />
-                {error !== null && <Alert sx={{ gridArea: 'warn' }} severity="warning">{`${error}. ${t('errors.adminInformed')}`}</Alert>}
+                {error !== null && <Alert sx={{ gridArea: 'warn' }} severity="warning">{`${errorText}. ${t('errors.adminInformed')}`}</Alert>}
             </DialogContent>
             <DialogActions>
                 <Button color="secondary" onClick={onCloseWithoutSave}>{t('actions.cancel')}</Button>
