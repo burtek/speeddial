@@ -1,12 +1,10 @@
-name: Run tests
+name: Run tsc
 
 on:
-  pull_request:
-    branches:
-      - master
+    workflow_call
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,10 +16,3 @@ jobs:
           cache: yarn
       - run: yarn install --frozen-lockfile
       - run: yarn tsc --noEmit
-      # todo: eslint
-      - run: yarn coverage
-      - name: Archive code coverage results
-        uses: actions/upload-artifact@v3
-        with:
-          name: code-coverage-report
-          path: coverage
