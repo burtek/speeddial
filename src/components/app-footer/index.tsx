@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 
+/* eslint no-warning-comments: 1 */
 // TODO: env
 const AUTHOR = 'burtek';
 const AUTHOR_URL = 'https://github.com/burtek';

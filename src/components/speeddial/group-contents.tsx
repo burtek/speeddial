@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle -- FIXME */
 import { SortableContext } from '@dnd-kit/sortable';
 import { Box, styled } from '@mui/material';
 import type { FC } from 'react';

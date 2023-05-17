@@ -1,4 +1,4 @@
-import { GroupTile } from '../tile-group';
+// import { GroupTile } from '../tile-group';
 
 
 describe('speeddial/tile-group', () => {

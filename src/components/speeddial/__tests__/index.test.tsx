@@ -1,4 +1,4 @@
-import { SpeedDial } from '..';
+// import { SpeedDial } from '..';
 
 
 describe('speeddial/index', () => {

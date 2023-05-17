@@ -1,4 +1,4 @@
-import { LinkTile } from '../tile-link';
+// import { LinkTile } from '../tile-link';
 
 
 describe('speeddial/tile-link', () => {

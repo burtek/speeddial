@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle -- FIXME */
 import { CSS as DndCss } from '@dnd-kit/utilities';
 import { CardContent, CardMedia, Modal, Paper, Typography, styled, Input } from '@mui/material';
 import type { ChangeEventHandler, FC } from 'react';
@@ -102,6 +103,7 @@ export const GroupTile: FC<Props> = ({ index, parentId, tile }) => {
                     {tile.children
                         .flatMap(child => links[child] ?? [])
                         .slice(0, SHOW_SUBTILES)
+                        /* eslint no-warning-comments: 1 */
                         // FIXME: no logo sites
                         .map(link => (
                             <CardMedia

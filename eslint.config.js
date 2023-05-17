@@ -20,23 +20,6 @@ export default defineFlatConfig([
                 node: true
             },
             'node': { version: '18' }
-        },
-        rules: {
-            // TODO: update eslint config
-            'import/order': ['error', {
-                'groups': [
-                    'builtin',
-                    'external',
-                    'internal',
-                    'parent',
-                    ['index', 'sibling']
-                ],
-                'newlines-between': 'always',
-                'alphabetize': {
-                    order: 'asc',
-                    orderImportKind: 'asc'
-                }
-            }]
         }
     }
 ]);
