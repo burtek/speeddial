@@ -1,3 +1,4 @@
+import LinkIcon from '@mui/icons-material/Link';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Alert, Button, Dialog, DialogActions, DialogContent, IconButton, InputAdornment, TextField, Tooltip, styled } from '@mui/material';
 import type { FC, MouseEventHandler } from 'react';
@@ -114,7 +115,21 @@ export const LinkEditDialog: FC = () => {
                                 <InputAdornment position="end">
                                     <Tooltip title={t('tooltips.reload_pic')}>
                                         <IconButton
-                                            onClick={fetchImage}
+                                            onClick={() => {
+                                                fetchImage(false);
+                                            }}
+                                            onMouseDown={preventDefault}
+                                            edge="end"
+                                            disabled={isFetching}
+                                        >
+                                            <LinkIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title={t('tooltips.reload_pic')}>
+                                        <IconButton
+                                            onClick={() => {
+                                                fetchImage(true);
+                                            }}
                                             onMouseDown={preventDefault}
                                             edge="end"
                                             disabled={isFetching}

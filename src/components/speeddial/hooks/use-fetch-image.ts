@@ -3,8 +3,8 @@ import { captureException as sentryCaptureError } from '@sentry/react';
 import type { CustomTypeOptions } from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
 
-import { HttpStatusCodes } from '@@api/_shared/http-codes';
-import type { ImageResponseData } from '@@api/image';
+import type { ImageResponseData } from '@@api/metadata/_utils';
+import { HttpStatusCodes } from '@@shared-utils/http-codes';
 
 
 function capture(
@@ -44,16 +44,16 @@ export const useFetchImageForUrl = (url: string, setImageUrl: (url: string) => v
         setError(null);
     }, [url]);
 
-    const fetchImage = useCallback(async () => {
+    const fetchImage = useCallback(async (translateToDataUrl: boolean) => {
         setIsFetching(true);
         setError(null);
 
         try {
-            const response = await fetch(`/api/image?url=${url}`);
+            const response = await fetch(`/api/metadata?url=${url}`);
             const data = await response.json() as ImageResponseData;
 
-            if (response.status === HttpStatusCodes.OK as number && 'dataUrl' in data) {
-                setImageUrl(data.dataUrl);
+            if (response.status === HttpStatusCodes.OK as number && 'image' in data) {
+                setImageUrl(translateToDataUrl ? data.image.imageDataUrl : data.image.imageURl);
                 setError(null);
             } else if ('error' in data) {
                 capture(url, response.status, data.error, 'warning');
@@ -71,8 +71,8 @@ export const useFetchImageForUrl = (url: string, setImageUrl: (url: string) => v
     }, [setImageUrl, url]);
 
     return {
-        fetchImage: useCallback(() => {
-            void fetchImage();
+        fetchImage: useCallback((translateToDataUrl: boolean) => {
+            void fetchImage(translateToDataUrl);
         }, [fetchImage]),
         isFetching,
         error

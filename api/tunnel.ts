@@ -1,6 +1,6 @@
-const sentryHost = 'sentry.io';
-
+// eslint-disable-next-line no-warning-comments
 // TODO: use env
+const sentryHost = 'sentry.io';
 const knownProjectIds = ['4504416981483520'];
 
 export default async function handler(req: Request) {

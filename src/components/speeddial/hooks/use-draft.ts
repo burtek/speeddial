@@ -20,7 +20,7 @@ export const useDraft = <T>(object: T | undefined) => {
     return {
         inputProps: <K extends StringKeys<T>>(key: K) => ({
             id: key,
-            value: draft?.[key],
+            value: draft?.[key] ?? '',
             onChange: (event: ChangeEvent<HTMLInputElement>) => {
                 set(key, event.target.value);
             },
