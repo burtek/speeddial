@@ -1,20 +1,13 @@
 import type { Theme } from '@mui/material';
 import { Card as MuiCard, styled } from '@mui/material';
-import type { CardProps } from '@mui/material/Card';
+import type { CardTypeMap } from '@mui/material/Card';
+import type { OverridableComponent } from '@mui/material/OverridableComponent';
 import type { CSSObject } from '@mui/material/styles';
 import type { MUIStyledCommonProps } from '@mui/system';
-import type { FC } from 'react';
 
 import { TILE_WIDTH } from './_constants';
 
 
-const Card: FC<TileProps & Omit<CardProps, 'component'>> = ({ isDragging, transform, transition, ...props }) => <MuiCard {...props} />;
-const AnchorCard: FC<TileProps & Omit<CardProps<'a', { component: 'a' }>, 'component'>> = ({
-    isDragging,
-    transform,
-    transition,
-    ...props
-}) => <MuiCard {...props} component="a" />;
 interface TileProps {
     isDragging: boolean;
     transform?: string;
@@ -31,5 +24,9 @@ const styles = ({ isDragging, transform, transition }: TileProps & MUIStyledComm
     zIndex: isDragging ? 1 : undefined
 });
 
-export const Tile = styled(Card)<TileProps>(styles);
-export const AnchorTile = styled(AnchorCard)<TileProps>(styles);
+// `styled` disallows `component` overriding :(
+// see https://mui.com/material-ui/guides/typescript/#complications-with-the-component-prop
+export const Tile = styled<OverridableComponent<CardTypeMap<{ component?: 'a' | 'div' }, 'a' | 'div'>>>(
+    MuiCard,
+    { shouldForwardProp: prop => !['theme', 'isDragging', 'transform', 'transition'].includes(prop) }
+)<TileProps>(styles);

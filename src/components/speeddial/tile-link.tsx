@@ -11,7 +11,7 @@ import type { SpeeddialLink } from '@@data/speeddial/slice';
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 
 import { TILE_CONTENT_HEIGHT } from './components/_constants';
-import { AnchorTile } from './components/tile';
+import { Tile } from './components/tile';
 import { useContextMenu } from './hooks/use-context-menu';
 import { useTypedSortable } from './hooks/use-typed-sortable';
 
@@ -62,10 +62,11 @@ export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
 
     return (
         <>
-            <AnchorTile
+            <Tile
                 {...contextMenu.triggerProps}
                 {...attributes}
                 {...listeners}
+                component="a"
                 ref={setNodeRef}
                 href={tile.url}
                 variant="outlined"
@@ -96,7 +97,7 @@ export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
                 <CardContent sx={{ 'paddingY': 0, ':last-child': { paddingBottom: 1 } }}>
                     <Typography fontSize={13} textAlign="center">{tile.name}</Typography>
                 </CardContent>
-            </AnchorTile>
+            </Tile>
             {contextMenu.menu}
         </>
     );
