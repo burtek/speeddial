@@ -1993,6 +1993,11 @@
   resolved "https://registry.yarnpkg.com/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz#b6725d5f4af24ace33b36fafd295136e75509f43"
   integrity sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==
 
+"@types/web-app-manifest@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/web-app-manifest/-/web-app-manifest-1.0.3.tgz#028f59aa6d6b3f8ceb43592ea739f3406aab1ed2"
+  integrity sha512-5hnj/fS2dsexvLXuTE2wxbacHMsUmaMCMa0Fphm7QL2yQLj1iePsnjfazeg4js2UI7nAzosUJxBIDb3i7C44jw==
+
 "@types/yargs-parser@*":
   version "21.0.0"
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-21.0.0.tgz#0c60e537fa790f5f9472ed2776c2b71ec117351b"
@@ -2141,6 +2146,11 @@
   version "6.7.2"
   resolved "https://registry.yarnpkg.com/@vercel/build-utils/-/build-utils-6.7.2.tgz#d2b7acbc552b7fb78cfd8600d1b34612a71a7099"
   integrity sha512-STSWs66rxX5pVKkhsYNeLx/Vlxjwe+dhy6PfXgBEJua7FXbWDjXjUyjzEyk63yUWysUflEBtLW9ckS/2V0QCZw==
+
+"@vercel/edge@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@vercel/edge/-/edge-0.3.4.tgz#4b88bc202e1ba3b70096b588219b57fe82c4a5de"
+  integrity sha512-dFU+yAUDQRwpuRGxRDlEO1LMq0y1LGsBgkyryQWe4w15/Fy2/lCnpvdIoAhHl3QvIGAxCLHzwRHsqfLRdpxgJQ==
 
 "@vercel/error-utils@1.0.8":
   version "1.0.8"

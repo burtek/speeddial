@@ -26,6 +26,7 @@
       "@@components/*": ["src/components/*"],
       "@@config/*": ["config/*"],
       "@@data/*": ["src/data/*"],
+      "@@shared-utils/*": ["shared-utils/*"],
       "@@locales/*": ["public/locales/*"],
     }
   },
@@ -33,6 +34,7 @@
     "api",
     "config",
     "src",
-    "*.config.ts"
+    "*.config.ts",
+    "shared-utils"
   ]
 }

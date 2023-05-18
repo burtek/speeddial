@@ -56,17 +56,9 @@ export default defineConfig({
             /* eslint-enable @typescript-eslint/naming-convention */
             workbox: {
                 globPatterns: [
-                    // '**/*.{js,css,html,ico,png,svg,woff,woff2}',
-                    'locales/*/translation.json'
+                    '**/*.{js,css,html,ico,png,svg,woff,woff2}',
+                    '**/locales/**/translation.json'
                 ]
-                // FIXME: was blocking /api path
-                // runtimeCaching: [{
-                //     urlPattern: ({ url, sameOrigin, request }) => sameOrigin && !url.pathname.startsWith('/api') && request.,
-                //     handler: 'NetworkFirst'
-                // }, {
-                //     urlPattern: ({ url, sameOrigin, request }) => request.,
-                //     handler: 'NetworkFirst'
-                // }]
             }
         })
     ],
