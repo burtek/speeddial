@@ -10,6 +10,7 @@ import { getGroupEditId, groupAdapterSelectors } from '@@data/speeddial/selector
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 
 import { useDraft } from './hooks/use-draft';
+import { useFormHandlers } from './hooks/use-form-handlers';
 
 
 export const GroupEditDialog: FC = () => {
@@ -29,9 +30,11 @@ export const GroupEditDialog: FC = () => {
         }
     }, [dispatch, draft.value]);
 
+    const formHandlers = useFormHandlers({ cancel: onCloseWithoutSave, submit: onSave });
+
     return (
         <Dialog open={Boolean(tile)} onClose={onCloseWithoutSave}>
-            <DialogContent>
+            <DialogContent {...formHandlers}>
                 <TextField
                     label={t('forms.fields.name')}
                     {...draft.inputProps('name')}

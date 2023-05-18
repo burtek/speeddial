@@ -13,6 +13,7 @@ import { actions as speeddialActions } from '@@data/speeddial/slice';
 
 import { useDraft } from './hooks/use-draft';
 import { useFetchImageForUrl } from './hooks/use-fetch-image';
+import { useFormHandlers } from './hooks/use-form-handlers';
 
 
 export const PreviewImage = styled('img')(({ theme }) => ({
@@ -76,9 +77,12 @@ export const LinkEditDialog: FC = () => {
         }
     }, [dispatch, draft.value]);
 
+    const formHandlers = useFormHandlers({ cancel: onCloseWithoutSave, submit: onSave });
+
     return (
         <Dialog open={Boolean(tile)} onClose={onCloseWithoutSave}>
             <DialogContent
+                {...formHandlers}
                 sx={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 30%',
