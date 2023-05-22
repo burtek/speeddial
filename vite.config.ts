@@ -15,8 +15,8 @@ export default defineConfig({
             include: './dist',
             authToken: process.env.SENTRY_AUTH_TOKEN
         }),
-        viteReact(),
         viteTsconfigPaths(),
+        viteReact(),
         vitePWA({
             registerType: 'autoUpdate',
             devOptions: { enabled: true },
