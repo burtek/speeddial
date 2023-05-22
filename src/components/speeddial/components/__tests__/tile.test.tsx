@@ -1,18 +1,18 @@
 import { render } from '@@config/test-utils';
 
-import { AnchorTile, Tile } from '../tile';
+import { Tile } from '../tile';
 
 
 describe('sppeddial/componnets/tile', () => {
     describe.each([
-        { type: 'tile', component: Tile },
-        { type: 'achor tile', component: AnchorTile }
-    ])('$type', ({ component: Component }) => {
+        { type: 'tile', component: 'div' as const },
+        { type: 'achor tile', component: 'a' as const }
+    ])('$type', ({ component }) => {
         it.each([
             { isDragging: false },
             { isDragging: true }
         ])('should match snapshot with isDragging=$isDragging', ({ isDragging }) => {
-            const { container } = render(<Component isDragging={isDragging}><div>Some content</div></Component>);
+            const { container } = render(<Tile component={component} isDragging={isDragging}><div>Some content</div></Tile>);
 
             expect(container).toMatchSnapshot();
         });

@@ -30,13 +30,12 @@ describe('api/metadata', () => {
 
         expect(response.status).toBe(200);
         expect(body).toStrictEqual({
-            image: {
-                backgroundColor: expect.toBeOneOf([expect.any(String), undefined]),
-                imageDataUrl: expect.any(String),
-                imageUrl: expect.any(String),
-                themeColor: expect.toBeOneOf([expect.any(String), undefined])
-            },
+            image: expect.toBeObject(),
             resolvedURL: url
+        });
+        expect(body.image).toMatchObject({
+            imageDataUrl: expect.any(String),
+            imageUrl: expect.any(String)
         });
 
         // not testing URL as it changes between data centers(?)

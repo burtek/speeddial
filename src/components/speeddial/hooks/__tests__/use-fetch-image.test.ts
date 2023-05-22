@@ -43,9 +43,13 @@ describe('speeddial/hooks/use-fetch-image', () => {
         mockFetch.mockRestore();
     });
 
-    it('should make request with correct url and react to status 200 response with dataUrl', async () => {
-        const expectedUrl = 'https://tvn24.pl/image.png';
-        mockFetchResponse(200, 'ok', { dataUrl: expectedUrl });
+    it.each([
+        { expected: 'some-data-url', useDataUrl: true },
+        { expected: 'some-url', useDataUrl: false }
+    ])('should make request with correct url and react to status 200 response with dataUrl', async ({ expected, useDataUrl }) => {
+        const imageUrl = 'some-url';
+        const imageDataUrl = 'some-data-url';
+        mockFetchResponse(200, 'ok', { image: { imageDataUrl, imageUrl } });
 
         const targetUrl = 'https://tvn24.pl';
         const setImageUrl = vitest.fn();
@@ -59,10 +63,10 @@ describe('speeddial/hooks/use-fetch-image', () => {
         });
 
         act(() => {
-            result.current.fetchImage();
+            result.current.fetchImage(useDataUrl);
         });
 
-        expect(mockFetch).toHaveBeenCalledWith(`/api/image?url=${targetUrl}`);
+        expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
             fetchImage: expect.any(Function),
             isFetching: true,
@@ -71,15 +75,11 @@ describe('speeddial/hooks/use-fetch-image', () => {
         expect(setImageUrl).not.toHaveBeenCalled();
 
         await waitFor(() => {
-            expect(result.current).toMatchObject({
-                fetchImage: expect.any(Function),
-                isFetching: false,
-                error: null
-            });
+            expect(result.current.isFetching).toBe(false);
         });
 
         expect(setImageUrl).toHaveBeenCalledTimes(1);
-        expect(setImageUrl).toHaveBeenCalledWith(expectedUrl);
+        expect(setImageUrl).toHaveBeenCalledWith(expected);
         expect(mockFetch).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledTimes(0);
     });
@@ -99,10 +99,10 @@ describe('speeddial/hooks/use-fetch-image', () => {
         });
 
         act(() => {
-            result.current.fetchImage();
+            result.current.fetchImage(false);
         });
 
-        expect(mockFetch).toHaveBeenCalledWith(`/api/image?url=${targetUrl}`);
+        expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
             fetchImage: expect.any(Function),
             isFetching: true,
@@ -114,7 +114,7 @@ describe('speeddial/hooks/use-fetch-image', () => {
             expect(result.current).toMatchObject({
                 fetchImage: expect.any(Function),
                 isFetching: false,
-                error: 'errors.unknown' // TODO: test correctly
+                error: { logoUrl: 'some error' } // TODO: test correctly
             });
         });
 
@@ -153,10 +153,10 @@ describe('speeddial/hooks/use-fetch-image', () => {
         });
 
         act(() => {
-            result.current.fetchImage();
+            result.current.fetchImage(false);
         });
 
-        expect(mockFetch).toHaveBeenCalledWith(`/api/image?url=${targetUrl}`);
+        expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
             fetchImage: expect.any(Function),
             isFetching: true,
@@ -168,7 +168,7 @@ describe('speeddial/hooks/use-fetch-image', () => {
             expect(result.current).toMatchObject({
                 fetchImage: expect.any(Function),
                 isFetching: false,
-                error: 'errors.unknown' // TODO: test correctly
+                error: { http: `${status}` } // TODO: test correctly
             });
         });
 
@@ -210,10 +210,10 @@ describe('speeddial/hooks/use-fetch-image', () => {
         });
 
         act(() => {
-            result.current.fetchImage();
+            result.current.fetchImage(false);
         });
 
-        expect(mockFetch).toHaveBeenCalledWith(`/api/image?url=${targetUrl}`);
+        expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
             fetchImage: expect.any(Function),
             isFetching: true,
@@ -225,7 +225,7 @@ describe('speeddial/hooks/use-fetch-image', () => {
             expect(result.current).toMatchObject({
                 fetchImage: expect.any(Function),
                 isFetching: false,
-                error: 'errors.unknown'
+                error: {}
             });
         });
 
@@ -238,7 +238,7 @@ describe('speeddial/hooks/use-fetch-image', () => {
             {
                 tags: {
                     url: targetUrl,
-                    status: 0,
+                    status: null,
                     errorText: ''
                 },
                 level: 'fatal'

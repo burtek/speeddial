@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`speeddial/hooks/use-context-menu > rendering > cancel option > should return to main menu from 'confirmation menu' > suboptions 1`] = `
 .emotion-0 {
@@ -39,15 +39,9 @@ exports[`speeddial/hooks/use-context-menu > rendering > cancel option > should r
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
   max-height: calc(100% - 96px);
   -webkit-overflow-scrolling: touch;
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.87);
-  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 4px;
-  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
   position: absolute;
   overflow-y: auto;
   overflow-x: hidden;
@@ -397,7 +391,7 @@ exports[`speeddial/hooks/use-context-menu > rendering > cancel option > should r
       tabindex="0"
     />
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiPaper-root MuiMenu-paper MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper emotion-2"
+      class="MuiPaper-root MuiMenu-paper MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper emotion-2"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 232ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 155ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
       tabindex="-1"
     >
@@ -475,15 +469,9 @@ exports[`speeddial/hooks/use-context-menu > rendering > cancel option > should r
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
   max-height: calc(100% - 96px);
   -webkit-overflow-scrolling: touch;
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.87);
-  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 4px;
-  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
   position: absolute;
   overflow-y: auto;
   overflow-x: hidden;
@@ -688,7 +676,7 @@ exports[`speeddial/hooks/use-context-menu > rendering > cancel option > should r
       tabindex="0"
     />
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiPaper-root MuiMenu-paper MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper emotion-2"
+      class="MuiPaper-root MuiMenu-paper MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper emotion-2"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 232ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 155ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
       tabindex="-1"
     >
@@ -808,15 +796,9 @@ exports[`speeddial/hooks/use-context-menu > rendering > should open menu on cont
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
   max-height: calc(100% - 96px);
   -webkit-overflow-scrolling: touch;
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.87);
-  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 4px;
-  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
   position: absolute;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1021,7 +1003,7 @@ exports[`speeddial/hooks/use-context-menu > rendering > should open menu on cont
       tabindex="0"
     />
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiPaper-root MuiMenu-paper MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper emotion-2"
+      class="MuiPaper-root MuiMenu-paper MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper emotion-2"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 232ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 155ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
       tabindex="-1"
     >
@@ -1119,15 +1101,9 @@ exports[`speeddial/hooks/use-context-menu > rendering > trigger action > should 
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
   max-height: calc(100% - 96px);
   -webkit-overflow-scrolling: touch;
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.87);
-  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 4px;
-  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
   position: absolute;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1477,7 +1453,7 @@ exports[`speeddial/hooks/use-context-menu > rendering > trigger action > should 
       tabindex="0"
     />
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiPaper-root MuiMenu-paper MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper emotion-2"
+      class="MuiPaper-root MuiMenu-paper MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper emotion-2"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 232ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 155ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
       tabindex="-1"
     >
@@ -1555,15 +1531,9 @@ exports[`speeddial/hooks/use-context-menu > rendering > trigger action > should 
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
   max-height: calc(100% - 96px);
   -webkit-overflow-scrolling: touch;
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.87);
-  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 4px;
-  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
   position: absolute;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1768,7 +1738,7 @@ exports[`speeddial/hooks/use-context-menu > rendering > trigger action > should 
       tabindex="0"
     />
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiPaper-root MuiMenu-paper MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper emotion-2"
+      class="MuiPaper-root MuiMenu-paper MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper emotion-2"
       style="opacity: 1; transform: scale(1, 1); transition: opacity 232ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 155ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
       tabindex="-1"
     >

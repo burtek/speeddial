@@ -3,8 +3,7 @@ import { captureException as sentryCaptureError } from '@sentry/react';
 import type { CustomTypeOptions } from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
 
-import type { ImageResponseData } from '@@api/metadata/_utils';
-import { HttpStatusCodes } from '@@shared-utils/http-codes';
+import type { ImageResponseData } from '@@api/metadata/_types';
 
 
 function capture(
@@ -52,8 +51,8 @@ export const useFetchImageForUrl = (url: string, setImageUrl: (url: string) => v
             const response = await fetch(`/api/metadata?url=${url}`);
             const data = await response.json() as ImageResponseData;
 
-            if (response.status === HttpStatusCodes.OK as number && 'image' in data) {
-                setImageUrl(translateToDataUrl ? data.image.imageDataUrl : data.image.imageURl);
+            if (response.status === 200 && 'image' in data) {
+                setImageUrl(translateToDataUrl ? data.image.imageDataUrl : data.image.imageUrl);
                 setError(null);
             } else if ('error' in data) {
                 capture(url, response.status, data.error, 'warning');

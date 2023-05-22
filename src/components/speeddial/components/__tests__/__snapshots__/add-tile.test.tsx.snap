@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`speeddial/add-tile > should render add icon without button for 'non-root' parent 1`] = `
 .emotion-0 {
