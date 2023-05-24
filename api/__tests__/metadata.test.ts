@@ -12,13 +12,15 @@ describe('api/metadata', () => {
     app.use('/test', (req, res) => metadata(req as VercelRequest, res as unknown as VercelResponse));
 
     it.each([
+        // { url: 'http://127.0.0.1/' },
         { url: 'https://www.facebook.com/' },
         // { url: 'https://www.wp.pl/' }, // broken
         { url: 'https://www.onet.pl/' },
         { url: 'https://tvn24.pl/' },
         { url: 'https://tvn24.pl/tvnwarszawa' },
+        // { url: 'https://twitter.com/' }, // broken
         // { url: 'https://www.google.com/' }, // no data?
-        // { url: 'https://www.yahoo.com/' }, // broken
+        { url: 'https://www.yahoo.com/' }, // broken
         { url: 'https://www.amazon.com/' },
         { url: 'https://allegro.pl/' },
         { url: 'https://www.wtp.waw.pl/' }
@@ -42,5 +44,5 @@ describe('api/metadata', () => {
         expect(body.image.backgroundColor).toMatchSnapshot('backgroundColor');
         expect(body.image.imageDataUrl).toMatchSnapshot('imageDataUrl');
         expect(body.image.themeColor).toMatchSnapshot('themeColor');
-    });
+    }, 10_000);
 });

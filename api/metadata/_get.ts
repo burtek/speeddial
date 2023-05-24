@@ -1,31 +1,37 @@
-import { get } from 'node:https';
+import { get as getHttps } from 'node:https';
+import { get as getHttp } from 'node:http';
 
-import type { WebAppManifest } from 'web-app-manifest';
-
-
-// Facebook doesn't cooperate with nodeJs fetch's hard-set 'sec-fetch-mode' header
-export function getJson(url: string | URL) {
-    const headers = {
-        'accept': 'application/json',
-        'sec-fetch-mode': 'navigate',
-        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0'
-    };
-    return new Promise<WebAppManifest>((resolve, reject) => {
-        get(url.toString(), { headers }, response => {
+export const getWithoutSecHeaders = (url: string | URL, headers?: Record<string, string>, count = 1) => new Promise<{ text: string, url: string }>((resolve, reject) => {
+    (new URL(url).protocol === 'https:' ? getHttps : getHttp)(
+        url.toString(),
+        { headers: { ...headers, Connection: 'close' } },
+        response => {
             response.setEncoding('utf8');
+
+            if (response.headers.location) {
+                if (count === 5) {
+                    reject(new Error('Exceeded redirect count'))
+                }
+                try {
+                    resolve(getWithoutSecHeaders(new URL(response.headers.location, url), headers, count+1))
+                } catch (error: unknown) {
+                    reject(error)
+                }
+                return
+            }
 
             let data = '';
             response.on('data', chunk => {
                 data += chunk;
             });
             response.on('end', () => {
-                try {
-                    const parsedData = JSON.parse(data) as WebAppManifest;
-                    resolve(parsedData);
-                } catch (error: unknown) {
-                    reject(error);
-                }
+                response.destroy()
+                console.log(data.length, response.headers)
+                resolve({
+                    text: data,
+                    url: url.toString()
+                })
             });
-        }).on('error', reject);
-    });
-}
+        }
+    ).on('error', reject);
+})

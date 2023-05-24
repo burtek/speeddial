@@ -1,17 +1,32 @@
 import type { VercelRequest } from '@vercel/node';
 import type { CheerioAPI } from 'cheerio';
 import { load } from 'cheerio';
+import type { WebAppManifest } from 'web-app-manifest';
 
-import { getJson } from './_get.js';
+import { getWithoutSecHeaders } from './_get.js';
+import { parseManifest } from './_parseManifest.js';
+import { parseWebsite } from './_parseWebsite.js';
+import { StrategiesManager } from './_stategies.js';
 import type { ImageResponseData, RequestData, TypedVercelResponse } from './_types.js';
 import { ImageFetchError, HttpStatusCodes } from './_types.js';
-import { parseSize, downloadAndEncode, sortSizesDecr, findBiggest } from './_utils.js';
 
 
+const strategiesManager = new StrategiesManager([
+    {
+        predicate: url => url.hostname.endsWith('facebook.com'),
+        getPageManifest: async (url, { headers }) => JSON.parse((await getWithoutSecHeaders(url, headers)).text) as WebAppManifest
+    },
+    {
+        predicate: url => url.hostname.endsWith('yahoo.com'),
+        // eslint-disable-next-line no-warning-comments
+        // TODO: fix yahoo to not need the cookie consent cookies
+        // eslint-disable-next-line max-len
+        getPageSourceHeaders: { cookie: 'A1=d=AQABBDCjamQCEMT_Qe8XmrOhzKB4bJWcpYAFEgABCAHna2SYZO-bb2UB9qMAAAcIKqNqZJ5JGZU&S=AQAAAirNyeQvSM_OvISzbgn4Ork' }
+    }
+]);
+
 // eslint-disable-next-line no-warning-comments
-// TODO: cache in Vercel Blob
-// eslint-disable-next-line no-warning-comments
-// TODO: secure against misuse
+// TODO: cache in Vercel Blob, secure against misuse
 export default async function handler(
     req: VercelRequest & { query?: RequestData },
     res: TypedVercelResponse<ImageResponseData>
@@ -32,79 +47,54 @@ export default async function handler(
     }
     console.log('Processing url %s', url.href);
 
+    const strategy = strategiesManager.getStrategy(url);
+
     let $: CheerioAPI;
     let loadedUrl: string;
     try {
-        const page = await fetch(url, {
-            headers: {
-                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-                'Sec-Fetch-Dest': 'document',
-                'Sec-Fetch-Mode': 'navigate',
-                'Sec-Fetch-Site': 'cross-site',
-                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0'
-            }
-        });
-        const text = await page.text();
-        [loadedUrl, $] = [page.url, load(text)];
+        let page: string;
+        ({ page, url: loadedUrl } = await strategy.getPageSource(url));
+        $ = load(page);
     } catch (error: unknown) {
-        console.log('Error loading cheerio', error);
+        console.log('Error loading data to cheerio', error);
         res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ error: (error as Error | undefined)?.message ?? error as string });
         return;
     }
 
-    const manifestHref = $('link[rel="manifest"]').attr('href');
-    const manifestUrl = manifestHref ? new URL(manifestHref, loadedUrl) : null;
-    if (manifestUrl) {
+    const parsed = parseWebsite($, loadedUrl);
+
+    if (parsed.manifestURL) {
         try {
-            const { background_color: backgroundColor, icons, theme_color: themeColor } = await getJson(manifestUrl);
+            const manifest = parseManifest(await strategy.getPageManifest(parsed.manifestURL), parsed.manifestURL);
 
-            if (Array.isArray(icons) && icons.length > 0) {
-                const iconUrl = icons.find(icon => icon.sizes === 'any' || !icon.sizes)?.src ?? [...icons].sort((a, b) => {
-                    const [[largestASize], [largestBSize]] = [a.sizes as string, b.sizes as string].map(x => x.split(' ').map(parseSize));
-
-                    return sortSizesDecr(largestASize, largestBSize);
-                })[0].src;
-
-                const iconFullUrl = new URL(iconUrl, manifestUrl);
+            if (manifest) {
                 res.status(HttpStatusCodes.OK).json({
                     image: {
-                        backgroundColor,
-                        imageUrl: iconFullUrl.href,
-                        imageDataUrl: await downloadAndEncode(iconFullUrl),
-                        themeColor
+                        backgroundColor: manifest.backgroundColor,
+                        imageUrl: manifest.icon,
+                        themeColor: manifest.themeColor
                     },
                     resolvedURL: loadedUrl
                 });
                 return;
             }
-            console.log('Manifest does not contain icons');
         } catch (error: unknown) {
             console.error('Error loading icons from manifest', error);
         }
     }
 
     try {
-        const urls = [
-            findBiggest($('link[rel="apple-touch-icon"]'), 'href'), // Apple Touch Icon
-            $('meta[name="msapplication-TileImage"]').attr('content'), // ms TileImage
-            $('meta[property="og:image"]').attr('content'), // OpenGraph (facebook/twitter)
-            findBiggest($('link[rel="shortcut icon"], link[rel="icon"]'), 'href') // favicon
-        ];
-        const found = urls.find(Boolean);
-
-        if (!found) {
+        if (!parsed.imageUrl) {
             console.log('No image found');
             res.status(HttpStatusCodes.NOT_FOUND).json({ error: ImageFetchError.NO_IMAGE });
             return;
         }
 
-        const imageUrl = new URL(found, loadedUrl);
+        const imageUrl = new URL(parsed.imageUrl, loadedUrl);
         res.status(HttpStatusCodes.OK).json({
             image: {
-                // backgroundColor: background_color,
                 imageUrl: imageUrl.href,
-                imageDataUrl: await downloadAndEncode(imageUrl)
-                // themeColor: theme_color
+                themeColor: parsed.themeColor
             },
             resolvedURL: loadedUrl
         });

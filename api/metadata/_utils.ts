@@ -19,19 +19,20 @@ export function sortSizesDecr(size1: string | Size, size2: string | Size) {
     return s2.w * s2.h - s1.w * s1.h;
 }
 
-export async function downloadAndEncode(url: URL) {
-    const imageResp = await fetch(url);
-    const image = Buffer.from(await imageResp.arrayBuffer()).toString('base64');
-    return `data:${imageResp.headers.get('content-type')};base64,${image}`;
-}
+// not used for now
+// export async function downloadAndEncode(url: string | URL) {
+//     const imageResp = await fetch(url);
+//     const image = Buffer.from(await imageResp.arrayBuffer()).toString('base64');
+//     return `data:${imageResp.headers.get('content-type')};base64,${image}`;
+// }
 
 export function findBiggest($: Cheerio<import('domhandler').Element>, attribute: string) {
     if ($.length === 0) {
         return null;
     }
     if ($.length === 1) {
-        return $.attr(attribute);
+        return $.attr(attribute) ?? null;
     }
 
-    return $.toArray().sort((a, b) => sortSizesDecr(a.attribs.sizes, b.attribs.sizes))[0].attribs.href;
+    return $.toArray().sort((a, b) => sortSizesDecr(a.attribs.sizes, b.attribs.sizes))[0].attribs[attribute] || null;
 }

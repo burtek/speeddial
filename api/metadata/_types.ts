@@ -30,7 +30,6 @@ export const enum ImageFetchError {
 export type ImageResponseData = {
     image: {
         backgroundColor?: string;
-        imageDataUrl: string;
         imageUrl: string;
         themeColor?: string;
     };
