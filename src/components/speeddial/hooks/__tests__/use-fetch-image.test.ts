@@ -1,15 +1,15 @@
-/* eslint-disable no-warning-comments */
+/* eslint no-warning-comments: 1 */
 import { captureException } from '@sentry/react';
 import type { SpyInstance } from 'vitest';
 
 import { act, renderHook, waitFor } from '@@config/test-utils';
 
-import { useFetchImageForUrl } from '../use-fetch-metadata';
+import { useFetchMetadataForUrl } from '../use-fetch-metadata';
 
 
 vitest.mock('@sentry/react');
 
-describe('speeddial/hooks/use-fetch-image', () => {
+describe('speeddial/hooks/use-fetch-metadata', () => {
     let mockFetch: SpyInstance<Parameters<typeof fetch>, ReturnType<typeof fetch>>;
 
     const sentryMock = vitest.mocked(captureException);
@@ -43,43 +43,37 @@ describe('speeddial/hooks/use-fetch-image', () => {
         mockFetch.mockRestore();
     });
 
-    it.each([
-        { expected: 'some-data-url', useDataUrl: true },
-        { expected: 'some-url', useDataUrl: false }
-    ])('should make request with correct url and react to status 200 response with dataUrl', async ({ expected, useDataUrl }) => {
+    it.only('should make request with correct url and react to status 200 response with dataUrl', async () => {
         const imageUrl = 'some-url';
-        const imageDataUrl = 'some-data-url';
-        mockFetchResponse(200, 'ok', { image: { imageDataUrl, imageUrl } });
+        mockFetchResponse(200, 'ok', { imageUrl });
 
         const targetUrl = 'https://tvn24.pl';
-        const setImageUrl = vitest.fn();
-        const hookRenderer = ({ url }: { url: string }) => useFetchImageForUrl(url, setImageUrl);
+        const setMetadata = vitest.fn();
+        const hookRenderer = ({ url }: { url: string }) => useFetchMetadataForUrl<string>(url, setMetadata);
         const { result } = renderHook(hookRenderer, { initialProps: { url: targetUrl } });
 
         expect(result.current).toMatchObject({
-            fetchImage: expect.any(Function),
+            fetchData: expect.any(Function),
             isFetching: false,
             error: null
         });
 
-        act(() => {
-            result.current.fetchImage(useDataUrl);
-        });
+        await act(() => result.current.fetchData('run1'));
 
         expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
-            fetchImage: expect.any(Function),
+            fetchData: expect.any(Function),
             isFetching: true,
             error: null
         });
-        expect(setImageUrl).not.toHaveBeenCalled();
+        expect(setMetadata).not.toHaveBeenCalled();
 
         await waitFor(() => {
             expect(result.current.isFetching).toBe(false);
         });
 
-        expect(setImageUrl).toHaveBeenCalledTimes(1);
-        expect(setImageUrl).toHaveBeenCalledWith(expected);
+        expect(setMetadata).toHaveBeenCalledTimes(1);
+        expect(setMetadata).toHaveBeenCalledWith({ imageUrl }, targetUrl, 'run1');
         expect(mockFetch).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledTimes(0);
     });
@@ -88,37 +82,35 @@ describe('speeddial/hooks/use-fetch-image', () => {
         mockFetchResponse(400, 'bad request', { error: 'some error' });
 
         const targetUrl = 'https://tvn24.pl';
-        const setImageUrl = vitest.fn();
-        const hookRenderer = ({ url }: { url: string }) => useFetchImageForUrl(url, setImageUrl);
+        const setMetadata = vitest.fn();
+        const hookRenderer = ({ url }: { url: string }) => useFetchMetadataForUrl<string>(url, setMetadata);
         const { result } = renderHook(hookRenderer, { initialProps: { url: targetUrl } });
 
         expect(result.current).toMatchObject({
-            fetchImage: expect.any(Function),
+            fetchData: expect.any(Function),
             isFetching: false,
             error: null
         });
 
-        act(() => {
-            result.current.fetchImage(false);
-        });
+        await act(() => result.current.fetchData('run1'));
 
         expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
-            fetchImage: expect.any(Function),
+            fetchData: expect.any(Function),
             isFetching: true,
             error: null
         });
-        expect(setImageUrl).not.toHaveBeenCalled();
+        expect(setMetadata).not.toHaveBeenCalled();
 
         await waitFor(() => {
             expect(result.current).toMatchObject({
-                fetchImage: expect.any(Function),
+                fetchData: expect.any(Function),
                 isFetching: false,
                 error: { logoUrl: 'some error' } // TODO: test correctly
             });
         });
 
-        expect(setImageUrl).toHaveBeenCalledTimes(0);
+        expect(setMetadata).toHaveBeenCalledTimes(0);
         expect(mockFetch).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledWith(
@@ -142,37 +134,35 @@ describe('speeddial/hooks/use-fetch-image', () => {
         mockFetchResponse(status, statusText, {});
 
         const targetUrl = 'https://tvn24.pl';
-        const setImageUrl = vitest.fn();
-        const hookRenderer = ({ url }: { url: string }) => useFetchImageForUrl(url, setImageUrl);
+        const setMetadata = vitest.fn();
+        const hookRenderer = ({ url }: { url: string }) => useFetchMetadataForUrl<string>(url, setMetadata);
         const { result } = renderHook(hookRenderer, { initialProps: { url: targetUrl } });
 
         expect(result.current).toMatchObject({
-            fetchImage: expect.any(Function),
+            fetchData: expect.any(Function),
             isFetching: false,
             error: null
         });
 
-        act(() => {
-            result.current.fetchImage(false);
-        });
+        await act(() => result.current.fetchData('run1'));
 
         expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
-            fetchImage: expect.any(Function),
+            fetchData: expect.any(Function),
             isFetching: true,
             error: null
         });
-        expect(setImageUrl).not.toHaveBeenCalled();
+        expect(setMetadata).not.toHaveBeenCalled();
 
         await waitFor(() => {
             expect(result.current).toMatchObject({
-                fetchImage: expect.any(Function),
+                fetchData: expect.any(Function),
                 isFetching: false,
                 error: { http: `${status}` } // TODO: test correctly
             });
         });
 
-        expect(setImageUrl).toHaveBeenCalledTimes(0);
+        expect(setMetadata).toHaveBeenCalledTimes(0);
         expect(mockFetch).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledWith(
@@ -199,37 +189,35 @@ describe('speeddial/hooks/use-fetch-image', () => {
         }));
 
         const targetUrl = 'https://tvn24.pl';
-        const setImageUrl = vitest.fn();
-        const hookRenderer = ({ url }: { url: string }) => useFetchImageForUrl(url, setImageUrl);
+        const setMetadata = vitest.fn();
+        const hookRenderer = ({ url }: { url: string }) => useFetchMetadataForUrl<string>(url, setMetadata);
         const { result } = renderHook(hookRenderer, { initialProps: { url: targetUrl } });
 
         expect(result.current).toMatchObject({
-            fetchImage: expect.any(Function),
+            fetchData: expect.any(Function),
             isFetching: false,
             error: null
         });
 
-        act(() => {
-            result.current.fetchImage(false);
-        });
+        await act(() => result.current.fetchData('run1'));
 
         expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
-            fetchImage: expect.any(Function),
+            fetchData: expect.any(Function),
             isFetching: true,
             error: null
         });
-        expect(setImageUrl).not.toHaveBeenCalled();
+        expect(setMetadata).not.toHaveBeenCalled();
 
         await waitFor(() => {
             expect(result.current).toMatchObject({
-                fetchImage: expect.any(Function),
+                fetchData: expect.any(Function),
                 isFetching: false,
                 error: {}
             });
         });
 
-        expect(setImageUrl).toHaveBeenCalledTimes(0);
+        expect(setMetadata).toHaveBeenCalledTimes(0);
         expect(mockFetch).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledWith(

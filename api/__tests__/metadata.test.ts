@@ -28,21 +28,16 @@ describe('api/metadata', () => {
         const response = await request(app).get(`/test?url=${url}`);
 
         const body = response.body as ImageResponseData;
-        assert('image' in body);
+        assert('imageUrl' in body);
 
         expect(response.status).toBe(200);
         expect(body).toStrictEqual({
-            image: expect.toBeObject(),
+            imageUrl: expect.any(String),
             resolvedURL: url
-        });
-        expect(body.image).toMatchObject({
-            imageDataUrl: expect.any(String),
-            imageUrl: expect.any(String)
         });
 
         // not testing URL as it changes between data centers(?)
-        expect(body.image.backgroundColor).toMatchSnapshot('backgroundColor');
-        expect(body.image.imageDataUrl).toMatchSnapshot('imageDataUrl');
-        expect(body.image.themeColor).toMatchSnapshot('themeColor');
+        expect(body.backgroundColor).toMatchSnapshot('backgroundColor');
+        expect(body.themeColor).toMatchSnapshot('themeColor');
     }, 10_000);
 });

@@ -31,15 +31,21 @@ describe('speeddial selectors', () => {
         });
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-extra-parens -- BUG: https://github.com/typescript-eslint/typescript-eslint/issues/7030
-    it.each<[title: string, editDialog: EditDialogState, selector: (state: Pick<RootState, 'speeddial'>) => unknown, expected: null | string]>([
-        ['getLinkEditId > should return null if state is null', null, getLinkEditTile, null],
-        ['getLinkEditId > should return null if state is group', { id: 'id', type: 'group' }, getLinkEditTile, null],
-        ['getLinkEditId > should return id if state is link', { id: 'id', type: 'link' }, getLinkEditTile, 'id'],
-        ['getGroupEditId > should return null if state is null', null, getGroupEditTile, null],
-        ['getGroupEditId > should return null if state is link', { id: 'id', type: 'link' }, getGroupEditTile, null],
-        ['getGroupEditId > should return id if state is group', { id: 'id', type: 'group' }, getGroupEditTile, 'id']
-    ])('%s', (_, editDialog, selector, expected) => {
+    type TestCase = [
+        title: string,
+        editDialog: EditDialogState | null,
+        selector: (state: Pick<RootState, 'speeddial'>) => unknown,
+        expected?: EditDialogState | null
+    ];
+
+    it.each<TestCase>([
+        ['getLinkEditTile > should return null if state is null', null, getLinkEditTile, null],
+        ['getLinkEditTile > should return null if state is group', { id: 'id', type: 'group', createMode: false }, getLinkEditTile, null],
+        ['getLinkEditTile > should return id if state is link', { id: 'id', type: 'link', createMode: false }, getLinkEditTile],
+        ['getGroupEditTile > should return null if state is null', null, getGroupEditTile, null],
+        ['getGroupEditTile > should return null if state is link', { id: 'id', type: 'link', createMode: false }, getGroupEditTile, null],
+        ['getGroupEditTile > should return id if state is group', { id: 'id', type: 'group', createMode: false }, getGroupEditTile]
+    ])('%s', (_, editDialog, selector, expected = editDialog) => {
         expect(selector({ ...mockState, speeddial: { ...mockState.speeddial, editDialog } })).toBe(expected);
     });
 });
