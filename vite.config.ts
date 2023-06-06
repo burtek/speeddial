@@ -7,12 +7,15 @@ import { defineConfig } from 'vitest/config';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    build: { target: ['chrome89', 'edge89', 'firefox89', 'opera75'] },
+    build: {
+        sourcemap: true,
+        target: ['chrome89', 'edge89', 'firefox89', 'opera75']
+    },
     plugins: [
         sentryVitePlugin({
             org: process.env.SENTRY_ORG,
             project: process.env.SENTRY_PROJECT,
-            include: './dist',
+            release: { name: process.env.VITE_VERCEL_GIT_COMMIT_SHA },
             authToken: process.env.SENTRY_AUTH_TOKEN
         }),
         viteTsconfigPaths(),
