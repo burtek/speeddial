@@ -5,22 +5,26 @@
     "delete_confirm": "Confirm deletion",
     "edit": "Edit",
     "moveToGroup": "Move to...",
+    "next": "Next",
     "save": "Save"
   },
   "tooltips": {
     "add_link_or_group": "Add new link or group",
     "add_link": "Add new link",
     "add_group": "Add new group",
-    "reload_pic": "Get picture from website",
+    "reload_data": "Get from website",
     "settings": "Settings"
   },
   "forms": {
     "defaultValues": {
-      "groupName": "New group"
+      "groupName": "New group",
+      "undefinedColor": "Not set"
     },
     "fields": {
+      "backgroundColor": "Background color",
       "name": "Name",
       "logoUrl": "Image URL",
+      "themeColor": "Theme color",
       "url": "URL"
     }
   },

@@ -28,10 +28,10 @@ export const enum ImageFetchError {
 }
 
 export type ImageResponseData = {
-    image: {
-        backgroundColor?: string;
-        imageUrl: string;
-        themeColor?: string;
-    };
+    backgroundColor?: string;
+    imageUrl: string;
+    themeColor?: string;
+    canonicalURL?: string;
     resolvedURL: string;
+    title: string;
 } | { error: string };

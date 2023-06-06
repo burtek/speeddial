@@ -23,6 +23,17 @@ const StyledCardContent = styled(CardContent)({
     justifyContent: 'center',
     alignItems: 'center'
 });
+const TileTitle = styled(
+    CardContent,
+    { shouldForwardProp: prop => !['theme', 'backgroundColor'].includes(prop) }
+)<{ backgroundColor?: string }>(({ backgroundColor, theme }) => ({
+    ':last-child': { padding: theme.spacing(0.75) },
+    'backgroundColor': backgroundColor ?? 'transparent',
+    'color': theme.palette.getContrastText(backgroundColor ?? '#00000000'),
+    'display': 'flex',
+    'alignItems': 'center',
+    'justifyContent': 'center'
+}));
 
 export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
     const { t } = useTranslation();
@@ -79,7 +90,11 @@ export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
                         <CardMedia
                             component="img"
                             src={tile.logoUrl}
-                            sx={{ height: TILE_CONTENT_HEIGHT, objectFit: 'scale-down' }}
+                            sx={{
+                                backgroundColor: tile.backgroundColor ?? 'transparent',
+                                height: TILE_CONTENT_HEIGHT,
+                                objectFit: 'scale-down'
+                            }}
                         />
                     )
                     : (
@@ -94,9 +109,9 @@ export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
                             </Typography>
                         </StyledCardContent>
                     )}
-                <CardContent sx={{ 'paddingY': 0, ':last-child': { paddingBottom: 1 } }}>
-                    <Typography fontSize={13} textAlign="center">{tile.name}</Typography>
-                </CardContent>
+                <TileTitle backgroundColor={tile.themeColor}>
+                    <Typography fontSize={13}>{tile.name}</Typography>
+                </TileTitle>
             </Tile>
             {contextMenu.menu}
         </>

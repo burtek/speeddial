@@ -1,7 +1,7 @@
 import type { RootState } from '..';
 
-import { getGroupEditId, getLinkEditId, getSpeeddialGroups, getSpeeddialLinks } from './selectors';
-import type { EditDialog } from './slice';
+import { getGroupEditTile, getLinkEditTile, getSpeeddialGroups, getSpeeddialLinks } from './selectors';
+import type { EditDialogState } from './slice';
 
 
 const mockState = {
@@ -32,13 +32,13 @@ describe('speeddial selectors', () => {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-extra-parens -- BUG: https://github.com/typescript-eslint/typescript-eslint/issues/7030
-    it.each<[title: string, editDialog: EditDialog, selector: (state: Pick<RootState, 'speeddial'>) => unknown, expected: null | string]>([
-        ['getLinkEditId > should return null if state is null', null, getLinkEditId, null],
-        ['getLinkEditId > should return null if state is group', { id: 'id', type: 'group' }, getLinkEditId, null],
-        ['getLinkEditId > should return id if state is link', { id: 'id', type: 'link' }, getLinkEditId, 'id'],
-        ['getGroupEditId > should return null if state is null', null, getGroupEditId, null],
-        ['getGroupEditId > should return null if state is link', { id: 'id', type: 'link' }, getGroupEditId, null],
-        ['getGroupEditId > should return id if state is group', { id: 'id', type: 'group' }, getGroupEditId, 'id']
+    it.each<[title: string, editDialog: EditDialogState, selector: (state: Pick<RootState, 'speeddial'>) => unknown, expected: null | string]>([
+        ['getLinkEditId > should return null if state is null', null, getLinkEditTile, null],
+        ['getLinkEditId > should return null if state is group', { id: 'id', type: 'group' }, getLinkEditTile, null],
+        ['getLinkEditId > should return id if state is link', { id: 'id', type: 'link' }, getLinkEditTile, 'id'],
+        ['getGroupEditId > should return null if state is null', null, getGroupEditTile, null],
+        ['getGroupEditId > should return null if state is link', { id: 'id', type: 'link' }, getGroupEditTile, null],
+        ['getGroupEditId > should return id if state is group', { id: 'id', type: 'group' }, getGroupEditTile, 'id']
     ])('%s', (_, editDialog, selector, expected) => {
         expect(selector({ ...mockState, speeddial: { ...mockState.speeddial, editDialog } })).toBe(expected);
     });

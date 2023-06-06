@@ -15,15 +15,22 @@ function createSpeeddialGroup(id = nanoid()): SpeeddialGroup {
     return { id: `group-${id}`, type: 'group', name: t('forms.defaultValues.groupName'), children: [] };
 }
 
-export type EditDialog = null | {
-    type: SpeeddialGroup['type'] | SpeeddialLink['type'];
+export type EditDialogState = {
+    type: SpeeddialTile['type'];
     id: string;
+    createMode: false;
+    parentId?: never;
+} | {
+    type: SpeeddialTile['type'];
+    id: string;
+    createMode: true;
+    parentId: string;
 };
 
 export const initialState = () => ({
     links: linksAdapter.getInitialState(),
     groups: groupsAdapter.addOne(groupsAdapter.getInitialState(), { id: ROOT_SPEEDDIAL_ID, type: 'group', name: ROOT_SPEEDDIAL_ID, children: [] }),
-    editDialog: null as EditDialog
+    editDialog: null as null | EditDialogState
 });
 
 function addChildren<T extends { children: string[] }>(state: EntityState<T>, id: string, ...children: string[]) {
@@ -58,8 +65,12 @@ export const { actions, name: sliceName, reducer } = createSlice({
         createLink(state, { payload }: PayloadAction<{ parentId: string }>) {
             const link = createSpeeddialLink();
             linksAdapter.addOne(state.links, link);
-            addChildren(state.groups, payload.parentId, link.id);
-            state.editDialog = { type: 'link', id: link.id };
+            state.editDialog = {
+                type: 'link',
+                id: link.id,
+                createMode: true,
+                parentId: payload.parentId
+            };
         },
         reorderTiles(state, { payload }: PayloadAction<{ groupId: string; from: number; to: number }>) {
             reorderChildren(state.groups, payload.groupId, payload.from, payload.to);
@@ -72,19 +83,25 @@ export const { actions, name: sliceName, reducer } = createSlice({
             }
         },
 
-        editTile(state, { payload }: PayloadAction<NonNullable<EditDialog>>) {
-            state.editDialog = payload;
+        editTile(state, { payload }: PayloadAction<Pick<SpeeddialTile, 'id' | 'type'>>) {
+            state.editDialog = { ...payload, createMode: false };
         },
         cancelEditTile(state) {
+            if (state.editDialog?.type === 'link' && state.editDialog.createMode) {
+                linksAdapter.removeOne(state.links, state.editDialog.id);
+            }
             state.editDialog = null;
         },
         saveEditGroup(state, { payload: { id, ...changes } }: PayloadAction<SpeeddialGroup>) {
             state.editDialog = null;
             groupsAdapter.updateOne(state.groups, { id, changes });
         },
-        saveEditLink(state, { payload: { id, ...changes } }: PayloadAction<SpeeddialLink>) {
+        saveEditLink(state, { payload }: PayloadAction<SpeeddialLink>) {
+            linksAdapter.upsertOne(state.links, payload);
+            if (state.editDialog?.type === 'link' && state.editDialog.createMode) {
+                addChildren(state.groups, state.editDialog.parentId, payload.id);
+            }
             state.editDialog = null;
-            linksAdapter.updateOne(state.links, { id, changes });
         },
 
         renameGroup: {
@@ -97,13 +114,13 @@ export const { actions, name: sliceName, reducer } = createSlice({
         },
 
         deleteLink(state, { payload }: PayloadAction<{ id: string; parentId: string }>) {
-            linksAdapter.removeOne(state.links, payload.id);
             removeChild(state.groups, payload.parentId, payload.id);
+            linksAdapter.removeOne(state.links, payload.id);
         },
         deleteGroup(state, { payload }: PayloadAction<{ id: string }>) {
+            removeChild(state.groups, ROOT_SPEEDDIAL_ID, payload.id);
             linksAdapter.removeMany(state.links, state.groups.entities[payload.id]?.children ?? []);
             groupsAdapter.removeOne(state.groups, payload.id);
-            removeChild(state.groups, ROOT_SPEEDDIAL_ID, payload.id);
         }
     }
 });
@@ -115,6 +132,8 @@ export interface SpeeddialLink {
     name: string;
     url: string;
     logoUrl: string;
+    backgroundColor?: string;
+    themeColor?: string;
 }
 
 export interface SpeeddialGroup {
@@ -124,3 +143,5 @@ export interface SpeeddialGroup {
     name: string;
     children: string[];
 }
+
+export type SpeeddialTile = SpeeddialLink | SpeeddialGroup;

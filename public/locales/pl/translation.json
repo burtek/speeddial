@@ -5,22 +5,26 @@
     "delete_confirm": "Potwierdź usunięcie",
     "edit": "Edytuj",
     "moveToGroup": "Przenieś do...",
+    "next": "Dalej",
     "save": "Zapisz"
   },
   "tooltips": {
     "add_link_or_group": "Dodaj nowy link lub grupę",
     "add_link": "Dodaj nowy link",
     "add_group": "Dodaj nową grupę",
-    "reload_pic": "Pobierz automatycznie obraz ze strony",
+    "reload_data": "Pobierz automatycznie ze strony",
     "settings": "Ustawienia"
   },
   "forms": {
     "defaultValues": {
-      "groupName": "Nowa grupa"
+      "groupName": "Nowa grupa",
+      "undefinedColor": "Ustaw kolor"
     },
     "fields": {
+      "backgroundColor": "Kolor tła",
       "name": "Nazwa",
       "logoUrl": "Adres do obrazka",
+      "themeColor": "Kolor motywu",
       "url": "Adres"
     }
   },

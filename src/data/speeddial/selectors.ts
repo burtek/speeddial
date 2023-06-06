@@ -12,13 +12,13 @@ export const getSpeeddialGroups = createSelector(getSpeeddial, s => s.groups);
 export const getSpeeddialLinks = createSelector(getSpeeddial, s => s.links);
 
 export const getDialogEditState = createSelector(getSpeeddial, s => s.editDialog);
-export const getLinkEditId = createSelector(
+export const getLinkEditTile = createSelector(
     getDialogEditState,
-    s => (s?.type === 'link' ? s.id : null)
+    state => (state?.type === 'link' ? state : null)
 );
-export const getGroupEditId = createSelector(
+export const getGroupEditTile = createSelector(
     getDialogEditState,
-    s => (s?.type === 'group' ? s.id : null)
+    state => (state?.type === 'group' ? state : null)
 );
 
 export const groupAdapterSelectors = groupsAdapter.getSelectors(getSpeeddialGroups);

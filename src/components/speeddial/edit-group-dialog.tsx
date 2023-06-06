@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import type { RootState } from '@@data/index';
 import { useAppDispatch } from '@@data/index';
-import { getGroupEditId, groupAdapterSelectors } from '@@data/speeddial/selectors';
+import { getGroupEditTile, groupAdapterSelectors } from '@@data/speeddial/selectors';
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 
 import { useDraft } from './hooks/use-draft';
@@ -16,8 +16,8 @@ import { useFormHandlers } from './hooks/use-form-handlers';
 export const GroupEditDialog: FC = () => {
     const { t } = useTranslation();
 
-    const editId = useSelector(getGroupEditId) ?? 'non-existent';
-    const tile = useSelector((state: RootState) => groupAdapterSelectors.selectById(state, editId));
+    const editTileState = useSelector(getGroupEditTile);
+    const tile = useSelector((state: RootState) => groupAdapterSelectors.selectById(state, editTileState?.id ?? ''));
 
     const dispatch = useAppDispatch();
     const onCloseWithoutSave = useCallback(() => dispatch(speeddialActions.cancelEditTile()), [dispatch]);

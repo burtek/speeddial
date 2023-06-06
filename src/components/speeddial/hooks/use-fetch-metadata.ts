@@ -34,7 +34,18 @@ export type FetchError = {
     [T in 'http' | 'logoUrl']?: ApiError<T>;
 };
 
-export const useFetchImageForUrl = (url: string, setImageUrl: (url: string) => void) => {
+export interface WebsiteData {
+    backgroundColor?: string;
+    imageUrl: string;
+    themeColor?: string;
+    canonicalURL?: string;
+    resolvedURL: string;
+    title: string;
+}
+
+const HTTP_OK = 200;
+
+export const useFetchMetadataForUrl = <Meta>(url: string, setMetadata: (data: WebsiteData | null, url: string, meta: Meta) => void) => {
     const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState<null | FetchError>(null);
 
@@ -43,7 +54,7 @@ export const useFetchImageForUrl = (url: string, setImageUrl: (url: string) => v
         setError(null);
     }, [url]);
 
-    const fetchImage = useCallback(async (translateToDataUrl: boolean) => {
+    const fetchData = useCallback(async (meta: Meta) => {
         setIsFetching(true);
         setError(null);
 
@@ -51,14 +62,16 @@ export const useFetchImageForUrl = (url: string, setImageUrl: (url: string) => v
             const response = await fetch(`/api/metadata?url=${url}`);
             const data = await response.json() as ImageResponseData;
 
-            if (response.status === 200 && 'image' in data) {
-                setImageUrl(translateToDataUrl ? data.image.imageDataUrl : data.image.imageUrl);
+            if (response.status === HTTP_OK && 'imageUrl' in data) {
+                setMetadata(data, url, meta);
                 setError(null);
             } else if ('error' in data) {
                 capture(url, response.status, data.error, 'warning');
+                setMetadata(null, url, meta);
                 setError({ logoUrl: data.error as ApiError<'logoUrl'> });
             } else {
                 capture(url, response.status, `${response.statusText} ${JSON.stringify(data)}`, 'error');
+                setMetadata(null, url, meta);
                 setError({ http: response.status.toString() as ApiError<'http'> });
             }
         } catch (err: unknown) {
@@ -67,12 +80,10 @@ export const useFetchImageForUrl = (url: string, setImageUrl: (url: string) => v
         } finally {
             setIsFetching(false);
         }
-    }, [setImageUrl, url]);
+    }, [setMetadata, url]);
 
     return {
-        fetchImage: useCallback((translateToDataUrl: boolean) => {
-            void fetchImage(translateToDataUrl);
-        }, [fetchImage]),
+        fetchData,
         isFetching,
         error
     };

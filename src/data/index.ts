@@ -2,6 +2,7 @@ import type { StoreEnhancer } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
 import { createReduxEnhancer as createSentryReduxEnhancer } from '@sentry/react';
 import { useDispatch } from 'react-redux';
+import { createLogger } from 'redux-logger';
 import { persistStore } from 'redux-persist';
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist/es/constants';
 import type { PersistPartial } from 'redux-persist/es/persistReducer';
@@ -17,7 +18,23 @@ const sentryReduxEnhancer = createSentryReduxEnhancer() as StoreEnhancer;
 export function createStore(addEnhancers = true) {
     const store = configureStore({
         enhancers: addEnhancers ? [sentryReduxEnhancer] : [],
-        middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: { ignoredActions } }),
+        middleware: getDefaultMiddleware => {
+            let middleware = [...getDefaultMiddleware({ serializableCheck: { ignoredActions } })];
+
+            // eslint-disable-next-line no-warning-comments
+            // TODO: turn into feature flags manager
+            if (!import.meta.env.PROD || new URL(window.location.href).searchParams.has('debug')) {
+                middleware = [
+                    createLogger({
+                        collapsed: true,
+                        diff: true
+                    }),
+                    ...middleware
+                ];
+            }
+
+            return middleware;
+        },
         reducer: { config, speeddial }
     });
 

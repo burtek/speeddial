@@ -13,7 +13,7 @@ export const useDraft = <T>(object: T | undefined) => {
         setDraft(object);
     }, [object]);
 
-    const set = useCallback(<K extends StringKeys<T>>(key: K, value: string) => {
+    const set = useCallback(<K extends StringKeys<T>>(key: K, value: (string | undefined | null) & T[K]) => {
         setDraft(d => d && { ...d, [key]: value });
     }, []);
 
@@ -22,7 +22,7 @@ export const useDraft = <T>(object: T | undefined) => {
             id: key,
             value: draft?.[key] ?? '',
             onChange: (event: ChangeEvent<HTMLInputElement>) => {
-                set(key, event.target.value);
+                set(key, event.target.value as string & T[K]);
             },
             type: 'text'
         }),

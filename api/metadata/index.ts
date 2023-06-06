@@ -69,11 +69,10 @@ export default async function handler(
 
             if (manifest) {
                 res.status(HttpStatusCodes.OK).json({
-                    image: {
-                        backgroundColor: manifest.backgroundColor,
-                        imageUrl: manifest.icon,
-                        themeColor: manifest.themeColor
-                    },
+                    backgroundColor: manifest.backgroundColor,
+                    imageUrl: manifest.icon,
+                    themeColor: manifest.themeColor,
+                    title: $('title').text(),
                     resolvedURL: loadedUrl
                 });
                 return;
@@ -92,10 +91,9 @@ export default async function handler(
 
         const imageUrl = new URL(parsed.imageUrl, loadedUrl);
         res.status(HttpStatusCodes.OK).json({
-            image: {
-                imageUrl: imageUrl.href,
-                themeColor: parsed.themeColor
-            },
+            imageUrl: imageUrl.href,
+            themeColor: parsed.themeColor,
+            title: $('title').text(),
             resolvedURL: loadedUrl
         });
     } catch (error: unknown) {

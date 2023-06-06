@@ -4,7 +4,7 @@ import type { SpyInstance } from 'vitest';
 
 import { act, renderHook, waitFor } from '@@config/test-utils';
 
-import { useFetchImageForUrl } from '../use-fetch-image';
+import { useFetchImageForUrl } from '../use-fetch-metadata';
 
 
 vitest.mock('@sentry/react');
