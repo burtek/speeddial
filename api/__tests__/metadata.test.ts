@@ -12,7 +12,7 @@ describe('api/metadata', () => {
     app.use('/test', (req, res) => metadata(req as VercelRequest, res as unknown as VercelResponse));
 
     it.each([
-        // { url: 'http://127.0.0.1/' },
+        { url: 'https://www.reddit.com/', expectedUrl: expect.stringMatching(/^https:\/\/www\.reddit\.com\/(\?.*)?$/i) },
         { url: 'https://www.facebook.com/' },
         // { url: 'https://www.wp.pl/' }, // broken
         { url: 'https://www.onet.pl/' },
@@ -23,21 +23,24 @@ describe('api/metadata', () => {
         { url: 'https://www.yahoo.com/' }, // broken
         { url: 'https://www.amazon.com/' },
         { url: 'https://allegro.pl/' },
-        { url: 'https://www.wtp.waw.pl/' }
-    ])('snapshots for $url', async ({ url }) => {
+        { url: 'https://www.wtp.waw.pl/' },
+        { url: 'https://www.x-kom.pl/' },
+        { url: 'https://online.mbank.pl/pl/Login' }
+    ])('snapshots for $url', async ({ url, expectedUrl = url }) => {
         const response = await request(app).get(`/test?url=${url}`);
 
         const body = response.body as ImageResponseData;
         assert('imageUrl' in body);
 
         expect(response.status).toBe(200);
-        expect(body).toStrictEqual({
-            imageUrl: expect.any(String),
-            resolvedURL: url
-        });
-
-        // not testing URL as it changes between data centers(?)
+        expect(body.imageUrl).toBeString();
+        expect(body.resolvedURL).toStrictEqual(expectedUrl);
         expect(body.backgroundColor).toMatchSnapshot('backgroundColor');
         expect(body.themeColor).toMatchSnapshot('themeColor');
+
+        const imageResp = await fetch(body.imageUrl);
+        const image = Buffer.from(await imageResp.arrayBuffer()).toString('base64');
+
+        expect(image).toMatchSnapshot();
     }, 10_000);
 });

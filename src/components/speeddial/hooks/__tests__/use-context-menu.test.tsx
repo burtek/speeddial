@@ -193,27 +193,27 @@ describe('speeddial/hooks/use-context-menu', () => {
             ])('should return to main menu from $where', async ({ clickOn, waitForAppear, action }) => {
                 const user = userEvent.setup();
 
-                const { queryByText, queryByRole } = render(<Component />);
+                const { getByText, queryByText, queryByRole } = render(<Component />);
 
                 await user.pointer([
-                    { target: queryByText('Trigger') as HTMLDivElement, keys: '[MouseRight]' }
+                    { target: getByText('Trigger'), keys: '[MouseRight]' }
                 ]);
 
                 await waitFor(() => {
                     expect(queryByRole('presentation')).toBeInTheDocument();
                 });
 
-                await user.click(queryByText(clickOn) as HTMLElement);
+                await user.click(getByText(clickOn));
 
                 await waitFor(() => {
-                    expect(queryByText(waitForAppear)).toBeInTheDocument();
+                    expect(getByText(waitForAppear)).toBeInTheDocument();
                 });
 
                 expect(queryByRole('presentation')).toBeInTheDocument();
                 expect(action).not.toHaveBeenCalled();
                 expect(document.body).toMatchSnapshot('suboptions');
 
-                await user.click(queryByText('actions.cancel') as HTMLElement);
+                await user.click(getByText('actions.cancel'));
 
                 await waitFor(() => {
                     expect(queryByText(waitForAppear)).not.toBeInTheDocument();

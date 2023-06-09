@@ -76,6 +76,7 @@ export const useFetchMetadataForUrl = <Meta>(url: string, setMetadata: (data: We
             }
         } catch (err: unknown) {
             capture(url, null, '', 'fatal', err as Error);
+            setMetadata(null, url, meta);
             setError({});
         } finally {
             setIsFetching(false);

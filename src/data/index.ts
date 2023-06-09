@@ -23,7 +23,7 @@ export function createStore(addEnhancers = true) {
 
             // eslint-disable-next-line no-warning-comments
             // TODO: turn into feature flags manager
-            if (!import.meta.env.PROD || new URL(window.location.href).searchParams.has('debug')) {
+            if ((import.meta.env.DEV && import.meta.env.VITE_VERCEL_ENV !== 'test') || new URL(window.location.href).searchParams.has('debug')) {
                 middleware = [
                     createLogger({
                         collapsed: true,

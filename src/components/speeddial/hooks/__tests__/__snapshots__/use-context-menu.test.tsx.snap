@@ -40,8 +40,6 @@ exports[`speeddial/hooks/use-context-menu > rendering > cancel option > should r
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
-  max-height: calc(100% - 96px);
-  -webkit-overflow-scrolling: touch;
   position: absolute;
   overflow-y: auto;
   overflow-x: hidden;
@@ -50,6 +48,8 @@ exports[`speeddial/hooks/use-context-menu > rendering > cancel option > should r
   max-width: calc(100% - 32px);
   max-height: calc(100% - 32px);
   outline: 0;
+  max-height: calc(100% - 96px);
+  -webkit-overflow-scrolling: touch;
 }
 
 .emotion-3 {
@@ -470,8 +470,6 @@ exports[`speeddial/hooks/use-context-menu > rendering > cancel option > should r
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
-  max-height: calc(100% - 96px);
-  -webkit-overflow-scrolling: touch;
   position: absolute;
   overflow-y: auto;
   overflow-x: hidden;
@@ -480,6 +478,8 @@ exports[`speeddial/hooks/use-context-menu > rendering > cancel option > should r
   max-width: calc(100% - 32px);
   max-height: calc(100% - 32px);
   outline: 0;
+  max-height: calc(100% - 96px);
+  -webkit-overflow-scrolling: touch;
 }
 
 .emotion-3 {
@@ -797,8 +797,6 @@ exports[`speeddial/hooks/use-context-menu > rendering > should open menu on cont
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
-  max-height: calc(100% - 96px);
-  -webkit-overflow-scrolling: touch;
   position: absolute;
   overflow-y: auto;
   overflow-x: hidden;
@@ -807,6 +805,8 @@ exports[`speeddial/hooks/use-context-menu > rendering > should open menu on cont
   max-width: calc(100% - 32px);
   max-height: calc(100% - 32px);
   outline: 0;
+  max-height: calc(100% - 96px);
+  -webkit-overflow-scrolling: touch;
 }
 
 .emotion-3 {
@@ -1102,8 +1102,6 @@ exports[`speeddial/hooks/use-context-menu > rendering > trigger action > should 
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
-  max-height: calc(100% - 96px);
-  -webkit-overflow-scrolling: touch;
   position: absolute;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1112,6 +1110,8 @@ exports[`speeddial/hooks/use-context-menu > rendering > trigger action > should 
   max-width: calc(100% - 32px);
   max-height: calc(100% - 32px);
   outline: 0;
+  max-height: calc(100% - 96px);
+  -webkit-overflow-scrolling: touch;
 }
 
 .emotion-3 {
@@ -1532,8 +1532,6 @@ exports[`speeddial/hooks/use-context-menu > rendering > trigger action > should 
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 4px;
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
-  max-height: calc(100% - 96px);
-  -webkit-overflow-scrolling: touch;
   position: absolute;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1542,6 +1540,8 @@ exports[`speeddial/hooks/use-context-menu > rendering > trigger action > should 
   max-width: calc(100% - 32px);
   max-height: calc(100% - 32px);
   outline: 0;
+  max-height: calc(100% - 96px);
+  -webkit-overflow-scrolling: touch;
 }
 
 .emotion-3 {

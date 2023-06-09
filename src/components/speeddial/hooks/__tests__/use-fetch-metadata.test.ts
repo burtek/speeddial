@@ -43,7 +43,7 @@ describe('speeddial/hooks/use-fetch-metadata', () => {
         mockFetch.mockRestore();
     });
 
-    it.only('should make request with correct url and react to status 200 response with dataUrl', async () => {
+    it('should make request with correct url and react to status 200 response with dataUrl', async () => {
         const imageUrl = 'some-url';
         mockFetchResponse(200, 'ok', { imageUrl });
 
@@ -58,7 +58,9 @@ describe('speeddial/hooks/use-fetch-metadata', () => {
             error: null
         });
 
-        await act(() => result.current.fetchData('run1'));
+        act(() => {
+            void result.current.fetchData('run1');
+        });
 
         expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
@@ -92,7 +94,9 @@ describe('speeddial/hooks/use-fetch-metadata', () => {
             error: null
         });
 
-        await act(() => result.current.fetchData('run1'));
+        act(() => {
+            void result.current.fetchData('run1');
+        });
 
         expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
@@ -110,7 +114,8 @@ describe('speeddial/hooks/use-fetch-metadata', () => {
             });
         });
 
-        expect(setMetadata).toHaveBeenCalledTimes(0);
+        expect(setMetadata).toHaveBeenCalledTimes(1);
+        expect(setMetadata).toHaveBeenCalledWith(null, targetUrl, 'run1');
         expect(mockFetch).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledWith(
@@ -144,7 +149,9 @@ describe('speeddial/hooks/use-fetch-metadata', () => {
             error: null
         });
 
-        await act(() => result.current.fetchData('run1'));
+        act(() => {
+            void result.current.fetchData('run1');
+        });
 
         expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
@@ -162,7 +169,8 @@ describe('speeddial/hooks/use-fetch-metadata', () => {
             });
         });
 
-        expect(setMetadata).toHaveBeenCalledTimes(0);
+        expect(setMetadata).toHaveBeenCalledTimes(1);
+        expect(setMetadata).toHaveBeenCalledWith(null, targetUrl, 'run1');
         expect(mockFetch).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledWith(
@@ -199,7 +207,9 @@ describe('speeddial/hooks/use-fetch-metadata', () => {
             error: null
         });
 
-        await act(() => result.current.fetchData('run1'));
+        act(() => {
+            void result.current.fetchData('run1');
+        });
 
         expect(mockFetch).toHaveBeenCalledWith(`/api/metadata?url=${targetUrl}`);
         expect(result.current).toMatchObject({
@@ -217,7 +227,8 @@ describe('speeddial/hooks/use-fetch-metadata', () => {
             });
         });
 
-        expect(setMetadata).toHaveBeenCalledTimes(0);
+        expect(setMetadata).toHaveBeenCalledTimes(1);
+        expect(setMetadata).toHaveBeenCalledWith(null, targetUrl, 'run1');
         expect(mockFetch).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledTimes(1);
         expect(sentryMock).toHaveBeenCalledWith(
