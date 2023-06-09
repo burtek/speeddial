@@ -1,0 +1,29 @@
+name: Deploy master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  lint:
+    name: 'Run lint'
+    uses: ./.github/workflows/run-lint.yml
+  tests:
+    name: 'Run tests'
+    uses: ./.github/workflows/run-tests.yml
+  build:
+    name: 'Run tsc'
+    uses: ./.github/workflows/run-tsc.yml
+  vercel:
+    name: 'Run vercel build'
+    needs: ['lint', 'tests', 'build']
+    uses: ./.github/workflows/run-vercel.yml
+    secrets:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    with:
+      deploy: true
+      prod: true
+      branch: ${{ github.ref_name }}

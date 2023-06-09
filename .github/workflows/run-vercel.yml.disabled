@@ -1,0 +1,58 @@
+name: Run vercel build
+
+on:
+  workflow_call:
+    inputs:
+      deploy:
+        description: 'Deploy to vercel'
+        required: false
+        type: boolean
+      prod:
+        description: 'Deploy as prod'
+        required: false
+        type: boolean
+      branch:
+        description: 'Branch being built'
+        required: true
+        type: string
+    outputs:
+      deployment-url:
+        description: "Deployment URL"
+        value: ${{ jobs.vercel.outputs.deployment-url }}
+    secrets:
+      VERCEL_ORG_ID:
+        description: 'VERCEL_ORG_ID'
+        required: true
+      VERCEL_PROJECT_ID:
+        description: 'VERCEL_PROJECT_ID'
+        required: true
+      VERCEL_TOKEN:
+        description: 'VERCEL_TOKEN'
+        required: true
+
+jobs:
+  vercel:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    outputs:
+      deployment-url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - name: Install Vercel CLI
+        run: yarn global add vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=${{ inputs.prod && 'production' || 'preview' }} --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build ${{ inputs.prod && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        id: deploy
+        if: ${{ inputs.deploy }}
+        run: echo url=$(vercel deploy --prebuilt ${{ inputs.prod && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }})
