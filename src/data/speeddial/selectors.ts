@@ -1,23 +1,24 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import type { RootState } from '..';
+
 import type { SpeeddialGroup, SpeeddialLink } from './slice';
 import { groupsAdapter, linksAdapter, ROOT_SPEEDDIAL_ID, sliceName } from './slice';
 
 
-export const getSpeeddial = (state: RootState) => state[sliceName];
+export const getSpeeddial = (state: Pick<RootState, typeof sliceName>) => state[sliceName];
 
 export const getSpeeddialGroups = createSelector(getSpeeddial, s => s.groups);
 export const getSpeeddialLinks = createSelector(getSpeeddial, s => s.links);
 
 export const getDialogEditState = createSelector(getSpeeddial, s => s.editDialog);
-export const getLinkEditId = createSelector(
+export const getLinkEditTile = createSelector(
     getDialogEditState,
-    s => (s?.type === 'link' ? s.id : null)
+    state => (state?.type === 'link' ? state : null)
 );
-export const getGroupEditId = createSelector(
+export const getGroupEditTile = createSelector(
     getDialogEditState,
-    s => (s?.type === 'group' ? s.id : null)
+    state => (state?.type === 'group' ? state : null)
 );
 
 export const groupAdapterSelectors = groupsAdapter.getSelectors(getSpeeddialGroups);

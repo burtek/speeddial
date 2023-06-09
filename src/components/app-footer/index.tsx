@@ -1,10 +1,23 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+
+/* eslint no-warning-comments: 1 */
+// TODO: env
 const AUTHOR = 'burtek';
 const AUTHOR_URL = 'https://github.com/burtek';
 const REPO_URL = 'https://github.com/burtek/speeddial';
+
+// add build time
+function getBuildDescription() {
+    switch (import.meta.env.VITE_VERCEL_ENV) {
+        case 'production':
+            return import.meta.env.VITE_VERCEL_GIT_COMMIT_SHA.substring(0, 7);
+        default:
+            return import.meta.env.VITE_VERCEL_ENV;
+    }
+}
 
 export const AppFooter: FC<{ gridArea?: string }> = ({ gridArea }) => {
     const { t } = useTranslation();
@@ -14,24 +27,24 @@ export const AppFooter: FC<{ gridArea?: string }> = ({ gridArea }) => {
             <Typography>
                 &copy;
                 {' '}
-                <a
+                <Link
                     href={AUTHOR_URL}
                     target="_blank"
                     referrerPolicy="no-referrer"
                     rel="noopener noreferrer nofollow"
                 >
                     {AUTHOR}
-                </a>
+                </Link>
                 {` ${new Date().getFullYear()} | `}
-                <a
+                <Link
                     href={REPO_URL}
                     target="_blank"
                     referrerPolicy="no-referrer"
                     rel="noopener noreferrer nofollow"
                 >
                     {t('footer.openSource')}
-                </a>
-                {` | Build ${import.meta.env.VITE_VERCEL_GIT_COMMIT_SHA}`}
+                </Link>
+                {` | ${t('footer.build')} ${getBuildDescription()}`}
             </Typography>
         </Box>
     );

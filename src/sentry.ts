@@ -1,5 +1,5 @@
-import { init as initSentry } from '@sentry/react';
-import { BrowserTracing } from '@sentry/tracing';
+import { init as initSentry, BrowserTracing } from '@sentry/react';
+
 
 if (import.meta.env.VITE_SENTRY_DSN) {
     initSentry({

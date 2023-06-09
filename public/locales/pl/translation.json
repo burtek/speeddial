@@ -1,43 +1,62 @@
 {
-    "actions": {
-        "cancel": "Anuluj",
-        "delete": "Usuń",
-        "delete_confirm": "Potwierdź usunięcie",
-        "edit": "Edytuj",
-        "moveToGroup": "Przenieś do...",
-        "save": "Zapisz",
-        "reload_pic_tooltip": "Pobierz automatycznie obraz ze strony"
+  "actions": {
+    "cancel": "Anuluj",
+    "delete": "Usuń",
+    "delete_confirm": "Potwierdź usunięcie",
+    "edit": "Edytuj",
+    "moveToGroup": "Przenieś do...",
+    "next": "Dalej",
+    "save": "Zapisz"
+  },
+  "tooltips": {
+    "add_link_or_group": "Dodaj nowy link lub grupę",
+    "add_link": "Dodaj nowy link",
+    "add_group": "Dodaj nową grupę",
+    "reload_data": "Pobierz automatycznie ze strony",
+    "settings": "Ustawienia"
+  },
+  "forms": {
+    "defaultValues": {
+      "groupName": "Nowa grupa",
+      "undefinedColor": "Ustaw kolor"
     },
     "fields": {
-        "name": "Nazwa",
-        "logoUrl": "Adres do obrazka",
-        "url": "Adres"
-    },
-    "errors": {
-        "unknown": "Wystąpił błąd. Spróbuj ponownie później",
-        "logoUrl": {
-            "Malformed url": "Adres URL jest niepoprawny",
-            "Image not found": "Na stronie nie znaleziono obrazka"
-        }
-    },
-    "search": {
-        "placeholder": "Wyszukaj w Google..."
-    },
-    "defaultValues": {
-        "groupName": "Nowa grupa"
-    },
-    "configDialog": {
-        "title": "Ustawienia",
-        "themeMode": {
-            "label": "Motyw",
-            "option": {
-                "auto": "automatyczny (systemowy)",
-                "light": "jasny",
-                "dark": "ciemny"
-            }
-        }
-    },
-    "footer": {
-        "openSource": "Ten projekt jest open-source!"
+      "backgroundColor": "Kolor tła",
+      "name": "Nazwa",
+      "logoUrl": "Adres do obrazka",
+      "themeColor": "Kolor motywu",
+      "url": "Adres"
     }
+  },
+  "errors": {
+    "adminInformed": "Administrator został poinformowany o tym błędzie i wkrótce go naprawi, o ile to możliwe",
+    "unknown": "Wystąpił błąd. Spróbuj ponownie później",
+    "http": {
+      "400": "Złe żądanie",
+      "404": "Nie znaleziono zasobu",
+      "500": "Wewnętrzny błąd serwera"
+    },
+    "logoUrl": {
+      "Malformed url": "Adres URL jest niepoprawny",
+      "Image not found": "Na stronie nie znaleziono obrazka"
+    }
+  },
+  "search": {
+    "placeholder": "Wyszukaj w Google..."
+  },
+  "configDialog": {
+    "title": "Ustawienia",
+    "themeMode": {
+      "label": "Motyw",
+      "option": {
+        "auto": "automatyczny (systemowy)",
+        "light": "jasny",
+        "dark": "ciemny"
+      }
+    }
+  },
+  "footer": {
+    "build": "Wersja",
+    "openSource": "Ten projekt jest open-source!"
+  }
 }

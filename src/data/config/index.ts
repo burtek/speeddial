@@ -3,6 +3,7 @@ import reduxLocalStorage from 'redux-persist/es/storage';
 
 import { reducer, sliceName } from './slice';
 
+
 export const persistedReducer = persistReducer(
     {
         storage: reduxLocalStorage,

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle -- FIXME */
 import { SortableContext } from '@dnd-kit/sortable';
 import { Box, styled } from '@mui/material';
 import type { FC } from 'react';
@@ -7,10 +8,10 @@ import type { RootState } from '@@data/index';
 import type { SpeeddialGroup, SpeeddialLink } from '@@data/speeddial';
 import { getGroupTiles } from '@@data/speeddial/selectors';
 
-import { AddNewTile } from './add-tile';
-// eslint-disable-next-line import/no-cycle
+import { AddNewTile } from './components/add-tile';
 import { GroupTile } from './tile-group';
 import { LinkTile } from './tile-link';
+
 
 const TilesWrapper = styled(Box)(({ theme }) => ({
     'padding': theme.spacing(3),

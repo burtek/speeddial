@@ -2,6 +2,7 @@ import Paper from '@mui/material/Paper';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+
 export const SearchBar: FC<{ gridArea?: string }> = ({ gridArea }) => {
     const { t } = useTranslation();
 

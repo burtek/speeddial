@@ -12,6 +12,7 @@
 /dev-dist
 
 # production
+/dev-dist
 /dist
 
 # misc

@@ -1,6 +1,6 @@
 import { render } from 'config/test-utils';
 
-import { AppLayout } from './app';
+import { AppLayout } from '../app';
 
 
 describe('app', () => {

@@ -1,8 +1,8 @@
-/* eslint-disable no-warning-comments */
+/* eslint-disable import/no-cycle -- FIXME */
 import { CSS as DndCss } from '@dnd-kit/utilities';
 import { CardContent, CardMedia, Modal, Paper, Typography, styled, Input } from '@mui/material';
-import { useState, useCallback } from 'react';
 import type { ChangeEventHandler, FC } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -13,10 +13,10 @@ import { actions as speeddialActions } from '@@data/speeddial/slice';
 
 import { TILE_CONTENT_HEIGHT } from './components/_constants';
 import { Tile } from './components/tile';
-// eslint-disable-next-line import/no-cycle
 import { GroupContents } from './group-contents';
 import { useContextMenu } from './hooks/use-context-menu';
 import { useTypedSortable } from './hooks/use-typed-sortable';
+
 
 const TileContent = styled(CardContent)({
     'boxSizing': 'border-box',
@@ -46,19 +46,21 @@ const GroupNameInput = styled(Input)(({ theme }) => ({
     '& input': { textAlign: 'center' }
 }));
 
+const SHOW_SUBTILES = 6;
+
 export const GroupTile: FC<Props> = ({ index, parentId, tile }) => {
     const { t } = useTranslation();
 
     const dispatch = useAppDispatch();
     const onEdit = useCallback(() => {
         dispatch(speeddialActions.editTile({ id: tile.id, type: 'group' }));
-    }, [dispatch, tile]);
+    }, [dispatch, tile.id]);
     const onDelete = useCallback(() => {
         dispatch(speeddialActions.deleteGroup({ id: tile.id }));
-    }, [dispatch, tile]);
+    }, [dispatch, tile.id]);
     const onNameChange = useCallback<ChangeEventHandler<HTMLInputElement>>(event => {
         dispatch(speeddialActions.renameGroup(tile.id, event.target.value));
-    }, []);
+    }, [dispatch, tile.id]);
 
     const contextMenu = useContextMenu([
         { key: 'edit', action: onEdit, label: t('actions.edit') },
@@ -100,7 +102,8 @@ export const GroupTile: FC<Props> = ({ index, parentId, tile }) => {
                 <TileContent>
                     {tile.children
                         .flatMap(child => links[child] ?? [])
-                        .slice(0, 6)
+                        .slice(0, SHOW_SUBTILES)
+                        /* eslint no-warning-comments: 1 */
                         // FIXME: no logo sites
                         .map(link => (
                             <CardMedia

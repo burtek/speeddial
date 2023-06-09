@@ -1,5 +1,3 @@
-import { ThemeProvider } from '@emotion/react';
-import { CssBaseline } from '@mui/material';
 import { ErrorBoundary as SentryErrorBoundary } from '@sentry/react';
 import type { FC, PropsWithChildren } from 'react';
 import { StrictMode } from 'react';
@@ -11,26 +9,22 @@ import './sentry';
 import './i18n';
 
 import { AppLayout } from './app';
-import { persistor, store } from './data';
-import { useCreateTheme } from './theme';
+import { createStore } from './data';
+import { ThemedApp } from './theme/themed-app';
+
+
+export const { store, persistor } = createStore();
 
 const MaybeUseSentryErrorBoundary: FC<PropsWithChildren<{ useBoundary: boolean }>> = ({ children, useBoundary }) => {
     if (useBoundary) {
         return <SentryErrorBoundary fallback={<p>An error has occurred</p>}>{children}</SentryErrorBoundary>;
     }
-    // eslint-disable-next-line react/jsx-no-useless-fragment -- fixes return type
+    // eslint-disable-next-line react/jsx-no-useless-fragment -- fixes return type - should not be necessary with ts 5.1
     return <>{children}</>;
 };
 
 const root = createReactDOMRoot(
     document.getElementById('root') as HTMLElement
-);
-
-const ThemedApp: FC<PropsWithChildren> = ({ children }) => (
-    <ThemeProvider theme={useCreateTheme()}>
-        <CssBaseline />
-        {children}
-    </ThemeProvider>
 );
 
 root.render(

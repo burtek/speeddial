@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 
 import { getThemeMode } from '@@data/config/selectors';
 
+
 export const useCreateTheme = () => {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
