@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import { ErrorBoundary as SentryErrorBoundary } from '@sentry/react';
 import type { FC, PropsWithChildren } from 'react';
 import { StrictMode } from 'react';
@@ -8,8 +9,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import './sentry';
 import './i18n';
 
-import { AppLayout } from './app';
 import { createStore } from './data';
+import { AppLayout } from './app';
 import { ThemedApp } from './theme/themed-app';
 
 

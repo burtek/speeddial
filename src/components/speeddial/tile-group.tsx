@@ -6,7 +6,7 @@ import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from '@@data/index';
+import { useAppDispatch } from '@@data/redux-toolkit';
 import { linksAdapterSelectors } from '@@data/speeddial/selectors';
 import type { SpeeddialGroup } from '@@data/speeddial/slice';
 import { actions as speeddialActions } from '@@data/speeddial/slice';

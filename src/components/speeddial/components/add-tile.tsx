@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useAppDispatch } from '@@data/index';
+import { useAppDispatch } from '@@data/redux-toolkit';
 import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '@@data/speeddial/slice';
 
 import { TILE_WIDTH } from './_constants';

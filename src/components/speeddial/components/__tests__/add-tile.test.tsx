@@ -1,14 +1,14 @@
 import userEvent from '@testing-library/user-event';
 
 import { render } from '@@config/test-utils';
-import { useAppDispatch } from '@@data/index';
+import { useAppDispatch } from '@@data/redux-toolkit';
 import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '@@data/speeddial/slice';
 
 import { AddNewTile } from '../add-tile';
 
 // MUST be full or relative path, vite-tsconfig-paths doesn't resolve vitest.mock paths using `compilerOptions.paths` setting
-vitest.mock('src/data/index', async importOriginal => {
-    const module = await importOriginal<typeof import('@@data/index')>();
+vitest.mock('src/data/redux-toolkit', async importOriginal => {
+    const module = await importOriginal<typeof import('@@data/redux-toolkit')>();
     return {
         ...module,
         useAppDispatch: vitest.fn(module.useAppDispatch)

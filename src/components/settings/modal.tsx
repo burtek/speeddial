@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import type { ThemeMode } from '@@data/config';
 import { actions as configActions } from '@@data/config';
 import { getIsDialogOpen, getThemeMode } from '@@data/config/selectors';
-import { useAppDispatch } from '@@data/index';
+import { useAppDispatch } from '@@data/redux-toolkit';
 
 
 export const SettingsModal: FC = () => {

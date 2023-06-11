@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import type { RootState } from '@@data/index';
-import { useAppDispatch } from '@@data/index';
+import { useAppDispatch } from '@@data/redux-toolkit';
 import { getGroupEditTile, groupAdapterSelectors } from '@@data/speeddial/selectors';
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 

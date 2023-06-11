@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { actions as configActions } from '@@data/config';
-import { useAppDispatch } from '@@data/index';
+import { useAppDispatch } from '@@data/redux-toolkit';
 
 
 export const SettingsButton: FC<{ sx?: SxProps<Theme> }> = ({ sx }) => {

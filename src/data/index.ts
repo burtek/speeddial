@@ -1,8 +1,9 @@
+/* eslint no-warning-comments: 1 */
 import type { StoreEnhancer } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
 import { createReduxEnhancer as createSentryReduxEnhancer } from '@sentry/react';
-import { useDispatch } from 'react-redux';
 import { createLogger } from 'redux-logger';
+import type { Persistor } from 'redux-persist';
 import { persistStore } from 'redux-persist';
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist/es/constants';
 import type { PersistPartial } from 'redux-persist/es/persistReducer';
@@ -15,30 +16,47 @@ const ignoredActions = [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER];
 
 const sentryReduxEnhancer = createSentryReduxEnhancer() as StoreEnhancer;
 
+export interface ThunkExtraArgument {
+    pausePersistor: () => void;
+}
+
 export function createStore(addEnhancers = true) {
+    // eslint-disable-next-line prefer-const -- FIXME: broken eslint rule
+    let persistor: Persistor;
+
     const store = configureStore({
         enhancers: addEnhancers ? [sentryReduxEnhancer] : [],
         middleware: getDefaultMiddleware => {
-            let middleware = [...getDefaultMiddleware({ serializableCheck: { ignoredActions } })];
+            const middleware = getDefaultMiddleware({
+                thunk: {
+                    extraArgument: {
+                        pausePersistor() {
+                            persistor.pause();
+                        }
+                    } satisfies ThunkExtraArgument
+                },
+                immutableCheck: true,
+                serializableCheck: { ignoredActions }
+            });
 
-            // eslint-disable-next-line no-warning-comments
-            // TODO: turn into feature flags manager
-            if ((import.meta.env.DEV && import.meta.env.VITE_VERCEL_ENV !== 'test') || new URL(window.location.href).searchParams.has('debug')) {
-                middleware = [
-                    createLogger({
-                        collapsed: true,
-                        diff: true
-                    }),
-                    ...middleware
-                ];
-            }
+            // TODO: manage by feature flags
+            middleware.unshift(
+                createLogger({
+                    collapsed: true,
+                    diff: false,
+                    predicate() {
+                        return (import.meta.env.DEV && import.meta.env.VITE_VERCEL_ENV !== 'test')
+                            || new URL(window.location.href).searchParams.has('debug');
+                    }
+                })
+            );
 
             return middleware;
         },
         reducer: { config, speeddial }
     });
 
-    const persistor = persistStore(store);
+    persistor = persistStore(store);
 
     return { store, persistor };
 }
@@ -48,6 +66,5 @@ type RemovePersistPartial<T> = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-type-alias
-type Store = ReturnType<typeof createStore>['store'];
+export type Store = ReturnType<typeof createStore>['store'];
 export type RootState = RemovePersistPartial<ReturnType<Store['getState']>>;
-export const useAppDispatch: () => Store['dispatch'] = useDispatch;

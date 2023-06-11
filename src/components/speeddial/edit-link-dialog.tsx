@@ -23,7 +23,7 @@ import type { ColorChangeHandler } from 'react-color';
 import { ChromePicker } from 'react-color';
 import { useTranslation } from 'react-i18next';
 
-import { useAppDispatch } from '@@data/index';
+import { useAppDispatch } from '@@data/redux-toolkit';
 import type { SpeeddialLink } from '@@data/speeddial/slice';
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 
