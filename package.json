@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@sentry/react": "^7.54.0",
     "cheerio": "1.0.0-rc.12",
+    "dayjs": "^1.11.8",
     "i18next": "^22.5.1",
     "i18next-browser-languagedetector": "^7.0.2",
     "i18next-http-backend": "^2.2.1",

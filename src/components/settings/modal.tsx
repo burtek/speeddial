@@ -1,5 +1,5 @@
 import type { SelectChangeEvent } from '@mui/material';
-import { Divider, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Button, Divider, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,6 +27,14 @@ export const SettingsModal: FC = () => {
         dispatch(configActions.closeModal());
     }, [dispatch]);
 
+    const onExport = useCallback(() => {
+        void dispatch(configActions.exportSettings());
+    }, [dispatch]);
+
+    const onImport = useCallback(() => {
+        void dispatch(configActions.importSettings());
+    }, [dispatch]);
+
     return (
         <Dialog
             open={dialogOpen}
@@ -51,6 +59,11 @@ export const SettingsModal: FC = () => {
                         <MenuItem value="dark">{t('configDialog.themeMode.option.dark')}</MenuItem>
                     </Select>
                 </FormControl>
+            </DialogContent>
+            <Divider />
+            <DialogContent>
+                <Button onClick={onExport} >Export settings as *.json</Button>
+                <Button onClick={onImport} >Import settings from *.json</Button>
             </DialogContent>
         </Dialog>
     );
