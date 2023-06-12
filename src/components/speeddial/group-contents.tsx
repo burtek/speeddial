@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 
 import type { RootState } from '@@data/index';
 import type { SpeeddialGroup, SpeeddialLink } from '@@data/speeddial';
+import { ROOT_SPEEDDIAL_ID } from '@@data/speeddial';
 import { getGroupTiles } from '@@data/speeddial/selectors';
 
 import { AddNewTile } from './components/add-tile';
@@ -54,7 +55,7 @@ export const GroupContents: FC<Props> = ({ groupId }) => {
         <SortableContext id={groupId} items={tiles}>
             <TilesWrapper>
                 {tiles.map(renderTile)}
-                <AddNewTile parentId={groupId} />
+                <AddNewTile parentId={groupId} hideAddGroup={groupId !== ROOT_SPEEDDIAL_ID} />
             </TilesWrapper>
         </SortableContext>
     );

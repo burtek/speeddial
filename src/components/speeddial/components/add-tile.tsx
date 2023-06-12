@@ -6,7 +6,7 @@ import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch } from '@@data/redux-toolkit';
-import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '@@data/speeddial/slice';
+import { actions as speeddialActions } from '@@data/speeddial/slice';
 
 import { TILE_WIDTH } from './_constants';
 
@@ -29,7 +29,7 @@ const AddTileContent = styled(CardContent)({
     'flex': 1
 });
 
-export const AddNewTile: FC<Props> = ({ parentId }) => {
+export const AddNewTile: FC<Props> = ({ parentId, hideAddGroup }) => {
     const { t } = useTranslation();
 
     const dispatch = useAppDispatch();
@@ -51,7 +51,7 @@ export const AddNewTile: FC<Props> = ({ parentId }) => {
 
     const defaultContent = (
         <AddIcon
-            aria-label={t('tooltips.add_link_or_group')}
+            aria-label={hideAddGroup ? t('tooltips.add_link') : t('tooltips.add_link_or_group')}
             fontSize="large"
             htmlColor="grey"
         />
@@ -65,19 +65,20 @@ export const AddNewTile: FC<Props> = ({ parentId }) => {
             >
                 <LinkPlus fontSize="large" htmlColor="grey" />
             </IconButton>
-            {/* eslint-disable-next-line no-warning-comments */}
-            {parentId === ROOT_SPEEDDIAL_ID && ( // TODO: make universal
-                <>
-                    <Divider flexItem variant="middle" />
-                    <IconButton
-                        aria-label={t('tooltips.add_group')}
-                        onClick={onAddGroup}
-                        title={t('tooltips.add_group')}
-                    >
-                        <FolderPlus fontSize="large" htmlColor="grey" />
-                    </IconButton>
-                </>
-            )}
+            {hideAddGroup
+                ? null
+                : (
+                    <>
+                        <Divider flexItem variant="middle" />
+                        <IconButton
+                            aria-label={t('tooltips.add_group')}
+                            onClick={onAddGroup}
+                            title={t('tooltips.add_group')}
+                        >
+                            <FolderPlus fontSize="large" htmlColor="grey" />
+                        </IconButton>
+                    </>
+                )}
         </>
     );
 
@@ -96,4 +97,5 @@ export const AddNewTile: FC<Props> = ({ parentId }) => {
 
 interface Props {
     parentId: string;
+    hideAddGroup?: boolean;
 }
