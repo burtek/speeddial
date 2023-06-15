@@ -20,7 +20,8 @@ const TilesWrapper = styled(Box)(({ theme }) => ({
     'gap': theme.spacing(2),
     'alignItems': 'stretch',
     '& > *': { flexShrink: 0 },
-    'flexWrap': 'wrap'
+    'flexWrap': 'wrap',
+    'userSelect': 'none'
 }));
 
 export const GroupContents: FC<Props> = ({ groupId }) => {

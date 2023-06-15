@@ -31,7 +31,7 @@ export const AppFooter: FC<{ gridArea?: string }> = ({ gridArea }) => {
                     href={AUTHOR_URL}
                     target="_blank"
                     referrerPolicy="no-referrer"
-                    rel="noopener noreferrer nofollow"
+                    rel="noopener noreferrer"
                 >
                     {AUTHOR}
                 </Link>
@@ -40,7 +40,7 @@ export const AppFooter: FC<{ gridArea?: string }> = ({ gridArea }) => {
                     href={REPO_URL}
                     target="_blank"
                     referrerPolicy="no-referrer"
-                    rel="noopener noreferrer nofollow"
+                    rel="noopener noreferrer"
                 >
                     {t('footer.openSource')}
                 </Link>
