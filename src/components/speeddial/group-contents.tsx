@@ -54,7 +54,7 @@ export const GroupContents: FC<Props> = ({ groupId }) => {
 
     return (
         <SortableContext id={groupId} items={tiles}>
-            <TilesWrapper>
+            <TilesWrapper data-group-content>
                 {tiles.map(renderTile)}
                 <AddNewTile parentId={groupId} hideAddGroup={groupId !== ROOT_SPEEDDIAL_ID} />
             </TilesWrapper>

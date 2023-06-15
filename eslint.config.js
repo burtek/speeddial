@@ -21,5 +21,9 @@ export default defineFlatConfig([
             },
             'node': { version: '18' }
         }
+    },
+    {
+        files: ['**/*.cy.{ts,tsx}'],
+        rules: { 'promise/prefer-await-to-then': 'off' }
     }
 ]);
