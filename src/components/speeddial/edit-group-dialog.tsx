@@ -9,6 +9,7 @@ import { useAppDispatch } from '@@data/redux-toolkit';
 import { getGroupEditTile, groupAdapterSelectors } from '@@data/speeddial/selectors';
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 
+import { useAutofocus } from './hooks/use-autofocus';
 import { useDraft } from './hooks/use-draft';
 import { useFormHandlers } from './hooks/use-form-handlers';
 
@@ -32,6 +33,8 @@ export const GroupEditDialog: FC = () => {
 
     const formHandlers = useFormHandlers({ cancel: onCloseWithoutSave, submit: onSave });
 
+    const inputRef = useAutofocus(Boolean(tile));
+
     return (
         <Dialog open={Boolean(tile)} onClose={onCloseWithoutSave}>
             <DialogContent {...formHandlers}>
@@ -43,6 +46,7 @@ export const GroupEditDialog: FC = () => {
                     variant="standard"
                     autoFocus
                     required
+                    inputRef={inputRef}
                 />
             </DialogContent>
             <DialogActions>
