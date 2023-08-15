@@ -9,12 +9,13 @@ jobs:
   lint:
     name: 'Run lint'
     uses: ./.github/workflows/run-lint.yml
-  tests:
-    name: 'Run tests'
-    uses: ./.github/workflows/run-tests.yml
-  build:
+  tsc:
     name: 'Run tsc'
     uses: ./.github/workflows/run-tsc.yml
+  tests:
+    name: 'Run tests'
+    needs: [lint, tsc]
+    uses: ./.github/workflows/run-tests.yml
   # vercel:
   #   name: 'Run vercel build'
   #   needs: ['lint', 'tests', 'build']
