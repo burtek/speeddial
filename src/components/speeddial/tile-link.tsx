@@ -5,13 +5,14 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from '@@data/index';
+import { useAppDispatch } from '@@data/redux-toolkit';
 import { groupAdapterSelectors } from '@@data/speeddial/selectors';
 import type { SpeeddialLink } from '@@data/speeddial/slice';
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 
 import { TILE_CONTENT_HEIGHT } from './components/_constants';
 import { Tile } from './components/tile';
+import { TileImagePlaceholder } from './components/tile-image-placeholder';
 import { useContextMenu } from './hooks/use-context-menu';
 import { useTypedSortable } from './hooks/use-typed-sortable';
 
@@ -84,6 +85,8 @@ export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
                 isDragging={isDragging}
                 transform={DndCss.Transform.toString(transform)}
                 transition={transition}
+                referrerPolicy="no-referrer"
+                rel="norefferer noopener nofollow"
             >
                 {tile.logoUrl
                     ? (
@@ -99,14 +102,7 @@ export const LinkTile: FC<Props> = ({ index, parentId, tile }) => {
                     )
                     : (
                         <StyledCardContent>
-                            <Typography fontSize={60} fontWeight={700}>
-                                {tile.name
-                                    .split(' ')
-                                    .filter(Boolean)
-                                    .splice(0, 2)
-                                    .map(word => word[0])
-                                    .join('')}
-                            </Typography>
+                            <TileImagePlaceholder fontSize={60} name={tile.name} />
                         </StyledCardContent>
                     )}
                 <TileTitle backgroundColor={tile.themeColor}>

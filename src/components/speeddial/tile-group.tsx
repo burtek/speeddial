@@ -6,13 +6,14 @@ import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { useAppDispatch } from '@@data/index';
+import { useAppDispatch } from '@@data/redux-toolkit';
 import { linksAdapterSelectors } from '@@data/speeddial/selectors';
 import type { SpeeddialGroup } from '@@data/speeddial/slice';
 import { actions as speeddialActions } from '@@data/speeddial/slice';
 
 import { TILE_CONTENT_HEIGHT } from './components/_constants';
 import { Tile } from './components/tile';
+import { TileImagePlaceholder } from './components/tile-image-placeholder';
 import { GroupContents } from './group-contents';
 import { useContextMenu } from './hooks/use-context-menu';
 import { useTypedSortable } from './hooks/use-typed-sortable';
@@ -25,8 +26,11 @@ const TileContent = styled(CardContent)({
     'display': 'grid',
     'justifyContent': 'center',
     'alignItems': 'center',
+    'justifyItems': 'center',
     'gridTemplateColumns': 'repeat(3, 1fr)',
-    'gridTemplateRows': '40px 40px',
+    'gridTemplateRows': 'repeat(2, 40px)',
+    'gap': 1,
+    '& > *': { objectFit: 'scale-down' },
     '& > img': { height: 40 }
 });
 const ModalContent = styled(Paper)({
@@ -105,14 +109,19 @@ export const GroupTile: FC<Props> = ({ index, parentId, tile }) => {
                         .slice(0, SHOW_SUBTILES)
                         /* eslint no-warning-comments: 1 */
                         // FIXME: no logo sites
-                        .map(link => (
-                            <CardMedia
-                                key={link.id}
-                                component="img"
-                                src={link.logoUrl}
-                                sx={{ objectFit: 'scale-down' }}
-                            />
-                        ))}
+                        .map(link => {
+                            if (link.logoUrl) {
+                                return (
+                                    <CardMedia
+                                        key={link.id}
+                                        component="img"
+                                        src={link.logoUrl}
+                                        sx={{ backgroundColor: link.backgroundColor }}
+                                    />
+                                );
+                            }
+                            return <TileImagePlaceholder key={link.id} name={link.name} />;
+                        })}
                 </TileContent>
                 <CardContent sx={{ 'paddingY': 0, ':last-child': { paddingBottom: 1 } }}>
                     <Typography fontSize={13} textAlign="center">{tile.name}</Typography>

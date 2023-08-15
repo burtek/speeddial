@@ -2,10 +2,13 @@
 import { SortableContext } from '@dnd-kit/sortable';
 import { Box, styled } from '@mui/material';
 import type { FC } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { RootState } from '@@data/index';
+import { useAppDispatch } from '@@data/redux-toolkit';
 import type { SpeeddialGroup, SpeeddialLink } from '@@data/speeddial';
+import { ROOT_SPEEDDIAL_ID, actions as speeddialActions } from '@@data/speeddial';
 import { getGroupTiles } from '@@data/speeddial/selectors';
 
 import { AddNewTile } from './components/add-tile';
@@ -19,7 +22,8 @@ const TilesWrapper = styled(Box)(({ theme }) => ({
     'gap': theme.spacing(2),
     'alignItems': 'stretch',
     '& > *': { flexShrink: 0 },
-    'flexWrap': 'wrap'
+    'flexWrap': 'wrap',
+    'userSelect': 'none'
 }));
 
 export const GroupContents: FC<Props> = ({ groupId }) => {
@@ -50,11 +54,22 @@ export const GroupContents: FC<Props> = ({ groupId }) => {
         }
     };
 
+    const dispatch = useAppDispatch();
+    const onAddLink = useCallback(() => {
+        dispatch(speeddialActions.createLink({ parentId: groupId }));
+    }, [dispatch, groupId]);
+    const onAddGroup = useMemo<undefined | (() => void)>(() => {
+        if (groupId === ROOT_SPEEDDIAL_ID) {
+            return () => dispatch(speeddialActions.createGroup());
+        }
+        return undefined;
+    }, [dispatch, groupId]);
+
     return (
         <SortableContext id={groupId} items={tiles}>
-            <TilesWrapper>
+            <TilesWrapper data-group-content>
                 {tiles.map(renderTile)}
-                <AddNewTile parentId={groupId} />
+                <AddNewTile onAddLink={onAddLink} onAddGroup={onAddGroup} />
             </TilesWrapper>
         </SortableContext>
     );

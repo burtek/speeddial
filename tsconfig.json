@@ -6,7 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
-    "types": ["vite/client", "vitest/globals"],
+    "types": ["vite/client", "vitest/globals", "cypress", "@testing-library/cypress"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -33,6 +33,7 @@
   "include": [
     "api",
     "config",
+    "cypress",
     "src",
     "*.config.ts",
     "shared-utils"

@@ -4,7 +4,7 @@ import { Paper } from '@mui/material';
 import type { FC } from 'react';
 import { useCallback } from 'react';
 
-import { useAppDispatch } from '@@data/index';
+import { useAppDispatch } from '@@data/redux-toolkit';
 import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '@@data/speeddial/slice';
 
 import { GroupEditDialog } from './edit-group-dialog';

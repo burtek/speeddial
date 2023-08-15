@@ -10,9 +10,13 @@ export const useFormHandlers = ({ cancel, submit }: Record<'cancel' | 'submit', 
             }
             switch (event.key) {
                 case 'Enter':
+                    event.preventDefault();
+                    event.stopPropagation();
                     submit();
                     break;
                 case 'Escape':
+                    event.preventDefault();
+                    event.stopPropagation();
                     cancel();
                     break;
                 default:

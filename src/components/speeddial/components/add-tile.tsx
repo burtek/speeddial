@@ -5,9 +5,6 @@ import type { FC } from 'react';
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useAppDispatch } from '@@data/index';
-import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '@@data/speeddial/slice';
-
 import { TILE_WIDTH } from './_constants';
 
 
@@ -29,17 +26,8 @@ const AddTileContent = styled(CardContent)({
     'flex': 1
 });
 
-export const AddNewTile: FC<Props> = ({ parentId }) => {
+export const AddNewTile: FC<Props> = ({ onAddGroup, onAddLink }) => {
     const { t } = useTranslation();
-
-    const dispatch = useAppDispatch();
-
-    const onAddLink = useCallback(() => {
-        dispatch(speeddialActions.createLink({ parentId }));
-    }, [dispatch, parentId]);
-    const onAddGroup = useCallback(() => {
-        dispatch(speeddialActions.createGroup());
-    }, [dispatch]);
 
     const [isMouseOver, setIsMouseOver] = useState(false);
     const onMouseOver = useCallback(() => {
@@ -51,7 +39,7 @@ export const AddNewTile: FC<Props> = ({ parentId }) => {
 
     const defaultContent = (
         <AddIcon
-            aria-label={t('tooltips.add_link_or_group')}
+            aria-label={onAddGroup ? t('tooltips.add_link_or_group') : t('tooltips.add_link')}
             fontSize="large"
             htmlColor="grey"
         />
@@ -65,19 +53,20 @@ export const AddNewTile: FC<Props> = ({ parentId }) => {
             >
                 <LinkPlus fontSize="large" htmlColor="grey" />
             </IconButton>
-            {/* eslint-disable-next-line no-warning-comments */}
-            {parentId === ROOT_SPEEDDIAL_ID && ( // TODO: make universal
-                <>
-                    <Divider flexItem variant="middle" />
-                    <IconButton
-                        aria-label={t('tooltips.add_group')}
-                        onClick={onAddGroup}
-                        title={t('tooltips.add_group')}
-                    >
-                        <FolderPlus fontSize="large" htmlColor="grey" />
-                    </IconButton>
-                </>
-            )}
+            {onAddGroup
+                ? (
+                    <>
+                        <Divider flexItem variant="middle" />
+                        <IconButton
+                            aria-label={t('tooltips.add_group')}
+                            onClick={onAddGroup}
+                            title={t('tooltips.add_group')}
+                        >
+                            <FolderPlus fontSize="large" htmlColor="grey" />
+                        </IconButton>
+                    </>
+                )
+                : null}
         </>
     );
 
@@ -95,5 +84,6 @@ export const AddNewTile: FC<Props> = ({ parentId }) => {
 };
 
 interface Props {
-    parentId: string;
+    onAddGroup?: () => void;
+    onAddLink: () => void;
 }
