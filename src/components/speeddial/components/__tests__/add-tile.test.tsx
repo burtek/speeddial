@@ -1,107 +1,105 @@
 import userEvent from '@testing-library/user-event';
 
-import { render } from '@@config/test-utils';
-import { useAppDispatch } from '@@data/redux-toolkit';
-import { actions as speeddialActions, ROOT_SPEEDDIAL_ID } from '@@data/speeddial/slice';
+import { render, screen } from '@@config/test-utils';
 
 import { AddNewTile } from '../add-tile';
 
-// MUST be full or relative path, vite-tsconfig-paths doesn't resolve vitest.mock paths using `compilerOptions.paths` setting
-vitest.mock('src/data/redux-toolkit', async importOriginal => {
-    const module = await importOriginal<typeof import('@@data/redux-toolkit')>();
-    return {
-        ...module,
-        useAppDispatch: vitest.fn(module.useAppDispatch)
-    };
-});
 
 describe('speeddial/add-tile', () => {
-    const mockDispatch = vitest.fn();
-    vitest.mocked(useAppDispatch).mockReturnValue(mockDispatch);
-
     beforeEach(() => {
         vitest.clearAllMocks();
     });
 
     it.each([
-        { type: 'root', parentId: ROOT_SPEEDDIAL_ID },
-        { type: 'non-root', parentId: 'some other id' }
-    ])('should render add icon without button for $type parent', ({ parentId }) => {
-        const { container, queryAllByRole, queryByLabelText } = render(<AddNewTile parentId={parentId} />);
+        {
+            expectedNotToExist: ['tooltips.add_link_or_group', 'tooltips.add_group'],
+            hover: 'tooltips.add_link',
+            onAddLink: vitest.fn(),
+            onAddGroup: undefined
+        },
+        {
+            expectedNotToExist: ['tooltips.add_link', 'tooltips.add_group'],
+            hover: 'tooltips.add_link_or_group',
+            onAddLink: vitest.fn(),
+            onAddGroup: vitest.fn()
+        }
+    ])('should render add icon without button', ({ expectedNotToExist, hover, onAddGroup, onAddLink }) => {
+        const { container } = render(<AddNewTile onAddLink={onAddLink} onAddGroup={onAddGroup} />);
 
-        expect(queryAllByRole('button')).toHaveLength(0);
+        expect(screen.queryAllByRole('button')).toHaveLength(0);
         expect(container.querySelectorAll('svg')).toHaveLength(1);
-        expect(queryByLabelText('tooltips.add_link_or_group')).toBeInTheDocument();
-        expect(queryByLabelText('tooltips.add_link')).not.toBeInTheDocument();
-        expect(queryByLabelText('tooltips.add_group')).not.toBeInTheDocument();
+        expect(screen.getByLabelText(hover)).toBeInTheDocument();
+
+        expectedNotToExist.forEach(label => {
+            expect(screen.queryByLabelText(label)).not.toBeInTheDocument();
+        });
+
         expect(container).toMatchSnapshot();
     });
 
     it.each([
         {
-            type: 'root',
-            parentId: ROOT_SPEEDDIAL_ID,
+            hover: 'tooltips.add_link_or_group',
+            onAddLink: vitest.fn(),
+            onAddGroup: vitest.fn(),
             expectedButtonLabels: ['tooltips.add_link', 'tooltips.add_group'],
             notExpectedButtonLabels: ['tooltips.add_link_or_group']
         },
         {
-            type: 'non-root',
-            parentId: 'some other id',
+            hover: 'tooltips.add_link',
+            onAddLink: vitest.fn(),
+            onAddGroup: undefined,
             expectedButtonLabels: ['tooltips.add_link'],
             notExpectedButtonLabels: ['tooltips.add_link_or_group', 'tooltips.add_group']
         }
-    ])('should render expected buttons on hover for $type parent', async ({ parentId, expectedButtonLabels, notExpectedButtonLabels }) => {
+    ])('should render expected buttons on hover', async ({ hover, expectedButtonLabels, notExpectedButtonLabels, ...props }) => {
         const user = userEvent.setup();
-        const { container, queryAllByRole, queryByLabelText } = render(<AddNewTile parentId={parentId} />);
+        const { container } = render(<AddNewTile {...props} />);
 
-        await user.hover(queryByLabelText('tooltips.add_link_or_group') as HTMLElement);
-        const buttons = queryAllByRole('button');
+        await user.hover(screen.getByLabelText(hover));
+        const buttons = screen.getAllByRole('button');
 
         expect(buttons).toHaveLength(expectedButtonLabels.length);
 
         expectedButtonLabels.forEach(label => {
-            expect(queryByLabelText(label)).toBeInTheDocument();
+            expect(screen.getByLabelText(label)).toBeInTheDocument();
         });
         notExpectedButtonLabels.forEach(label => {
-            expect(queryByLabelText(label)).not.toBeInTheDocument();
+            expect(screen.queryByLabelText(label)).not.toBeInTheDocument();
         });
 
         expect(container).toMatchSnapshot();
     });
 
-    it.each([
-        {
-            actionName: 'add link',
-            type: 'root',
-            parentId: ROOT_SPEEDDIAL_ID,
-            expectedAction: speeddialActions.createLink({ parentId: ROOT_SPEEDDIAL_ID }),
-            clickLabel: 'tooltips.add_link'
-        },
-        {
-            actionName: 'add link',
-            type: 'non-root',
-            parentId: 'some other id',
-            expectedAction: speeddialActions.createLink({ parentId: 'some other id' }),
-            clickLabel: 'tooltips.add_link'
-        },
-        {
-            actionName: 'add group',
-            type: 'root',
-            parentId: ROOT_SPEEDDIAL_ID,
-            expectedAction: speeddialActions.createGroup(),
-            clickLabel: 'tooltips.add_group'
-        }
-    ])('$clickLabel should dispatch expected action for $type parent upon clicking', async ({ clickLabel, expectedAction, parentId }) => {
-        const user = userEvent.setup();
-        const { queryByLabelText } = render(<AddNewTile parentId={parentId} />);
+    describe('callbacks', () => {
+        const onAddLink = vitest.fn();
+        const onAddGroup = vitest.fn();
 
-        await user.hover(queryByLabelText('tooltips.add_link_or_group') as HTMLElement);
-        const button = queryByLabelText(clickLabel);
+        it.each([
+            {
+                clickLabel: 'tooltips.add_link',
+                expectation: () => {
+                    expect(onAddLink).toHaveBeenCalled();
+                }
+            },
+            {
+                clickLabel: 'tooltips.add_group',
+                expectation: () => {
+                    expect(onAddGroup).toHaveBeenCalled();
+                }
+            }
+        ])('$clickLabel should call back expected function', async ({ clickLabel, expectation }) => {
+            const user = userEvent.setup();
+            render(<AddNewTile onAddLink={onAddLink} onAddGroup={onAddGroup} />);
 
-        expect(button).toBeInTheDocument();
+            await user.hover(screen.getByLabelText('tooltips.add_link_or_group'));
+            const button = await screen.findByLabelText(clickLabel);
 
-        await user.click(button as HTMLElement);
+            expect(button).toBeInTheDocument();
 
-        expect(mockDispatch).toHaveBeenCalledWith(expectedAction);
+            await user.click(button);
+
+            expectation();
+        });
     });
 });

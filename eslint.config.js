@@ -23,7 +23,10 @@ export default defineFlatConfig([
         }
     },
     {
-        files: ['**/*.cy.{ts,tsx}'],
-        rules: { 'promise/prefer-await-to-then': 'off' }
+        files: ['cypress/**/*.cy.{ts,tsx}', 'cypress/**/commands.ts'],
+        rules: {
+            'promise/prefer-await-to-then': 'off',
+            'newline-per-chained-call': 'off'
+        }
     }
 ]);

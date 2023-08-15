@@ -5,9 +5,6 @@ import type { FC } from 'react';
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useAppDispatch } from '@@data/redux-toolkit';
-import { actions as speeddialActions } from '@@data/speeddial/slice';
-
 import { TILE_WIDTH } from './_constants';
 
 
@@ -29,17 +26,8 @@ const AddTileContent = styled(CardContent)({
     'flex': 1
 });
 
-export const AddNewTile: FC<Props> = ({ parentId, hideAddGroup }) => {
+export const AddNewTile: FC<Props> = ({ onAddGroup, onAddLink }) => {
     const { t } = useTranslation();
-
-    const dispatch = useAppDispatch();
-
-    const onAddLink = useCallback(() => {
-        dispatch(speeddialActions.createLink({ parentId }));
-    }, [dispatch, parentId]);
-    const onAddGroup = useCallback(() => {
-        dispatch(speeddialActions.createGroup());
-    }, [dispatch]);
 
     const [isMouseOver, setIsMouseOver] = useState(false);
     const onMouseOver = useCallback(() => {
@@ -51,7 +39,7 @@ export const AddNewTile: FC<Props> = ({ parentId, hideAddGroup }) => {
 
     const defaultContent = (
         <AddIcon
-            aria-label={hideAddGroup ? t('tooltips.add_link') : t('tooltips.add_link_or_group')}
+            aria-label={onAddGroup ? t('tooltips.add_link_or_group') : t('tooltips.add_link')}
             fontSize="large"
             htmlColor="grey"
         />
@@ -65,9 +53,8 @@ export const AddNewTile: FC<Props> = ({ parentId, hideAddGroup }) => {
             >
                 <LinkPlus fontSize="large" htmlColor="grey" />
             </IconButton>
-            {hideAddGroup
-                ? null
-                : (
+            {onAddGroup
+                ? (
                     <>
                         <Divider flexItem variant="middle" />
                         <IconButton
@@ -78,7 +65,8 @@ export const AddNewTile: FC<Props> = ({ parentId, hideAddGroup }) => {
                             <FolderPlus fontSize="large" htmlColor="grey" />
                         </IconButton>
                     </>
-                )}
+                )
+                : null}
         </>
     );
 
@@ -96,6 +84,6 @@ export const AddNewTile: FC<Props> = ({ parentId, hideAddGroup }) => {
 };
 
 interface Props {
-    parentId: string;
-    hideAddGroup?: boolean;
+    onAddGroup?: () => void;
+    onAddLink: () => void;
 }

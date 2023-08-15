@@ -169,6 +169,10 @@ exports[`app > should match snapshot 1`] = `
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .emotion-7>* {
@@ -331,6 +335,7 @@ exports[`app > should match snapshot 1`] = `
     >
       <div
         class="MuiBox-root emotion-7"
+        data-group-content="true"
       >
         <div
           class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root emotion-8"
@@ -387,7 +392,7 @@ exports[`app > should match snapshot 1`] = `
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-13"
           href="https://github.com/burtek"
           referrerpolicy="no-referrer"
-          rel="noopener noreferrer nofollow"
+          rel="noopener noreferrer"
           target="_blank"
         >
           burtek
@@ -397,7 +402,7 @@ exports[`app > should match snapshot 1`] = `
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-13"
           href="https://github.com/burtek/speeddial"
           referrerpolicy="no-referrer"
-          rel="noopener noreferrer nofollow"
+          rel="noopener noreferrer"
           target="_blank"
         >
           footer.openSource

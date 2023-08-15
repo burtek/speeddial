@@ -4,18 +4,11 @@ describe('create link', () => {
         cy.loadApp();
     });
 
-    it('should create link', () => {
-        cy.getAllRootTiles().should('have.length', 0);
+    it('should edit link', () => {
+        cy.getTileByTitle('YouTube').should('be.visible');
 
-        cy.findByLabelText('Add new link').should('not.exist');
-        cy.findByLabelText('Add new group').should('not.exist');
-
-        cy.findByLabelText('Add new link or group').trigger('mouseover');
-
-        cy.findByLabelText('Add new link').should('exist');
-        cy.findByLabelText('Add new group').should('exist');
-
-        cy.findByLabelText('Add new link').click();
+        cy.getTileByTitle('YouTube').rightclick();
+        cy.findByLabelText('Edit').click();
 
         // TODO: use own test server
         cy.findByLabelText(/^URL/).type('https://www.youtube.com/');
@@ -34,9 +27,11 @@ describe('create link', () => {
         cy.findByLabelText('Theme color').invoke('text')
             .should('match', /^#[0-9a-z]{6}$/i);
 
+        cy.findByDisplayValue('Youtube').type('{end}.new');
+
         cy.findByText('Save').click();
 
-        cy.getTileByTitle('YouTube').should('be.visible');
+        cy.getTileByTitle('YouTube.new').should('be.visible');
         cy.getAllRootTiles().should('have.length', 1);
     });
 });

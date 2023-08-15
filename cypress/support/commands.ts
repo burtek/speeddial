@@ -6,23 +6,25 @@ import '@testing-library/cypress/add-commands';
 
 Cypress.Commands.add('loadApp', () => {
     cy.clearAllLocalStorage();
-    cy.visit('/', { timeout: 10_000 });
+    cy.visit('/', { timeout: 5_000 });
 });
 
 Cypress.Commands.add('getTileByTitle', (title: string) => cy.findByText(title, { timeout: 500 }).parents('a'));
 
-Cypress.Commands.add('getAllVisibleTiles', () => {
-    try {
-        return cy.findByRole('presentation').get('[data-group-content]');
-    } catch {
-        return cy.get('#root [data-group-content]');
-    }
-});
+Cypress.Commands.add(
+    'getAllDialogTiles',
+    () => cy.findByRole('presentation').get<HTMLAnchorElement | HTMLDivElement>('[data-group-content] > [role="button"]')
+);
+Cypress.Commands.add(
+    'getAllRootTiles',
+    () => cy.get<HTMLAnchorElement | HTMLDivElement>('#root [data-group-content] > [role="button"]')
+);
 
 declare global {
     namespace Cypress {
         interface Chainable {
-            getAllVisibleTiles: () => Cypress.Chainable<JQuery<HTMLAnchorElement | HTMLDivElement>>;
+            getAllDialogTiles: () => Cypress.Chainable<JQuery<HTMLAnchorElement | HTMLDivElement>>;
+            getAllRootTiles: () => Cypress.Chainable<JQuery<HTMLAnchorElement | HTMLDivElement>>;
             getTileByTitle: (title: string) => Cypress.Chainable<JQuery<HTMLAnchorElement>>;
             loadApp: () => Chainable<void>;
         }

@@ -44,7 +44,7 @@ exports[`app-footer > should match snapshot 1`] = `
         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-2"
         href="https://github.com/burtek"
         referrerpolicy="no-referrer"
-        rel="noopener noreferrer nofollow"
+        rel="noopener noreferrer"
         target="_blank"
       >
         burtek
@@ -54,7 +54,7 @@ exports[`app-footer > should match snapshot 1`] = `
         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-2"
         href="https://github.com/burtek/speeddial"
         referrerpolicy="no-referrer"
-        rel="noopener noreferrer nofollow"
+        rel="noopener noreferrer"
         target="_blank"
       >
         footer.openSource

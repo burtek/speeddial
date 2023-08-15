@@ -1,12 +1,14 @@
 /* eslint-env node */
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import viteReact from '@vitejs/plugin-react';
+import istanbul from 'vite-plugin-istanbul';
 import { VitePWA as vitePWA } from 'vite-plugin-pwa';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
 
-const plugins = [viteTsconfigPaths(),
+const plugins = [
+    viteTsconfigPaths(),
     viteReact(),
     vitePWA({
         registerType: 'autoUpdate',
@@ -51,7 +53,12 @@ const plugins = [viteTsconfigPaths(),
                 '**/locales/**/translation.json'
             ]
         }
-    })];
+    }),
+    istanbul({
+        cypress: true,
+        requireEnv: false
+    })
+];
 
 if (process.env.SENTRY_AUTH_TOKEN) {
     plugins.unshift(
